@@ -54,8 +54,6 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git git-prompt)
-bindkey '^\n' autosuggest-execute
-bindkey '^\t' forward-word
 
 source $ZSH/oh-my-zsh.sh
 
@@ -146,9 +144,6 @@ alias mil='make install -j8'
 alias min='make install -j4'
 
 alias cm.='cmake .'
-
-alias àwc='cd ~/wdc_workspace/src/wandercode'
-alias àsr='cd ~/wdc_workspace/src'
 
 alias update_tags="ctags -R ."
 alias wdc_tags="cd ~/dev/wandercode && ctags -R . && cd -"
