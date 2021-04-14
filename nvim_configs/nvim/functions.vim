@@ -110,9 +110,9 @@ function! SwapWords(dict, ...)
 endfunction
 
 function! SwapLR()
-    exe 'S/left/foo/ge'
+    exe 'S/left/XXXtmp_footXXX/ge'
     exe 'S/right/left/ge'
-    exe 'S/foo/right/ge'
+    exe 'S/XXXtmp_footXXX/right/ge'
 endfunction
 
 vnoremap <script> gs :call SwapLR()<CR>
@@ -163,3 +163,11 @@ function! s:kill_all_terminal()
 endfunction
 
 nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GO TO FILE WITH DOCKER AND LINE
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>
+" nnoremap g<c-f> Bf:lve"lyf:lve"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:<C-R>l<CR>
+nnoremap g<c-f> Bf:lviw"lyf:lviw"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, <C-R>c)<CR>
