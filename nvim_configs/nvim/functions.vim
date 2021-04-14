@@ -222,3 +222,18 @@ if v:version >= 700
     autocmd BufEnter * call AutoRestoreWinView()
     " autocmd BufEnter * silent! normal! g`"
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" KILL TERM WHEN EXITING
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:kill_all_terminal()
+    for i in [4, 5, 6, 7, 8, 9, 10, 11, 12]
+        try
+            call chansend(i, ["exit", "", ""])
+        catch /^Vim\%((\a\+)\)\=:E900/
+        endtry
+    endfor
+    execute "q"
+endfunction
+
+nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
