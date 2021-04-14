@@ -1,5 +1,5 @@
 # Basic programs
-sudo apt install tree xclip curl vim byobu python3-pip zsh python meld fzy silversearcher-ag exuberant-ctags
+sudo apt install tree xclip curl vim byobu python3-pip zsh python meld fzy silversearcher-ag exuberant-ctags par lazygit
 
 ln -s $HOME/Private/config/nvim_configs/nvim $HOME/.config
 
