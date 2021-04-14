@@ -412,13 +412,16 @@ let g:tex_no_error=1
 
 set conceallevel=1
 
-xmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
-nmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
-xmap  ésd <Plug>(vimtex-delim-toggle-modifier)
-nmap  ésd <Plug>(vimtex-delim-toggle-modifier)
-nmap  ésc <Plug>(vimtex-cmd-toggle-star)
-nmap  ése <Plug>(vimtex-env-toggle-star)
+" xmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
+" nmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
+" xmap  ésd <Plug>(vimtex-delim-toggle-modifier)
+" nmap  ésd <Plug>(vimtex-delim-toggle-modifier)
+" nmap  ésc <Plug>(vimtex-cmd-toggle-star)
+" nmap  ése <Plug>(vimtex-env-toggle-star)
 
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vimtex
+""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap  lsd <Plug>(vimtex-delim-change-math)
 nmap  lsc <Plug>(vimtex-cmd-change)
 nmap  lse <Plug>(vimtex-env-change)
