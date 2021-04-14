@@ -1,0 +1,23 @@
+>> xinput -list
+⎡ Virtual core pointer                          id=2    [master pointer (3)]                                                                                                                               
+⎜   ↳ Virtual core XTEST pointer                id=4    [slave  pointer (2)]                                                                                                                               
+⎜   ↳ Logitech USB Optical Mouse                id=10   [slave  pointer (2)]                                                                                                                               
+⎜   ↳ ZSA Ergodox EZ                            id=15   [slave  pointer (2)]                                                                                                                               
+⎣ Virtual core keyboard                         id=3    [master keyboard(2)]                                                                                                                               
+    ↳ Virtual core XTEST keyboard               id=5    [slave  keyboard(3)]                                                                                                                               
+    ↳ Power Button                              id=6    [slave  keyboard(3)]                                                                                                                               
+    ↳ Video Bus                                 id=7    [slave  keyboard(3)]                                                                                                                               
+    ↳ Power Button                              id=8    [slave  keyboard(3)]                                                                                                                               
+    ↳ Sleep Button                              id=9    [slave  keyboard(3)]                                                                                                                               
+    ↳ Microsoft Wired Keyboard 400              id=11   [slave  keyboard(3)]                                                                                                                               
+    ↳ Eee PC WMI hotkeys                        id=12   [slave  keyboard(3)]                                                                                                                               
+    ↳ E4:22:A5:BE:20:48                         id=13   [slave  keyboard(3)]                                                                                                                               
+    ↳ ZSA Ergodox EZ                            id=14   [slave  keyboard(3)]                                                                                                                               
+    ↳ ZSA Ergodox EZ                            id=16   [slave  keyboard (3)] 
+
+>> setxkbmap -device 14 -layout fr bepo
+
+>> xinput get-button-map 15
+1 2 3 4 5 6 7 8 9
+
+>> xinput set-button-map 15 3 2 1 4 5 6 7 8 9
