@@ -48,7 +48,9 @@ function! s:color_things()
     call matchadd('UnwantedSpaces', ' \| ', 51)
     call matchadd('TrailingSpaces', '\s\+$', 52)
     call matchadd('MakeErrors', '.*\[E\].*', 55)
+    call matchadd('MakeErrors', '.*#\{4\} ERROR ####.*', 56)
     call matchadd('MakeWarnings', '.*\[W\].*', 54)
+    call matchadd('MakeWarnings', '.*#\{4\} WARNING ####.*', 57)
     call matchadd('OverLength', '\%121v.\+', 53)
 endfunction
 

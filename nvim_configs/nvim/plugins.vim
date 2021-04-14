@@ -80,13 +80,17 @@ let g:lightline = {
     \             [ 'gitbranch', 'readonly', 'filename', 'modified'] ],
     \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
-    \              [ 'filetype', 'cwd' ] ]
+    \              [ 'filetype', 'cwd', 'tmuxname' ] ]
     \ },
     \ 'component_function': {
     \   'gitbranch': 'fugitive#head',
-    \   'cwd': 'GetShortCwd'
+    \   'cwd': 'GetShortCwd',
+    \   'tmuxname': 'GetTmuxSessionName'
     \ }
 \}
+function! GetTmuxSessionName()
+    return systemlist("tmux display-message -p \"#W\"")[0]
+endfunction
 function! GetShortCwd()
     return substitute(expand(getcwd()), $HOME, "~", "")
 endfunction
@@ -102,6 +106,7 @@ map ée <Plug>(easymotion-bd-e)
 map én <Plug>(easymotion-vim-n)
 map éN <Plug>(easymotion-vim-N)
 map é/ <Plug>(easymotion-sn)
+
 " map éW <Plug>(easymotion-W)
 " map éàe <Plug>(easymotion-ge)
 " map éàE <Plug>(easymotion-gE)
@@ -113,6 +118,7 @@ map é/ <Plug>(easymotion-sn)
 " nmap é* <Plug>(easymotion-next)
 " nmap é# <Plug>(easymotion-prev)
 " nmap én <Plug>(easymotion-bd-n)
+"
 map étt <Plug>(easymotion-sol-j)
 map été <Plug>(easymotion-eol-j)
 map éss <Plug>(easymotion-sol-k)
