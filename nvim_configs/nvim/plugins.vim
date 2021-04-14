@@ -27,26 +27,26 @@ Plug 'davidhalter/jedi-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'Vimjas/vim-python-pep8-indent'  " Necessary for python indentation
-Plug 'psf/black', {'branch': 'stable'}
+Plug 'psf/black', { 'tag': '19.10b0' }
 Plug 'Yggdroot/indentLine'  " displays indentation levels with spaces (with ¦)
 Plug 'godlygeek/tabular'
-Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-abolish'  " Allow case sensitive replacement with `:Subvert/.../.../`
 Plug 'tell-k/vim-autopep8'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'udalov/kotlin-vim'
 " Help navigation
-Plug 'guibur/neovim-fuzzy'
+Plug 'cloudhead/neovim-fuzzy'
 Plug 'guibur/bufexplorer'
-Plug 'muziqiushan/vim-bufonly'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-fugitive'  " Easy support for git in vim
-Plug 'jpalardy/vim-slime'
+Plug 'airblade/vim-gitgutter'
+Plug 'kshenoy/vim-signature'
 Plug 'scrooloose/nerdtree'
 Plug 'guibur/CurtineIncSw.vim'  " Swap from source file to header file
-Plug 'guibur/far.vim'
+Plug 'brooth/far.vim'
 Plug 'haya14busa/incsearch.vim'
 " Language help
 " Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugins' } " Works awesome, but super slow
@@ -64,6 +64,9 @@ Plug 'lervag/vimtex'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'aklt/plantuml-syntax'
 Plug 'weirongxu/plantuml-previewer.vim'
+
+" Sudo write and read
+Plug 'lambdalisue/suda.vim'
 
 
 " List ends here. Plugins become visible to Vim after this call.
@@ -198,7 +201,7 @@ inoremap <expr> <S-Tab>
 " Neomake
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " When writing a buffer, and on normal mode changes (after 750ms).
-call neomake#configure#automake('nrw', 750)
+call neomake#configure#automake('nrw', 100)
 let g:neomake_py_pylint_maker = {
     \ 'args': ['%:p', '--max-line-length=120']
     \ }
@@ -206,6 +209,8 @@ let g:neomake_py_flake_maker = {
     \ 'args': ['%:p', '--max-line-length=120']
     \ }
 let g:neomake_python_enabled_makers = ['pylint', 'mypy']
+
+let g:neomake_cpp_enable_makers = ['clang']
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -224,8 +229,7 @@ let g:tagbar_sort = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Tags
 """"""""""""""""""""""""""""""""""""""""""""""""""
-nmap <silent> à] :!cd ~/wdc_workspace/src/wandercode && ctags -R --exclude='**/build/**' --exclude='**/dist/**' && cd -<CR>
-nmap <silent> à[ :!cd ~/wdc_workspace/src/wandercode2 && ctags -R --exclude='**/build/**' --exclude='**/dist/**' && cd -<CR>
+nmap <silent> à] :!ctags -R --exclude='**/build/**' --exclude='**/dist/**'<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -287,18 +291,6 @@ let NERDSpaceDelims=1
 "   after # (need to keep NERDSpaceDelims at 1 for double space before end
 "   of line comment
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" Slime for sending code to ipython
-""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:slime_python_ipython = 1 "delete -q in ftplugin/python/slime.vim
-let g:slime_target = "tmux"
-let g:slimux_select_from_current_window = 1
-let g:slime_no_mappings = 1
-vmap èy <Plug>SlimeRegionSend
-nmap èy <Plug>SlimeLineSend
-nmap èY <Plug>SlimeConfig|<Plug>SlimeLineSend
-vmap èY <Plug>SlimeConfig|<Plug>SlimeRegionSend
-
 """""""""""""""""""""""""""""""""""""""""""""""""
 " Vim surround refactor mapping for bépo
 """""""""""""""""""""""""""""""""""""""""""""""""
@@ -321,7 +313,19 @@ xmap gK  <Plug>VgSurround
 " active tree shortcut
 " map <silent> àf :NERDTreeFocus<CR>
 " map <silent> àx :NERDTreeClose<CR>
-map <silent> àf :NERDTreeToggle<CR>
+
+" Open NERDTree in the directory of the current file (or cwd if no file is open)
+map <silent> àf :call NERDTreeToggleInCurDir()<cr>
+map <silent> àF :NERDTreeToggle<CR>
+function! NERDTreeToggleInCurDir()
+  " If NERDTree is open in the current buffer
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+    exe ":NERDTreeClose"
+  else
+    exe ":NERDTreeFind"
+  endif
+endfunction
+
 
 let g:NERDTreeMapOpenInTab = 'l'
 let g:NERDTreeMapOpenInTabSilent = 'gl'
@@ -361,8 +365,8 @@ nmap ]ê <Plug>unimpairedMoveDown
 xmap ]ê <Plug>unimpairedMoveSelectionDown
 xmap [ê <Plug>unimpairedMoveSelectionUp
 nmap [ê <Plug>unimpairedMoveUp
-nmap ]œ& & :call <SNR>170_setup_paste()<CR>o
-nmap ]œ& & :call <SNR>170_setup_paste()<CR>O
+" nmap ]œ& & :call <SNR>170_setup_paste()<CR>o
+" nmap ]œ& & :call <SNR>170_setup_paste()<CR>O
 " unmap >p
 " unmap >P
 " unmap <p
@@ -376,6 +380,29 @@ tnoremap <M-f> <C-\><C-n>:FuzzyOpen<CR>
 nnoremap èg viw"gy:FuzzyGrep <C-r>g
 nnoremap èG :FuzzyGrep 
 vnoremap èg "gy:FuzzyGrep <C-r>g
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" GitGutter
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:gitgutter_map_keys = 0
+
+nmap gha <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+
+nmap ghh <Plug>(GitGutterNextHunk)
+nmap ghg <Plug>(GitGutterPrevHunk)
+
+nmap <silent> ghv :GitGutterLineHighlightsToggle<CR>
+
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+
+command! Glist GitGutterQuickFix | copen
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Edit command from terminal
@@ -472,4 +499,13 @@ vmap gx <plug>(openbrowser-smart-search)
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Far shortcut
 """"""""""""""""""""""""""""""""""""""""""""""""""
+let g:far#mappings = {
+    \ "toggle_exclude": "-",
+    \ "preview_scroll_up": "<c-s>",
+    \ "preview_scroll_down": "<c-t>",
+    \ "replace_do": "l"
+    \ }
+let g:far#source = 'agnvim'
+
 nnoremap èr viwy:Far <C-R>"  %<Left><Left>
+nnoremap èR viwy:Far <C-R>"  **/*<Left><Left><Left><Left><Left>
