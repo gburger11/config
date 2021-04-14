@@ -44,6 +44,8 @@ xnoremap <M-S-y> <Esc><C-w>o
 " Enter terminal mode if a pressed
 vnoremap a <Esc>a
 
+nnoremap à$ ?\(-G@PC-Burger.*➭\\|-builder:.*\$\)<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Window and tab management identical to byobu window and panes.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,13 +189,36 @@ inoremap <silent> <M-S-w> <Esc>:BW!<CR>
 xnoremap <silent> <M-S-w> <Esc>:BW!<CR>
 tnoremap <silent> <M-S-w> <C-\><C-n>:BW!<CR>
 
-nnoremap <silent> àl :b#<CR>
-tnoremap <silent> àl <C-\><C-n>:b#<CR>
-nnoremap <silent> àm :bm<CR>
-tnoremap <silent> àm <C-\><C-n>:bm<CR>
+nnoremap <silent> <M-q> :BB<CR>
+inoremap <silent> <M-q> <Esc>:BB<CR>
+xnoremap <silent> <M-q> <Esc>:BB<CR>
+tnoremap <silent> <M-q> <C-\><C-n>:BB<CR>
+nnoremap <silent> <M-g> :BF<CR>
+inoremap <silent> <M-g> <Esc>:BF<CR>
+xnoremap <silent> <M-g> <Esc>:BF<CR>
+tnoremap <silent> <M-g> <C-\><C-n>:BF<CR>
 
-nnoremap <silent> à0 :BO<CR>
-tnoremap <silent> à0 <C-\><C-n>:BO<CR>
+nnoremap <silent> àb :b#<CR>
+tnoremap <silent> àb <C-\><C-n>:b#<CR>
+
+nnoremap <silent> àt :b1<CR>
+tnoremap <silent> àt <C-\><C-n>:b1<CR>
+nnoremap <silent> às :b2<CR>
+tnoremap <silent> às <C-\><C-n>:b2<CR>
+nnoremap <silent> àr :b3<CR>
+tnoremap <silent> àr <C-\><C-n>:b3<CR>
+nnoremap <silent> àn :b4<CR>
+tnoremap <silent> àn <C-\><C-n>:b4<CR>
+nnoremap <silent> àm :b5<CR>
+tnoremap <silent> àm <C-\><C-n>:b5<CR>
+nnoremap <silent> àv :b6<CR>
+tnoremap <silent> àv <C-\><C-n>:b6<CR>
+nnoremap <silent> àd :b7<CR>
+tnoremap <silent> àd <C-\><C-n>:b7<CR>
+nnoremap <silent> àl :b8<CR>
+tnoremap <silent> àl <C-\><C-n>:b8<CR>
+nnoremap <silent> àj :b9<CR>
+tnoremap <silent> àj <C-\><C-n>:b9<CR>
 
 " easy cd, ls and pwd opérations
 nnoremap <M-'><M-'> :call feedkeys(':e<space><tab>', 't')<cr>

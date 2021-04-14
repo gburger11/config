@@ -24,9 +24,9 @@ vnoremap p "_dP
 
 nnoremap Y y$
 
-noremap <silent> èpp :set paste<CR>
-noremap <silent> èpn :set nopaste<CR>
-noremap èP :tabe %<CR><C-\><C-n>:setlocal signcolumn=no<CR>:setlocal nonumber<CR>:setlocal norelativenumber<CR>:setlocal lcs=tab:\ \ <CR>:IndentLinesToggle<CR>
+" noremap <silent> èpp :set paste<CR>
+" noremap <silent> èpn :set nopaste<CR>
+" noremap èP :tabe %<CR><C-\><C-n>:setlocal signcolumn=no<CR>:setlocal nonumber<CR>:setlocal norelativenumber<CR>:setlocal lcs=tab:\ \ <CR>:IndentLinesToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Undo and Redo
@@ -51,8 +51,9 @@ noremap T j
 noremap S k
 noremap g0 0
 noremap g$ $
-nnoremap àp '[V']
-nnoremap <silent> àd /\v[<=>]{7}<CR>
+
+nnoremap èp '[V']
+nnoremap <silent> éd /\v[<=>]{7}<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Indent
@@ -72,6 +73,15 @@ nnoremap èi i_<Esc>r
 " Swap cleaning
 """"""""""""""""""""""""""""""""""""""""""""""""
 nnoremap àw :!rm -r ~/.local/share/nvim/swap/*<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" Change workspaces
+""""""""""""""""""""""""""""""""""""""""""""""""
+nmap àew :cd ~/wdc_workspace/src/wandercode<CR>
+nmap àem :cd ~/main_workspace/src/wandercode<CR>
+nmap àec :cd ~/cybath_workspace/src/wandercode<CR>
+nmap àeb :cd ~/balance_workspace/src/wandercode<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " Jump stays in buffer
@@ -95,7 +105,7 @@ endfunction
 nnoremap <silent> <c-s-i> <c-i>
 nnoremap <silent> <c-s-o> <c-o>
 nnoremap <silent> <c-o> :call JumpInFile("\<c-i>", "\<c-o>")<cr>
-nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
+" nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Diffing buffers
@@ -237,5 +247,3 @@ inoremap {<CR> {<CR>}<Esc>ko
 
 " Avoid accidental exit from vim.
 nmap ZZ ==
-
-nnoremap è> /\v[<=>]{7}<CR>

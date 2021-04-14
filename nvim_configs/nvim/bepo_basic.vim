@@ -38,16 +38,3 @@ noremap [h [s
 
 noremap , :
 noremap ’ ,
-
-" Gestion des fenêtres
-" ———————————————————————————————
-noremap àt <C-w>j
-noremap às <C-w>k
-noremap àc <C-w>h
-noremap àr <C-w>l
-noremap àq <C-w>c
-noremap àh <C-w>s
-noremap àv <C-w>v
-noremap ào <C-w>o
-noremap à<SPACE> :split<CR>
-noremap à<CR> :vsplit<CR>
