@@ -1,5 +1,5 @@
 snippet bg
-    print("${1:#:var} : {}".format($1))${0}
+    print(f"{${1:#:var} = }")
 
 snippet pdb
-    import pdb; pdb.set_trace()${0}
+    import ipdb; ipdb.set_trace()${0}
