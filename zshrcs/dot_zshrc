@@ -106,7 +106,15 @@ ld () {
 }
 
 # Git aliases
+alias rg="LESS=-REX git"
+alias rgit="LESS=-REX git"
+
 alias gg="git lg"
+alias rgg="LESS=-REX git lg"
+alias gt="git status"
+alias rgt="LESS=-REX git status"
+alias gf="git diff"
+alias gfs="git diff --staged"
 
 setopt auto_cd
 
@@ -130,6 +138,8 @@ alias ,q='exit'
 export VISUAL=nvr
 export EDITOR=$VISUAL
 
+alias hg=lazygit
+
 # Convenience aliases
 alias md='mkdir'
 
@@ -148,7 +158,7 @@ alias cm.='cmake .'
 alias update_tags="ctags -R ."
 alias wdc_tags="cd ~/dev/wandercode && ctags -R . && cd -"
 
-alias disk_usage="du -sch .[\!.]* * | sort -h"
+alias disk_usage="bash du -sch .[\!.]* * | sort -h"
 
 if [[ -a $HOME/.zshrc.wdc ]]; then
     source $HOME/.zshrc.wdc
@@ -163,7 +173,7 @@ if [ -d $HOME/.xkb/keymap ]; then
 fi
 
 if ! { [ -n "$TMUX" ]; } then
-    byobu
+    tmux attach
 else
     if ! { [ -n "${NVIM_LISTEN_ADDRESS+x}" ]; } then
         nvim -c te -c te -c te -c te -c te -c te -c te -c te -c te -c b1

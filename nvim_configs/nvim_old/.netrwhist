@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/guillaumeburger/.config/nvim/plugins/bufexplorer'
-let g:netrw_dirhist_2='/home/guillaumeburger/.config/nvim/plugins/bufexplorer/plugin'
-let g:netrw_dirhist_3='/home/guillaumeburger/dev/src/standAndSit/src/wdc/stand_and_sit'
-let g:netrw_dirhist_4='/home/guillaumeburger/.config/nvim'

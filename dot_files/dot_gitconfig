@@ -21,6 +21,7 @@
     rbch = rebase upstream/cybathlon HEAD
     ri = rebase -i
     cm = commit -m
+    cma = commit -a -m
     co = checkout
     com = checkout upstream/master
     coc = checkout upstream/cybathlon
@@ -28,8 +29,7 @@
     cp = cherry-pick
     ft = fetch
     fa = fetch --all
-    sta = status
-    stt = !"git status | less -X"
+    st = status
     br = branch
     ds = diff --stat
     ca = !"git commit --amend --no-edit"
@@ -45,6 +45,10 @@
     buldozer = !"git add --all && git commit --amend --no-edit && git push -f origin HEAD"
     cleanup-branch = "!git checkout upstream/master && git branch --merged | grep -v -P '^\\*|master|develop' | xargs -n1 -r git branch -d"
     cleanup-remote = !"git checkout upstream/master && git remote prune origin && git branch -r --merged | grep 'origin' | grep -v -P '^\\*|master|develop|HEAD' | sed -r 's/origin\\///g' | xargs -n1 -r git push --delete origin"
+
+    push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
+    push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
+    fetch-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && git checkout -b EXT_$0__$1 FETCH_HEAD'
 [push]
 	default = matching
 [pager]

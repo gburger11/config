@@ -3,7 +3,7 @@ extension-pkg-whitelist=numpy,nose,nose.tools,numpy.testing,numpy.linalg
 
 [MESSAGES CONTROL]
 # disabled messages
-disable=missing-docstring, too-many-instance-attributes, too-many-statements, too-many-locals, too-few-public-methods, attribute-defined-outside-init, no-else-return, bad-continuation, invalid-name
+disable=missing-docstring, too-many-instance-attributes, too-many-statements, too-many-locals, too-few-public-methods, attribute-defined-outside-init, no-else-return, bad-continuation, invalid-name, invalid-unary-operand-type
 
 [TYPECHECK]
 ignored-modules = numpy, numpy.testing, wdc_dynamicsteller, wdc_math, wdc_optimal, wdc_filtering, wdc_task, wdc_transition, wdc_mpc, wdc_telemetryloader, wdc, pinocchio
