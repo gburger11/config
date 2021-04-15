@@ -153,11 +153,17 @@ endif
 " KILL TERM WHEN EXITING
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:kill_all_terminal()
-    for i in [4, 5, 6, 7, 8, 9, 10, 11, 12]
-        try
-            call chansend(i, ["exit", "", ""])
-        catch /^Vim\%((\a\+)\)\=:E900/
-        endtry
+    let @x="exit\n\n"
+    let @e="\n\n"
+    for i in range(1, 1000)
+        if bufname(i) =~ '^term://*'
+            echo "closing terminal : ".i
+            execute "b".i
+            execute 'normal "ep'
+            execute 'normal "xp'
+            execute 'normal "ep'
+            execute 'normal "ep'
+        endif
     endfor
     execute "q"
 endfunction
@@ -169,5 +175,4 @@ nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
 " GO TO FILE WITH DOCKER AND LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>
-" nnoremap g<c-f> Bf:lve"lyf:lve"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:<C-R>l<CR>
 nnoremap g<c-f> Bf:lviw"lyf:lviw"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, <C-R>c)<CR>
