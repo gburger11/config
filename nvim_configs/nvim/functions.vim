@@ -38,16 +38,18 @@ function! s:formatCppHeaderWrap(width, is_first_symbol, n_header_word)
     " Save last line of modified block (we are automatically placed here after the Vgq command)
     let row_1 = line('.')
     let row = row_1
-    while (row > row_0)
-        " Remove the \keywords in all except first line.
-        execute "normal! ^"
-        if a:is_first_symbol
-            execute "normal! W"
-        endif
-        execute "normal! " . (col_1 - col_0) . "r "
-        execute "normal! k"
-        let row = row - 1
-    endwhile
+    if a:n_header_word > 0
+        while (row > row_0)
+            " Remove the \keywords in all except first line.
+            execute "normal! ^"
+            if a:is_first_symbol
+                execute "normal! W"
+            endif
+            execute "normal! " . (col_1 - col_0) . "r "
+            execute "normal! k"
+            let row = row - 1
+        endwhile
+    endif
 endfunction
 
 " " Wrapping for comments (ignore the first commenting sign)
