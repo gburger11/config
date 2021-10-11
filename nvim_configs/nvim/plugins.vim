@@ -42,8 +42,9 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-fugitive'  " Easy support for git in vim
-Plug 'airblade/vim-gitgutter'
-Plug 'kshenoy/vim-signature'
+Plug 'airblade/vim-gitgutter'  " Show git change in the margin + quick preview or reset
+Plug 'kdheepak/lazygit.nvim'
+Plug 'kshenoy/vim-signature'  " Show marks in the margin
 Plug 'scrooloose/nerdtree'
 Plug 'guibur/CurtineIncSw.vim'  " Swap from source file to header file
 Plug 'brooth/far.vim'
@@ -403,6 +404,23 @@ xmap ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 
 command! Glist GitGutterQuickFix | copen
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" GitGutter
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! s:lazygit_launch()
+    if &buftype ==# 'terminal'
+        let cwd = getcwd()
+        let command = "lua require'lazygit'.lazygit('".cwd."')"
+        execute command
+    else
+        lua require'lazygit'.lazygit()
+    endif
+endfunction
+
+nnoremap <script> àh :call <SID>lazygit_launch()<CR>
+tnoremap <silent> àh <C-\><C-n>:call <SID>lazygit_launch()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Edit command from terminal
