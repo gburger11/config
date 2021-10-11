@@ -220,6 +220,9 @@ tnoremap <silent> àl <C-\><C-n>:b8<CR>
 nnoremap <silent> àj :b9<CR>
 tnoremap <silent> àj <C-\><C-n>:b9<CR>
 
+nnoremap <silent> àc :b#<CR>
+tnoremap <silent> àc <C-\><C-n>:b#<CR>
+
 " easy cd, ls and pwd opérations
 nnoremap <M-'><M-'> :call feedkeys(':e<space><tab>', 't')<cr>
 inoremap <M-'><M-'> <Esc>:call feedkeys(':e<space><tab>', 't')<cr>
