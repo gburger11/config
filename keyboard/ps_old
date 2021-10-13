@@ -1,0 +1,98 @@
+partial alphanumeric_keys modifier_keys
+xkb_symbols "bepo_perso" {
+
+    include "keypad(oss)"
+
+    name[Group1]= "Perso 2";
+
+    ////////////////////////////////////////
+    // Map modifiers                      //
+    ////////////////////////////////////////
+
+    // Shift
+    key <LFSH> { type[group1]="EIGHT_LEVEL", [Shift_L, Shift_L, Shift_L, Shift_L, Caps_Lock, Caps_Lock, Caps_Lock, Caps_Lock ] };
+    key <RTSH> { type[group1]="EIGHT_LEVEL", [Shift_R, Shift_R, Shift_R, Shift_R, Caps_Lock, Caps_Lock, Caps_Lock, Caps_Lock ] };
+    // Level 3
+    key <CAPS> { type[group1]="EIGHT_LEVEL", [ISO_Level3_Shift, ISO_Level3_Shift, ISO_Level3_Shift, ISO_Level3_Shift, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Lock ] };
+    key <BKSL> { type[group1]="EIGHT_LEVEL", [ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Lock ] };
+    // Level 5
+    key <TLDE> { type[group1]="ONE_LEVEL", [ISO_Level5_Shift] };
+
+    ////////////////////////////////////////
+    // Compatibility with older pgm       //
+    ////////////////////////////////////////
+    modifier_map Mod5 { ISO_Level3_Shift };
+    modifier_map Mod3 { ISO_Level5_Shift };
+    modifier_map shift { Shift_L };
+    modifier_map lock { Caps_Lock };
+
+    ////////////////////////////////////////
+    // Map special keys                   //
+    ////////////////////////////////////////
+    key <ESC> { type[group1]="ONE_LEVEL", [Escape ] };
+    key <AE12> { type[group1] = "ONE_LEVEL", [Delete] };
+    // key <RALT> { type[group1] = "ONE_LEVEL", [BackSpace] };
+    key <RALT> { type[group1]="ONE_LEVEL", [Escape] };
+    key <SPCE> { [           space, nobreakspace,          space,          U202F ] }; // ␣ (espace insécable) _ (espace insécable fin)
+
+    ////////////////////////////////////////
+    // Symbol row                         //
+    ////////////////////////////////////////
+    key <AE01> { type[group1] = "FOUR_LEVEL", [     asciicircum,       dead_circumflex,        percent,              permille] };
+    key <AE02> { type[group1] = "FOUR_LEVEL", [            less,   leftdoublequotemark,  guillemotleft,      lessthanequal] };
+    key <AE03> { type[group1] = "FOUR_LEVEL", [         greater,  rightdoublequotemark, guillemotright,   greaterthanequal] };
+    key <AE04> { type[group1] = "FOUR_LEVEL", [       parenleft,                    at,       EuroSign,    dead_currency  ] };
+    key <AE05> { type[group1] = "FOUR_LEVEL", [      parenright,            dead_greek ] };
+    key <AE06> { type[group1] = "FOUR_LEVEL", [       Multi_key,              EuroSign,  dead_currency          ] };
+    key <AE07> { type[group1] = "FOUR_LEVEL", [           plus ,            dead_caron,           plus,         plusminus ] };
+    key <AE08> { type[group1] = "FOUR_LEVEL", [          minus ,            underscore,          minus ] };
+    key <AE09> { type[group1] = "FOUR_LEVEL", [          slash ,            numbersign,          slash ] };
+    key <AE10> { type[group1] = "FOUR_LEVEL", [       asterisk ,                exclam,       asterisk ,      exclamdown ] };
+    key <AE11> { type[group1] = "FOUR_LEVEL", [         dollar ,                degree,         degree,    dead_abovedot ] };
+
+    ////////////////////////////////////////
+    // Top letter line                    //
+    ////////////////////////////////////////
+    key <AD01> { [               b,            B,            bar,      brokenbar ] }; // b B | ¦
+    key <AD02> { [          eacute,       Eacute,     dead_acute, dead_doubleacute ] }; // é É ˊ ˝
+    key <AD03> { [               p,            P,      ampersand,        section ] }; // p P & §
+    key <AD04> { [               o,            O,             oe,             OE ] }; // o O œ Œ
+    key <AD05> { [          egrave,       Egrave,          grave,     dead_grave ] }; // è È ` `
+    key <AD06> { [ dead_circumflex,   dead_caron,      period ] };
+    key <AD07> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [   v,   V,  6, 6,  Home, Home, Home, Home  ] };
+    key <AD08> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [   d,   D,  7, 7, End, End, End, End ] };
+    key <AD09> { [               l,            L,              8,             8 ] }; // l L @
+    key <AD10> { [               j,            J,              9,             9 ] }; // j J ĳ Ĳ
+    key <AD11> { [               z,            Z,          idiaeresis, Idiaeresis] }; // z Z ə Ə
+    key <AD12> { [dead_tilde, dead_tilde, ntilde, Ntilde] };
+
+    ////////////////////////////////////////
+    // Middle letter line                 //
+    ////////////////////////////////////////
+    key <AC01> { [               a,            A,             ae,             AE ] }; // a A æ Æ
+    key <AC02> { [               u,            U,         ugrave,         Ugrave ] }; // u U ù Ù
+    key <AC03> { [               i,            I,       equal  ] }; // i I =
+    key <AC04> { [               e,            E,    ecircumflex,     Ecircumflex] }; // e E ê Ê
+    key <AC05> { [           comma,    semicolon, dead_diaeresis, rightsinglequotemark ] }; // , ; ¨ ’
+    key <AC06> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               c,            C,              0 , dead_cedilla, Left, Left, Left, Left] }; // c C © ſ
+    key <AC07> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               t,            T,              1,     onequarter, Down, Down, Down, Down ] }; // t T þ Þ
+    key <AC08> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               s,            S,              2,        onehalf, Up, Up, Up, Up ] }; // s S ß ẞ
+    key <AC09> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               r,            R,              3,  threequarters, Right, Right, Right, Right ] }; // r R ® ™
+    key <AC10> { [               n,            N,              4 ] }; // n N ~
+    key <AC11> { [               m,            M,              5 ] }; // m M ̄ º
+
+    ////////////////////////////////////////
+    // Bottom letter line                 //
+    ////////////////////////////////////////
+    key <LSGT> { [               k,            K,          slash,    dead_stroke ] }; // ê Ê /
+    key <AB01> { [          agrave,       Agrave,      backslash                 ] }; // à À \
+    key <AB02> { [               y,            Y,      braceleft, leftsinglequotemark  ] }; // y Y { ‘
+    key <AB03> { [               x,            X,     braceright, rightsinglequotemark ] }; // x X } ’
+    key <AB04> { [          period,        colon,       ellipsis, periodcentered ] }; // . : … ·
+    key <AB05> { [               w,            W,     asciitilde,    dead_tilde  ] }; // k K ~
+    key <AB06> { [      apostrophe,     question,       quotedbl,    questiondown] }; // ' ? ¿ ̉
+    key <AB07> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               q,            Q,      parenleft, parenleft, Prior, Prior, Prior, Prior ] }; // q Q ˚ ̣
+    key <AB08> { type[group1] = "EIGHT_LEVEL_SEMIALPHABETIC", [               g,            G,    bracketleft, bracketleft, Next, Next, Next, Next ] }; // g G µ
+    key <AB09> { [               h,            H,   bracketright ] }; // h H † ‡
+    key <AB10> { [               f,            F,     parenright ] }; // f F ̨ ª
+};
