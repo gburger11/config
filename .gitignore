@@ -5,4 +5,4 @@ dot_files/dot_byobu/.ssh-agent
 nvim_configs/nvim/.netrwhist
 nvim_configs/nvim_old/.netrwhist
 
-lazygit/**/*.patch
+config_files/lazygit/**/*.patch

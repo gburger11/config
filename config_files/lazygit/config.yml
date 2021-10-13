@@ -36,10 +36,8 @@ git:
     mode: merge
   skipHookPrefix: WIP
   autoFetch: true
-  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative
-    --pretty=medium {{branchName}} --
-  allBranchesLogCmd: git log --graph --all --color=always --abbrev-commit --decorate
-    --date=relative  --pretty=medium
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' {{branchName}} --
+  allBranchesLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
   overrideGpg: false
   disableForcePushing: false
   commitPrefixes: {}
@@ -66,8 +64,8 @@ keybinding:
     nextItem-alt: t
     prevPage: ','
     nextPage: .
-    gotoTop: <
-    gotoBottom: '>'
+    gotoTop: g
+    gotoBottom: G
     prevBlock: <left>
     nextBlock: <right>
     prevBlock-alt: c
@@ -144,24 +142,24 @@ keybinding:
     squashDown: h
     renameCommit: m
     renameCommitWithEditor: M
-    viewResetOptions: g
-    markCommitAsFixup: f
+    viewResetOptions: Z
+    markCommitAsFixup: <c-f>
     createFixupCommit: F
     squashAboveCommits: H
     moveDownCommit: <c-j>
     moveUpCommit: <c-k>
     amendToCommit: A
-    pickCommit: p
+    pickCommit: é
     revertCommit: <C-R>
     cherryPickCopy: k
     cherryPickCopyRange: K
     pasteCommits: v
-    tagCommit: G
+    tagCommit: É
     checkoutCommit: <space>
     resetCherryPick: <c-K>
     copyCommitMessageToClipboard: <c-y>
   stash:
-    popStash: g
+    popStash: p
   commitFiles:
     checkoutCommitFile: k
   main:
@@ -177,6 +175,21 @@ os:
   openCommand: sh -c "nvr {{filename}} -cc close >/dev/null"
   openLinkCommand: sh -c "xdg-open {{link}} >/dev/null"
 disableStartupPopups: false
-customCommands: []
+customCommands:
+  - key: f
+    command: 'git fetch --all'
+    context: 'localBranches'
+    loadingText: 'Fetching all'
+    description: 'fetch all'
+  - key: p
+    command: 'git push -u origin {{.SelectedLocalBranch.Name}}'
+    context: 'localBranches'
+    loadingText: 'Pushing current branch to origin'
+    description: 'push current branch'
+  - key: P
+    command: 'git push -u origin {{.SelectedLocalBranch.Name}} --force'
+    context: 'localBranches'
+    loadingText: 'Pushing current branch to origin (force)'
+    description: 'push current branch (with force)'
 services: {}
 notARepository: prompt
