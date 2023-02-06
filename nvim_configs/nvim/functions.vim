@@ -178,3 +178,4 @@ nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>
 nnoremap g<c-f> Bf:lviw"lyf:lviw"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, <C-R>c)<CR>
+nnoremap g<m-f> B/ line \zs<CR>lviw"lyBB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, 0)<CR>

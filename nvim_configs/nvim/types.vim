@@ -31,7 +31,13 @@ endfun
 fun! s:termSpecificChangingChanges()
     if &buftype ==# 'terminal' || &buftype ==# 'nofile'
         hi clear OverLength
+        hi clear TrailingSpaces
+        if &filetype ==# 'lazygit'
+            hi NormalFloat ctermbg=NONE ctermfg=white
+        endif
     else
         highlight OverLength ctermbg=68 ctermfg=white guibg=#592929
+        highlight TrailingSpaces ctermbg=142
+        hi! link NormalFloat Pmenu
     endif
 endfun

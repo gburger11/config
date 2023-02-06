@@ -53,7 +53,7 @@ noremap g0 0
 noremap g$ $
 
 nnoremap èp '[V']
-nnoremap <silent> éd /\v[<=>]{7}<CR>
+nnoremap <silent> éd /\v[<=>]{7}(<space>\|$)<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Indent

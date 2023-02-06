@@ -15,19 +15,25 @@ Plug 'vim-scripts/camelcasemotion'
 Plug 'majutsushi/tagbar'
 Plug 'rbong/vim-vertical'  " Motion block by block (mapped to <C-t> and <C-s>)
 Plug 'tpope/vim-unimpaired'
+Plug 'Pocco81/auto-save.nvim'
 " Colors
 Plug 'morhetz/gruvbox'
 Plug 'blueyed/vim-diminactive'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
 Plug 'luochen1990/rainbow'
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
 " Help syntax
+" Plug 'wookayin/vim-autoimport'
+Plug 'gburger11/vim-autoimport', {'tag': 'custom_db'}
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }  " tag 4.1 is necessary because 5.0 is compatible with nvim 0.3+ only, and default in ubuntu 18.04 is nvim 0.2.2
 Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'Vimjas/vim-python-pep8-indent'  " Necessary for python indentation
-Plug 'psf/black', { 'tag': '19.10b0' }
+Plug 'psf/black', { 'tag': '22.6.0' }  " TODO 30/08/2022 : stable = 21.9b0 raises `got int, expected bool`. Go back to stable when fixed
+Plug 'stsewd/isort.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Yggdroot/indentLine'  " displays indentation levels with spaces (with ¦)
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-abolish'  " Allow case sensitive replacement with `:Subvert/.../.../`
@@ -40,7 +46,7 @@ Plug 'cloudhead/neovim-fuzzy'
 Plug 'guibur/bufexplorer'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
-Plug 'szw/vim-maximizer'
+Plug 'declancm/maximize.nvim'
 Plug 'tpope/vim-fugitive'  " Easy support for git in vim
 Plug 'airblade/vim-gitgutter'  " Show git change in the margin + quick preview or reset
 Plug 'kdheepak/lazygit.nvim'
@@ -81,10 +87,11 @@ let g:jedi#goto_command = 'èo'
 let g:lightline = {
     \ 'active': {
     \   'left': [ [ 'mode', 'paste'],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified'] ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified'],
+    \             [ 'filetype' ] ],
     \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
-    \              [ 'filetype', 'cwd', 'tmuxname' ] ]
+    \              [ 'cwd', 'tmuxname' ] ]
     \ },
     \ 'component_function': {
     \   'gitbranch': 'fugitive#head',
@@ -98,6 +105,27 @@ endfunction
 function! GetShortCwd()
     return substitute(expand(getcwd()), $HOME, "~", "")
 endfunction
+
+
+""""""""""""""""""""""""""
+" Autoimport (Python)
+"""""""""""""""""""""""""
+
+nmap <silent> èj :ImportSymbol<CR>:Isort<CR>
+imap <silent> èj <Esc>:ImportSymbol<CR>:Isort<CR>a
+nmap <silent> è<S-J> :ImportSymbol<CR>
+imap <silent> è<S-J> <Esc>:ImportSymbol<CR>a
+
+let g:autoimport#python#db_import_as = {
+            \ 'typing': 'tp',
+            \ 'multiprocessing': 'mp',
+            \ 'nevergrad': 'ng'
+            \ }
+
+" let g:autoimport#python#db_import = {
+            " \ 'tiger': v:null,
+            " \ 'pinocchio': ['Quaternion', 'SE3']
+            " \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Easy-motion
@@ -140,14 +168,6 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" Highlighter
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:highlighter#auto_update = 0
-" nmap gc :HighlighterUpdate<CR>
-" let g:Highlighter#disabled_languages = ['py']
-" let g:highlighter#project_root_signs = ['.git']
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -203,11 +223,14 @@ inoremap <expr> <S-Tab>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " When writing a buffer, and on normal mode changes (after 750ms).
 call neomake#configure#automake('nrw', 100)
-let g:neomake_py_pylint_maker = {
-    \ 'args': ['%:p', '--max-line-length=120']
-    \ }
-let g:neomake_py_flake_maker = {
-    \ 'args': ['%:p', '--max-line-length=120']
+" let g:neomake_py_pylint_maker = {
+    " \ 'args': ['%:p', '--max-line-length=100']
+    " \ }
+" let g:neomake_py_flake_maker = {
+    " \ 'args': ['%:p', '--max-line-length=100']
+    " \ }
+let g:neomake_py_mypy_maker = {
+    \ 'args': ['%:p', '--python-version=3.8']
     \ }
 let g:neomake_python_enabled_makers = ['pylint', 'mypy']
 
@@ -250,7 +273,8 @@ set confirm
 """"""""""""""""""""""""""""""""""""""""""""""""
 " Dim inactive: dim inactive windows.
 """"""""""""""""""""""""""""""""""""""""""""""""
-let g:diminactive_enable_focus = 1
+" let g:diminactive_enable_focus = 1
+let g:diminactive_enable_focus = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Fast and smooth movements
@@ -382,6 +406,15 @@ nnoremap èg viw"gy:FuzzyGrep <C-r>g
 nnoremap èG :FuzzyGrep 
 vnoremap èg "gy:FuzzyGrep <C-r>g
 
+let g:fuzzy_bindkeys = 0
+autocmd FileType fuzzy tnoremap <silent> <buffer> <Esc> <C-\><C-n>:FuzzyKill<CR>
+autocmd FileType fuzzy tnoremap <silent> <buffer> <M-S-T> <C-\><C-n>:FuzzyOpenFileInTab<CR>
+autocmd FileType fuzzy tnoremap <silent> <buffer> <C-H> <C-\><C-n>:FuzzyOpenFileInSplit<CR>
+autocmd FileType fuzzy tnoremap <silent> <buffer> <C-V> <C-\><C-n>:FuzzyOpenFileInVSplit<CR>
+
+autocmd FileType fuzzy tnoremap <silent> <buffer> <C-T> <down>
+autocmd FileType fuzzy tnoremap <silent> <buffer> <C-s> <up>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " GitGutter
@@ -495,8 +528,10 @@ let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
 """"""""""""""""""""""""""""""""""""""""""""""""""
 let g:mkdp_auto_close = 0
 
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Black
+""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:black_linelength = 120
-" let g:black_targetversion = 'py27'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " OpenBrowser
@@ -524,6 +559,30 @@ let g:far#mappings = {
     \ "replace_do": "l"
     \ }
 let g:far#source = 'agnvim'
+let g:far#debug=1
 
 nnoremap èr viwy:Far <C-R>"  %<Left><Left>
 nnoremap èR viwy:Far <C-R>"  **/*<Left><Left><Left><Left><Left>
+
+""""""""""""""""""""""""""""
+" maximize.nvim
+""""""""""""""""""""""""""""
+nnoremap <silent> <M-b> <Cmd>lua require('maximize').toggle()<CR>
+tnoremap <silent> <M-b> <C-\><C-n><Cmd>lua require('maximize').toggle()<CR>
+inoremap <silent> <M-b> <Esc><Cmd>lua require('maximize').toggle()<CR>
+xnoremap <silent> <M-b> <Esc><Cmd>lua require('maximize').toggle()<CR>
+
+
+""""""""""""""""""""""""""""
+"  LUA PLUGINS
+"""""""""""""""""""""""""""
+lua << EOF
+-----------------------
+-- auto-save.nvim
+-----------------------
+require("auto-save").setup {
+    -- your config goes here
+    -- or just leave it empty :)
+    }
+
+EOF

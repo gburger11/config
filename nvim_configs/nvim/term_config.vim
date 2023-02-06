@@ -24,14 +24,14 @@ function! ConfirmQuit(writeFile)
 endfu
 
 cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
-nnoremap <M-y> <C-w>c
-nnoremap <M-S-y> <C-w>o
-tnoremap <M-y> <C-\><C-n><C-w>c
-tnoremap <M-S-y> <C-\><C-n><C-w>o
-inoremap <M-y> <Esc><C-w>c
-inoremap <M-S-y> <Esc><C-w>o
-xnoremap <M-y> <Esc><C-w>c
-xnoremap <M-S-y> <Esc><C-w>o
+nnoremap <M-h> <C-w>c
+nnoremap <M-S-o> <C-w>o
+tnoremap <M-h> <C-\><C-n><C-w>c
+tnoremap <M-S-o> <C-\><C-n><C-w>o
+inoremap <M-h> <Esc><C-w>c
+inoremap <M-S-o> <Esc><C-w>o
+xnoremap <M-h> <Esc><C-w>c
+xnoremap <M-S-o> <Esc><C-w>o
 " cnoremap <silent x<CR>  :call ConfirmQuit(1)<CR>
 
 " Enter in insert mode terminal

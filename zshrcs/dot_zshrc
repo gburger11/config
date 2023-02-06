@@ -122,7 +122,7 @@ setopt auto_cd
 alias vs='nv . -c Gstatus'
 
 nv () {
-	if [ -n "${NVIM_LISTEN_ADDRESS+x}" ]; then
+	if [ -n "$NVIM" ]; then
 		nvr "$@"
 	else
         nvim "$@"
@@ -175,7 +175,7 @@ fi
 if ! { [ -n "$TMUX" ]; } then
     tmux attach
 else
-    if ! { [ -n "${NVIM_LISTEN_ADDRESS+x}" ]; } then
+    if ! { [ -n "$NVIM" ]; } then
         nvim -c te -c te -c te -c te -c te -c te -c te -c te -c te -c b1
     fi
 fi

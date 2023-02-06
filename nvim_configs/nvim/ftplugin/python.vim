@@ -1,5 +1,5 @@
-map <buffer> <C-K> :Black<CR>
-imap <buffer> <C-K> <C-O>:Black<CR>
+map <buffer> <C-K> :Isort --profile black<CR>:Black<CR>
+imap <buffer> <C-K> <C-O>:Isort --profile black<CR>:Black<CR>
 
 " Do things for python icecream
 nnoremap <buffer> èO ggO<Esc>ccfrom icecream import ic, install<CR>install()<CR>ic.configureOutput(includeContext=True)<Esc><C-O>
