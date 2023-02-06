@@ -17,7 +17,7 @@ chmod u+x nvim.appimage
 mkdir -p $HOME/.local
 mkdir -p $HOME/.local/bin
 ln -s $HOME/.soft_manually_installed/nvim.appimage $HOME/.local/bin/nvim
-pip3 install -U pynvim neovim-remote black pylint mypy --user
+pip3 install -U pynvim neovim-remote black pylint mypy isort --user
 pip2 install -U pynvim --user
 cd -
 

@@ -10,7 +10,7 @@
     lg2 = !"git lg2-specific --all"
     lg3 = !"git lg3-specific --all"
 
-    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) -%C(italic magenta) %an%C(reset)'
     lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 
@@ -19,6 +19,8 @@
     rbc = rebase upstream/cybathlon
     rbmh = rebase upstream/master HEAD
     rbch = rebase upstream/cybathlon HEAD
+    rbma = rebase upstream/master --autostash
+    rim = rebase -i upstream/master
     ri = rebase -i
     cm = commit -m
     cma = commit -a -m
@@ -39,6 +41,7 @@
     po = push -u origin
     poh = push -u origin HEAD
     pdo = push --delete origin
+    BD = !sh -c 'git branch -D $0 && git push --delete origin $0'
     ap = add --patch
     upm = "upstream/master"
     upc = "upstream/cybathlon"
@@ -48,7 +51,7 @@
 
     push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
     push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
-    fetch-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && git checkout -b EXT_$0__$1 FETCH_HEAD'
+    fetch-ext-branch = !sh -c 'cd /my_workspace/src/wandercode && git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && cd - && git checkout -b EXT_$0__$1 FETCH_HEAD'
 [push]
 	default = matching
 [pager]
