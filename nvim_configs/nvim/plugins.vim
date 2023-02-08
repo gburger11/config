@@ -23,13 +23,14 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'luochen1990/rainbow'
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}
 " Help syntax
 " Plug 'wookayin/vim-autoimport'
 Plug 'gburger11/vim-autoimport', {'tag': 'custom_db'}
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }  " tag 4.1 is necessary because 5.0 is compatible with nvim 0.3+ only, and default in ubuntu 18.04 is nvim 0.2.2
 Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'Vimjas/vim-python-pep8-indent'  " Necessary for python indentation
 Plug 'psf/black', { 'tag': '22.6.0' }  " TODO 30/08/2022 : stable = 21.9b0 raises `got int, expected bool`. Go back to stable when fixed
@@ -42,6 +43,8 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'udalov/kotlin-vim'
 " Help navigation
+" Plug 'wellle/context.vim'  " Awesome, but slow when tested in 02/2023
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'cloudhead/neovim-fuzzy'
 Plug 'guibur/bufexplorer'
 Plug 'qpkorr/vim-bufkill'
@@ -276,6 +279,36 @@ set confirm
 " let g:diminactive_enable_focus = 1
 let g:diminactive_enable_focus = 0
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+" Rainbow parenthesis configuration
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:rainbow_conf = {
+\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'firebrick'],
+\	'ctermfgs': ['brown', 45, 207, 'lightgreen', 98],
+\	'operators': '_,_',
+\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\	'separately': {
+\		'*': {},
+\		'tex': {
+\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\		},
+\		'lisp': {
+\			'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\		},
+\		'vim': {
+\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\		},
+\		'html': {
+\			'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\		},
+\		'css': 0,
+\	}
+\}
+
+let g:rainbow_active = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Fast and smooth movements
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -304,6 +337,7 @@ xmap i<space>e <Plug>CamelCaseMotion_ie
 " Nerd commenter: comment and uncomment easily
 """"""""""""""""""""""""""""""""""""""""""""""""""
 map ècc <plug>NERDCommenterComment
+map ècl <plug>NERDCommenterAlignLeft
 map ècu <plug>NERDCommenterUncomment
 map ècb <plug>NERDCommenterMinimal
 map ècy <plug>NERDCommenterYank
@@ -584,5 +618,154 @@ require("auto-save").setup {
     -- your config goes here
     -- or just leave it empty :)
     }
+require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        -- For all filetypes
+        -- Note that setting an entry here replaces all other patterns for this entry.
+        -- By setting the 'default' entry below, you can control which nodes you want to
+        -- appear in the context window.
+        default = {
+            'class',
+            'function',
+            'method',
+            'for',
+            'while',
+            'if',
+            'switch',
+            'case',
+            'interface',
+            'struct',
+            'enum',
+        },
+        -- Patterns for specific filetypes
+        -- If a pattern is missing, *open a PR* so everyone can benefit.
+        tex = {
+            'chapter',
+            'section',
+            'subsection',
+            'subsubsection',
+        },
+        haskell = {
+            'adt'
+        },
+        rust = {
+            'impl_item',
+
+        },
+        terraform = {
+            'block',
+            'object_elem',
+            'attribute',
+        },
+        scala = {
+            'object_definition',
+        },
+        vhdl = {
+            'process_statement',
+            'architecture_body',
+            'entity_declaration',
+        },
+        markdown = {
+            'section',
+        },
+        elixir = {
+            'anonymous_function',
+            'arguments',
+            'block',
+            'do_block',
+            'list',
+            'map',
+            'tuple',
+            'quoted_content',
+        },
+        json = {
+            'pair',
+        },
+        typescript = {
+            'export_statement',
+        },
+        yaml = {
+            'block_mapping_pair',
+        },
+        python = {
+            'block_mapping_pair',
+            'object_definition',
+            'entity_declaration',
+            'argument_list',
+            'parenthesized_expression',
+            'dictionary',
+            'list',
+            'set',
+            'tuple',
+            'elif',
+            'else',
+        },
+        cpp = {
+            'else',
+            'else_if',
+        },
+    },
+    exact_patterns = {
+        -- Example for a specific filetype with Lua patterns
+        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+        -- exactly match "impl_item" only)
+        -- rust = true,
+    },
+
+    -- [!] The options below are exposed but shouldn't require your attention,
+    --     you can safely ignore them.
+
+    zindex = 20, -- The Z-index of the context window
+    mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+    -- Separator between context and content. Should be a single character string, like '-'.
+    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+    separator = nil,
+}
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the four listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "help", "python", "cpp" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (for "all")
+  ---ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    ----- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    ----- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    ----- the name of the parser)
+    ----- list of language that will be disabled
+    ---disable = { "c", "rust" },
+    ----- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    ---disable = function(lang, buf)
+    ---    local max_filesize = 100 * 1024 -- 100 KB
+    ---    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    ---    if ok and stats and stats.size > max_filesize then
+    ---        return true
+    ---    end
+    ---end,
+
+    ----- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    ----- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    ----- Using this option may slow down your editor, and you may see some duplicate highlights.
+    ----- Instead of true it can also be a list of languages
+    ---additional_vim_regex_highlighting = false,
+  },
+}
 
 EOF
