@@ -6,3 +6,4 @@ nvim_configs/nvim/.netrwhist
 nvim_configs/nvim_old/.netrwhist
 
 config_files/lazygit/**/*.patch
+config_files/lazygit/state.yml
