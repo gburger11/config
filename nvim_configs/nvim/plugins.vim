@@ -586,17 +586,23 @@ vmap gx <plug>(openbrowser-smart-search)
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Far shortcut
 """"""""""""""""""""""""""""""""""""""""""""""""""
-let g:far#mappings = {
-    \ "toggle_exclude": "-",
-    \ "preview_scroll_up": "<c-s>",
-    \ "preview_scroll_down": "<c-t>",
-    \ "replace_do": "l"
+let g:far#default_mappings = 1
+let g:far#mapping = {
+    \ "exclude": ["x"],
+    \ "include": ["i"],
+    \ "toggle_exclude": ["-"],
+    \ "toggle_exclude_all": ["_"],
+    \ "preview_scroll_up": ["<s-s>"],
+    \ "preview_scroll_down": ["<s-t>"],
+    \ "replace_do": ["l"],
     \ }
-let g:far#source = 'agnvim'
-let g:far#debug=1
 
-nnoremap èr viwy:Far <C-R>"  %<Left><Left>
-nnoremap èR viwy:Far <C-R>"  **/*<Left><Left><Left><Left><Left>
+let g:far#source = 'agnvim'
+let g:far#debug = 1
+let g:far#auto_preview = 0
+
+nnoremap èr :let @p = expand("%")<CR>viwy:Far <C-R>"  <C-R>p<S-Left><Left>
+nnoremap èR viwy:Far <C-R>"  **/*<S-Left><Left>
 
 """"""""""""""""""""""""""""
 " maximize.nvim
@@ -618,6 +624,7 @@ require("auto-save").setup {
     -- your config goes here
     -- or just leave it empty :)
     }
+
 require'treesitter-context'.setup{
     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
     max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
