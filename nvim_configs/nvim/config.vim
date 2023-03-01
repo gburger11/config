@@ -8,7 +8,7 @@ set wildmode=longest,list,full
 set wildmenu
 
 " show line numbers
-set relativenumber
+set cursorline cursorlineopt=number
 map èn :set relativenumber!<CR>
 set number
 
