@@ -26,8 +26,10 @@
     cma = commit -a -m
     co = checkout
     com = checkout upstream/master
-    coc = checkout upstream/cybathlon
-    cb = checkout -b
+    cou = checkout upstream/upstairs
+    sw = switch
+    swm = switch upstream/master
+    swu = switch upstream/upstairs
     cp = cherry-pick
     ft = fetch
     fa = fetch --all
@@ -51,7 +53,7 @@
 
     push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
     push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
-    fetch-ext-branch = !sh -c 'cd /my_workspace/src/wandercode && git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && cd - && git checkout -b EXT_$0__$1 FETCH_HEAD'
+    fetch-ext-branch = !sh -c 'cd /my_workspace/source/wandercode && git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && cd - && git checkout -b EXT_$0__$1 FETCH_HEAD'
 [push]
 	default = matching
 [pager]
