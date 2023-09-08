@@ -55,8 +55,8 @@ keybinding:
   universal:
     quit: q
     quit-alt1: <c-c>
-    return: (
-    quitWithoutChangingDirectory: <Esc>
+    return: <esc>
+    quitWithoutChangingDirectory: (
     togglePanel: <tab>
     prevItem: <up>
     nextItem: <down>
@@ -191,5 +191,10 @@ customCommands:
     context: 'localBranches'
     loadingText: 'Pushing current branch to origin (force)'
     description: 'push current branch (with force)'
+  - key: k
+    command: 'python tools/ide/autoformat.py'
+    context: 'files'
+    loadingText: 'Formatting Python code...'
+    description: 'launch python formatting tools'
 services: {}
 notARepository: prompt

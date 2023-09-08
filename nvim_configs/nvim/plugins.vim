@@ -23,7 +23,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'luochen1990/rainbow'
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}  " Show context
 " Help syntax
 " Plug 'wookayin/vim-autoimport'
 Plug 'gburger11/vim-autoimport', {'tag': 'custom_db'}
@@ -55,9 +55,15 @@ Plug 'airblade/vim-gitgutter'  " Show git change in the margin + quick preview o
 Plug 'kdheepak/lazygit.nvim'
 Plug 'kshenoy/vim-signature'  " Show marks in the margin
 Plug 'scrooloose/nerdtree'
-Plug 'guibur/CurtineIncSw.vim'  " Swap from source file to header file
-Plug 'brooth/far.vim'
-Plug 'haya14busa/incsearch.vim'
+Plug 'gburger11/CurtineIncSw.vim'  " Swap from source file to header file
+Plug 'brooth/far.vim'  " Find And Replace very powerful
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'kevinhwang91/nvim-bqf'
+
+Plug 'haya14busa/is.vim'  " IncSearch -> color search only when searching
+Plug 'haya14busa/vim-asterisk'  " Does the same for * and # searches
 " Language help
 " Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugins' } " Works awesome, but super slow
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -160,19 +166,6 @@ map éss <Plug>(easymotion-sol-k)
 map ésé <Plug>(easymotion-eol-k)
 nmap é. <Plug>(easymotion-repeat)
 
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-
-
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Switch
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -200,6 +193,11 @@ let g:switch_custom_definitions = [
         \     '\CUpper': 'Lower',
         \     '\Cupper': 'lower',
         \     '\CUPPER': 'LOWER',
+        \     '\CLower': 'Upper',
+        \     '\Clower': 'upper',
+        \     '\CLOWER': 'UPPER',
+        \     '\CFLYING': 'FLAT',
+        \     '\CFLAT': 'FLYING',
         \   }
         \]
 nnoremap gc :call switch#Switch({'definitions': g:case_switch_custom_definitions})<cr>
@@ -218,8 +216,9 @@ inoremap <expr> <Tab>
     \ pumvisible() ? "\<C-n>" : "<TAB>"
 inoremap <expr> <S-Tab>
     \ pumvisible() ? "\<C-p>" : "<S-TAB>"
-" inoremap <expr> <Esc>
-    " \ pumvisible() ? deoplete#close_popup() : "\<Esc>"
+
+" disable autocomplete on telescope prompts
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
@@ -263,10 +262,10 @@ nmap <silent> à] :!ctags -R --exclude='**/build/**' --exclude='**/dist/**'<CR>
 " BufExplorer
 """"""""""""""""""""""""""""""""""""""""""""""""""
 let g:bufExplorerSortBy='number'
-nnoremap àà :BufExplorer<CR>
-tnoremap àà <C-\><C-n>:BufExplorer<CR>
-nmap à. :BufExplorer<CR>b
-tmap à. <Esc>:BufExplorer<CR>b
+" nnoremap àà :BufExplorer<CR>
+" tnoremap àà <C-\><C-n>:BufExplorer<CR>
+" nmap à. :BufExplorer<CR>b
+" tmap à. <Esc>:BufExplorer<CR>b
 set hidden
 set confirm
 
@@ -434,11 +433,11 @@ nmap [ê <Plug>unimpairedMoveUp
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Fuzzy
 """"""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <M-f> :FuzzyOpen<CR>
-tnoremap <M-f> <C-\><C-n>:FuzzyOpen<CR>
-nnoremap èg viw"gy:FuzzyGrep <C-r>g
-nnoremap èG :FuzzyGrep 
-vnoremap èg "gy:FuzzyGrep <C-r>g
+" nnoremap <M-f> :FuzzyOpen<CR>
+" tnoremap <M-f> <C-\><C-n>:FuzzyOpen<CR>
+" nnoremap èg viw"gy:FuzzyGrep <C-r>g
+" nnoremap èG :FuzzyGrep 
+" vnoremap èg "gy:FuzzyGrep <C-r>g
 
 let g:fuzzy_bindkeys = 0
 autocmd FileType fuzzy tnoremap <silent> <buffer> <Esc> <C-\><C-n>:FuzzyKill<CR>
@@ -494,7 +493,7 @@ tnoremap <silent> àh <C-\><C-n>:call <SID>lazygit_launch()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 let g:editcommand_prompt = '[➭$:]'
 let g:editcommand_no_mappings = 1
-tmap <M-e> <Plug>EditCommand
+tmap <M-j> <Plug>EditCommand
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Debug strings
@@ -519,7 +518,7 @@ let g:abolish_no_mappings = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Switch source / header
 """"""""""""""""""""""""""""""""""""""""""""""""""
-map ès :call CurtineIncSw()<CR>
+noremap <silent> ès :call CurtineIncSw()<CR>
 
 let g:vimtex_compiler_progname = 'nvr'
 let g:tex_flavor='latex'
@@ -601,8 +600,8 @@ let g:far#source = 'agnvim'
 let g:far#debug = 1
 let g:far#auto_preview = 0
 
-nnoremap èr :let @p = expand("%")<CR>viwy:Far <C-R>"  <C-R>p<S-Left><Left>
-nnoremap èR viwy:Far <C-R>"  **/*<S-Left><Left>
+nnoremap èr :let @p = expand("%")<CR>viwy:Far <C-R>" <C-R>" <C-R>p<S-Left><Left>
+nnoremap èR viwy:Far <C-R>" <C-R>" **/*<S-Left><Left>
 
 """"""""""""""""""""""""""""
 " maximize.nvim
@@ -612,6 +611,31 @@ tnoremap <silent> <M-b> <C-\><C-n><Cmd>lua require('maximize').toggle()<CR>
 inoremap <silent> <M-b> <Esc><Cmd>lua require('maximize').toggle()<CR>
 xnoremap <silent> <M-b> <Esc><Cmd>lua require('maximize').toggle()<CR>
 
+""""""""""""""""""""""""""""
+" asterisk
+""""""""""""""""""""""""""""
+
+map *   <Plug>(asterisk-*)
+map #   <Plug>(asterisk-#)
+map g*  <Plug>(asterisk-g*)
+map g#  <Plug>(asterisk-g#)
+map z*  <Plug>(asterisk-z*)
+map gz* <Plug>(asterisk-gz*)
+map z#  <Plug>(asterisk-z#)
+map gz# <Plug>(asterisk-gz#)
+
+let g:asterisk#keeppos = 1
+
+nnoremap <M-f> <cmd>Telescope find_files<cr>
+nnoremap èr <cmd>Telescope grep_string<cr>
+nnoremap <M-h> <cmd>Telescope grep_string<cr>
+nnoremap èg <cmd>Telescope live_grep<cr>
+nnoremap <M-g> <cmd>Telescope live_grep<cr>
+nnoremap àà <cmd>Telescope buffers<cr>
+nnoremap <M-'> <cmd>Telescope buffers<cr>
+nnoremap <M-k> <cmd>Telescope quickfix<cr>
+inoremap <c-p> <c-r>"
+cnoremap <c-p> <c-r>"
 
 """"""""""""""""""""""""""""
 "  LUA PLUGINS
@@ -623,6 +647,8 @@ lua << EOF
 require("auto-save").setup {
     -- your config goes here
     -- or just leave it empty :)
+    debounce_delay = 200,
+    execution_message = {}
     }
 
 require'treesitter-context'.setup{
@@ -774,5 +800,142 @@ require'nvim-treesitter.configs'.setup {
     ---additional_vim_regex_highlighting = false,
   },
 }
+
+-- ["<S-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.previewers").vim_buffer_qflist.new,
+-- ["<S-q>"] = require("telescope.actions").smart_send_to_qflist + require('telescope.actions').open_qflist,
+require('telescope').setup{
+    defaults = {
+        mappings = {
+            i = {
+                ["<C-s>"] = "preview_scrolling_up",
+                ["<C-t>"] = "preview_scrolling_down",
+                ["<C-p>"] = {"<C-r>\"", type = "command"},
+                ["<M-k>"] = require("telescope.actions").smart_send_to_qflist,
+                ["<M-q>"] = require("telescope.actions").close,
+            },
+            n = {
+                ["<M-h>"] = {"<S-I><Esc>v$hy:lua require('telescope.builtin').grep_string({ search = <C-R>\"})<cr>", type="command"},
+                ["<M-k>"] = require("telescope.actions").smart_send_to_qflist,
+                ["<M-q>"] = require("telescope.actions").close,
+                ["t"] = "move_selection_next",
+                ["s"] = "move_selection_previous",
+                ["<S-s>"] = "preview_scrolling_up",
+                ["<S-t>"] = "preview_scrolling_down",
+                ["<C-s>"] = "preview_scrolling_up",
+                ["<C-t>"] = "preview_scrolling_down",
+            },
+        },
+        prompt_prefix="🔍 ",
+    },
+    pickers = {
+        find_files = {
+            theme = "dropdown",
+            layout_config = {
+                width = 0.95,
+            },
+        },
+        grep_string = {
+            theme = "dropdown",
+            layout_config = {
+                width = 0.95,
+            },
+        },
+        buffers = {
+            theme = "dropdown",
+            layout_config = {
+                width = 0.95,
+                height = 30,
+                preview_height = 15,
+            },
+        },
+        live_grep = {
+            theme = "dropdown",
+            layout_config = {
+                width = 0.95,
+            },
+        },
+        quickfix = {
+            theme = "dropdown",
+            layout_config = {
+                width = 0.95,
+            },
+        },
+    },
+}
+
+-- Make quickfix more beautiful
+
+local fn = vim.fn
+
+function _G.qftf(info)
+    local items
+    local ret = {}
+    -- The name of item in list is based on the directory of quickfix window.
+    -- Change the directory for quickfix window make the name of item shorter.
+    -- It's a good opportunity to change current directory in quickfixtextfunc :)
+    --
+    -- local alterBufnr = fn.bufname('#') -- alternative buffer is the buffer before enter qf window
+    -- local root = getRootByAlterBufnr(alterBufnr)
+    -- vim.cmd(('noa lcd %s'):format(fn.fnameescape(root)))
+    --
+    if info.quickfix == 1 then
+        items = fn.getqflist({id = info.id, items = 0}).items
+    else
+        items = fn.getloclist(info.winid, {id = info.id, items = 0}).items
+    end
+    local limit = 31
+    local fnameFmt1, fnameFmt2 = '%-' .. limit .. 's', '…%.' .. (limit - 1) .. 's'
+    local validFmt = '%s │%5d:%-3d│%s %s'
+    for i = info.start_idx, info.end_idx do
+        local e = items[i]
+        local fname = ''
+        local str
+        if e.valid == 1 then
+            if e.bufnr > 0 then
+                fname = fn.bufname(e.bufnr)
+                if fname == '' then
+                    fname = '[No Name]'
+                else
+                    fname = fname:gsub('^' .. vim.env.HOME, '~')
+                end
+                -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
+                if #fname <= limit then
+                    fname = fnameFmt1:format(fname)
+                else
+                    fname = fnameFmt2:format(fname:sub(1 - limit))
+                end
+            end
+            local lnum = e.lnum > 99999 and -1 or e.lnum
+            local col = e.col > 999 and -1 or e.col
+            local qtype = e.type == '' and '' or ' ' .. e.type:sub(1, 1):upper()
+            str = validFmt:format(fname, lnum, col, qtype, e.text)
+        else
+            str = e.text
+        end
+        table.insert(ret, str)
+    end
+    return ret
+end
+
+vim.o.qftf = '{info -> v:lua._G.qftf(info)}'
+
+-- Adapt fzf's delimiter in nvim-bqf
+require('bqf').setup({
+    func_map = {
+        pscrollup = "<S-s>",
+        pscrolldown = "<S-t>",
+        -- set to empty string to disable
+        tab = '',
+        tabb = '',
+        tabc = '',
+    },
+    filter = {
+        fzf = {
+            action_for = {},
+            extra_opts = {'--bind', 'ctrl-o:toggle-all', '--delimiter', '│', '--prompt', '> '}
+        }
+    }
+})
+
 
 EOF

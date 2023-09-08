@@ -24,13 +24,13 @@ function! ConfirmQuit(writeFile)
 endfu
 
 cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
-nnoremap <M-h> <C-w>c
+nnoremap <M-q> <C-w>c
 nnoremap <M-S-o> <C-w>o
-tnoremap <M-h> <C-\><C-n><C-w>c
+tnoremap <M-q> <C-\><C-n><C-w>c
 tnoremap <M-S-o> <C-\><C-n><C-w>o
-inoremap <M-h> <Esc><C-w>c
+inoremap <M-q> <Esc><C-w>c
 inoremap <M-S-o> <Esc><C-w>o
-xnoremap <M-h> <Esc><C-w>c
+xnoremap <M-q> <Esc><C-w>c
 xnoremap <M-S-o> <Esc><C-w>o
 " cnoremap <silent x<CR>  :call ConfirmQuit(1)<CR>
 
@@ -180,6 +180,10 @@ nnoremap <silent> <M-S-x> :BD!<CR>
 inoremap <silent> <M-S-x> <Esc>:BD!<CR>
 xnoremap <silent> <M-S-x> <Esc>:BD!<CR>
 tnoremap <silent> <M-S-x> <C-\><C-n>:BD!<CR>
+nnoremap <silent> <M-S-h> :BD!<CR><C-w>c
+inoremap <silent> <M-S-h> <Esc>:BD!<CR><C-w>c
+xnoremap <silent> <M-S-h> <Esc>:BD!<CR><C-w>c
+tnoremap <silent> <M-S-h> <C-\><C-n>:BD!<CR><C-w>c
 nnoremap <silent> <M-w> :BW<CR>
 inoremap <silent> <M-w> <Esc>:BW<CR>
 xnoremap <silent> <M-w> <Esc>:BW<CR>
@@ -189,14 +193,14 @@ inoremap <silent> <M-S-w> <Esc>:BW!<CR>
 xnoremap <silent> <M-S-w> <Esc>:BW!<CR>
 tnoremap <silent> <M-S-w> <C-\><C-n>:BW!<CR>
 
-nnoremap <silent> <M-q> :BB<CR>
-inoremap <silent> <M-q> <Esc>:BB<CR>
-xnoremap <silent> <M-q> <Esc>:BB<CR>
-tnoremap <silent> <M-q> <C-\><C-n>:BB<CR>
-nnoremap <silent> <M-g> :BF<CR>
-inoremap <silent> <M-g> <Esc>:BF<CR>
-xnoremap <silent> <M-g> <Esc>:BF<CR>
-tnoremap <silent> <M-g> <C-\><C-n>:BF<CR>
+" nnoremap <silent> <M-q> :BB<CR>
+" inoremap <silent> <M-q> <Esc>:BB<CR>
+" xnoremap <silent> <M-q> <Esc>:BB<CR>
+" tnoremap <silent> <M-q> <C-\><C-n>:BB<CR>
+" nnoremap <silent> <M-g> :BF<CR>
+" inoremap <silent> <M-g> <Esc>:BF<CR>
+" xnoremap <silent> <M-g> <Esc>:BF<CR>
+" tnoremap <silent> <M-g> <C-\><C-n>:BF<CR>
 
 nnoremap <silent> àb :b#<CR>
 tnoremap <silent> àb <C-\><C-n>:b#<CR>
@@ -222,41 +226,3 @@ tnoremap <silent> àj <C-\><C-n>:b9<CR>
 
 nnoremap <silent> àc :b#<CR>
 tnoremap <silent> àc <C-\><C-n>:b#<CR>
-
-" easy cd, ls and pwd opérations
-nnoremap <M-'><M-'> :call feedkeys(':e<space><tab>', 't')<cr>
-inoremap <M-'><M-'> <Esc>:call feedkeys(':e<space><tab>', 't')<cr>
-xnoremap <M-'><M-'> <Esc>:call feedkeys(':e<space><tab>', 't')<cr>
-tnoremap <M-'><M-'> <C-\><C-n>:call feedkeys(':e<space><tab>', 't')<cr>
-nnoremap <M-'><M-v> :call feedkeys(':cd<space><tab>', 't')<cr>
-inoremap <M-'><M-v> <Esc>:call feedkeys(':cd<space><tab>', 't')<cr>
-xnoremap <M-'><M-v> <Esc>:call feedkeys(':cd<space><tab>', 't')<cr>
-tnoremap <M-'><M-v> <C-\><C-n>:call feedkeys(':cd<space><tab>', 't')<cr>
-nnoremap <M-'><M-c> :call feedkeys(':lcd<space><tab>', 't')<cr>
-inoremap <M-'><M-c> <Esc>:call feedkeys(':lcd<space><tab>', 't')<cr>
-xnoremap <M-'><M-c> <Esc>:call feedkeys(':lcd<space><tab>', 't')<cr>
-tnoremap <M-'><M-c> <C-\><C-n>:call feedkeys(':lcd<space><tab>', 't')<cr>
-nnoremap <M-'><M-w> :pwd<cr>
-inoremap <M-'><M-w> <Esc>:pwd<cr>
-xnoremap <M-'><M-w> <Esc>:pwd<cr>
-tnoremap <M-'><M-w> <C-\><C-n>:pwd<cr>
-
-" Allows changing tmux path
-" if exists("$TMUX")
-    " " Get the environment variable
-    " let tmux_pane_name_cmd = 'tmux display -p \#D'
-    " let tmux_pane_name = substitute(system(g:tmux_pane_name_cmd), "\n", "", "")
-    " let tmux_env_var = "TMUX_PWD_" . substitute(g:tmux_pane_name, "%", "", "")
-    " unlet tmux_pane_name tmux_pane_name_cmd
-    " function! BroadcastTmuxCwd(s1)
-        " execute("cd ".a:s1)
-        " let filename = substitute(expand(getcwd()), $HOME, "~", "")
-        " let output = system("tmux set -g status-right '".l:filename."  #[bg=yellow]#(echo $USER)@#H'")
-    " endfunction
-    " command! -nargs=? -complete=file CD
-        " \ :call BroadcastTmuxCwd('<args>')
-    " cmap cd CD
-    " cmap lcd lc<space><bs>d
-" endif
-
-" cmap te<Enter> te<Enter>A

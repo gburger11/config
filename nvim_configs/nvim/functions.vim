@@ -155,22 +155,66 @@ endif
 " KILL TERM WHEN EXITING
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:kill_all_terminal()
-    let @x="exit\n\n"
-    let @e="\n\n"
     for i in range(1, 1000)
-        if bufname(i) =~ '^term://*'
-            echo "closing terminal : ".i
-            execute "b".i
-            execute 'normal "ep'
-            execute 'normal "xp'
-            execute 'normal "ep'
-            execute 'normal "ep'
+        if buflisted(i) && getbufvar(i, 'terminal_job_id', 'NO_TERM') !=# 'NO_TERM'
+            let is_docker = (getbufline(i, "$")[0][0:1] ==# "D|")  " Ugly way of checking if in Docker. More robust ??
+            if is_docker
+                call chansend(getbufvar(i, 'terminal_job_id'), [
+                            \ "\<C-q>exit",
+                            \ "" ])
+                sleep 20m
+            endif
+
+            let is_dipython = (getbufline(i, "$")[0][0:3] ==# "In [")  " Ugly way of checking if in Docker. More robust ??
+            if is_dipython
+                call chansend(getbufvar(i, 'terminal_job_id'), [
+                        \ "\<C-q>exit",
+                        \ "",
+                        \ ])
+                sleep 200m
+            endif
+
+            call chanclose(getbufvar(i, 'terminal_job_id'))
         endif
     endfor
-    execute "q"
+    execute "qa"
 endfunction
 
 nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
+
+function! s:switch_env(n_env)
+    for i in range(1, 1000)
+        if buflisted(i) && getbufvar(i, 'terminal_job_id', 'NO_TERM') !=# 'NO_TERM'
+            let is_docker = (getbufline(i, "$")[0][0:1] ==# "D|")  " Ugly way of checking if in Docker. More robust ??
+            if is_docker
+                call chansend(getbufvar(i, 'terminal_job_id'), [
+                        \ "\<C-q>switchEnv ".a:n_env,
+                        \ "",
+                        \ ])
+                sleep 20m
+            endif
+
+            let is_dipython = (getbufline(i, "$")[0][0:3] ==# "In [")  " Ugly way of checking if in Docker. More robust ??
+            if is_dipython
+                call chansend(getbufvar(i, 'terminal_job_id'), [
+                        \ "\<C-q>exit",
+                        \ "",
+                        \ ])
+                sleep 200m
+            endif
+
+            call chansend(getbufvar(i, 'terminal_job_id'), [
+                        \ "\<C-q>switchEnv ".a:n_env,
+                        \ "",
+                        \ ])
+        endif
+    endfor
+    execute "cd ~/workspace_".a:n_env."/src/wandercode/"
+    echo "Switched to env ".a:n_env
+endfunction
+
+nnoremap <silent> <script> <M-S-S>c :call <SID>switch_env(0)<CR>
+nnoremap <silent> <script> <M-S-S>t :call <SID>switch_env(1)<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""

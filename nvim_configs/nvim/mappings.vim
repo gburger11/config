@@ -20,7 +20,6 @@ noremap èll cc
 nnoremap x "_x
 nnoremap èx x
 nnoremap dl "_cc<ESC>
-vnoremap p "_dP
 
 nnoremap Y y$
 
@@ -52,7 +51,12 @@ noremap S k
 noremap g0 0
 noremap g$ $
 
-nnoremap èp '[V']
+" When saving, `[ and `] are forgotten, so we cannot select pasted text with auto-save
+" In addition, for visual, you mustn't yank text
+vnoremap p "_dP`]mQ`[mP
+nnoremap p p`]mQ`[mP
+nnoremap <expr> èp '`P' . getregtype()[0] . '`Q'
+
 nnoremap <silent> éd /\v[<=>]{7}(<space>\|$)<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -60,28 +64,15 @@ nnoremap <silent> éd /\v[<=>]{7}(<space>\|$)<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " nnoremap < <<
 " nnoremap > >>
-vnoremap è> >gv
-vnoremap è< <gv
+vnoremap » >gv
+vnoremap » >gv
+vnoremap « <gv
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fast insert
-""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap èa a_<Esc>r
-nnoremap èi i_<Esc>r
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " Swap cleaning
 """"""""""""""""""""""""""""""""""""""""""""""""
 nnoremap àw :!rm -r ~/.local/share/nvim/swap/*<CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""
-" Change workspaces
-""""""""""""""""""""""""""""""""""""""""""""""""
-nmap àew :cd ~/wdc_workspace/src/wandercode<CR>
-nmap àem :cd ~/main_workspace/src/wandercode<CR>
-nmap àec :cd ~/cybath_workspace/src/wandercode<CR>
-nmap àeb :cd ~/balance_workspace/src/wandercode<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " Jump stays in buffer

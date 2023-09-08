@@ -20,8 +20,6 @@ set t_Co=256
 " " hi DiffDelete cterm=NONE ctermfg=NONE ctermbg=124
 " " hi DiffAdd cterm=NONE ctermfg=NONE ctermbg=22
 
-set nohlsearch
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Highlight of errors
