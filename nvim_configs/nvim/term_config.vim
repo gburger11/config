@@ -180,10 +180,6 @@ nnoremap <silent> <M-S-x> :BD!<CR>
 inoremap <silent> <M-S-x> <Esc>:BD!<CR>
 xnoremap <silent> <M-S-x> <Esc>:BD!<CR>
 tnoremap <silent> <M-S-x> <C-\><C-n>:BD!<CR>
-nnoremap <silent> <M-S-h> :BD!<CR><C-w>c
-inoremap <silent> <M-S-h> <Esc>:BD!<CR><C-w>c
-xnoremap <silent> <M-S-h> <Esc>:BD!<CR><C-w>c
-tnoremap <silent> <M-S-h> <C-\><C-n>:BD!<CR><C-w>c
 nnoremap <silent> <M-w> :BW<CR>
 inoremap <silent> <M-w> <Esc>:BW<CR>
 xnoremap <silent> <M-w> <Esc>:BW<CR>

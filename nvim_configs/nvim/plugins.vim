@@ -21,7 +21,7 @@ Plug 'morhetz/gruvbox'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow'  " Matching parentheses
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}  " Show context
 " Help syntax
@@ -57,6 +57,7 @@ Plug 'kshenoy/vim-signature'  " Show marks in the margin
 Plug 'scrooloose/nerdtree'
 Plug 'gburger11/CurtineIncSw.vim'  " Swap from source file to header file
 Plug 'brooth/far.vim'  " Find And Replace very powerful
+Plug 'folke/which-key.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
@@ -69,7 +70,7 @@ Plug 'haya14busa/vim-asterisk'  " Does the same for * and # searches
 Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'arakashic/chromatica.nvim' " Strange coloring. Maybe need personalization…
 Plug 'tyru/open-browser.vim'
-Plug 'AndrewRadev/switch.vim'
+Plug 'AndrewRadev/switch.vim'  " Switch between true/false, left/right...
 Plug 'craigemery/vim-autotag'
 Plug 'bergercookie/vim-debugstring'
 " Terminal plugins
@@ -140,31 +141,31 @@ let g:autoimport#python#db_import_as = {
 " Easy-motion
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
-map é <Plug>(easymotion-prefix)
-map éé <Plug>(easymotion-bd-f)
-map éw <Plug>(easymotion-bd-w)
-map ée <Plug>(easymotion-bd-e)
-map én <Plug>(easymotion-vim-n)
-map éN <Plug>(easymotion-vim-N)
-map é/ <Plug>(easymotion-sn)
+" map é <Plug>(easymotion-prefix)
+" map éé <Plug>(easymotion-bd-f)
+" map éw <Plug>(easymotion-bd-w)
+" map ée <Plug>(easymotion-bd-e)
+" map én <Plug>(easymotion-vim-n)
+" map éN <Plug>(easymotion-vim-N)
+" map é/ <Plug>(easymotion-sn)
 
-" map éW <Plug>(easymotion-W)
-" map éàe <Plug>(easymotion-ge)
-" map éàE <Plug>(easymotion-gE)
-" nmap ét <Plug>(easymotion-j)
-" nmap és <Plug>(easymotion-w)
-" nmap ér <Plug>(easymotion-sn)
-" nmap éy <Plug>(easymotion-bd-t)
-" nmap éx <Plug>(easymotion-bd-n)
-" nmap é* <Plug>(easymotion-next)
-" nmap é# <Plug>(easymotion-prev)
-" nmap én <Plug>(easymotion-bd-n)
-"
-map étt <Plug>(easymotion-sol-j)
-map été <Plug>(easymotion-eol-j)
-map éss <Plug>(easymotion-sol-k)
-map ésé <Plug>(easymotion-eol-k)
-nmap é. <Plug>(easymotion-repeat)
+" " map éW <Plug>(easymotion-W)
+" " map éàe <Plug>(easymotion-ge)
+" " map éàE <Plug>(easymotion-gE)
+" " nmap ét <Plug>(easymotion-j)
+" " nmap és <Plug>(easymotion-w)
+" " nmap ér <Plug>(easymotion-sn)
+" " nmap éy <Plug>(easymotion-bd-t)
+" " nmap éx <Plug>(easymotion-bd-n)
+" " nmap é* <Plug>(easymotion-next)
+" " nmap é# <Plug>(easymotion-prev)
+" " nmap én <Plug>(easymotion-bd-n)
+" "
+" map étt <Plug>(easymotion-sol-j)
+" map été <Plug>(easymotion-eol-j)
+" map éss <Plug>(easymotion-sol-k)
+" map ésé <Plug>(easymotion-eol-k)
+" nmap é. <Plug>(easymotion-repeat)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Switch
@@ -627,15 +628,22 @@ map gz# <Plug>(asterisk-gz#)
 let g:asterisk#keeppos = 1
 
 nnoremap <M-f> <cmd>Telescope find_files<cr>
-nnoremap èr <cmd>Telescope grep_string<cr>
+" nnoremap èr <cmd>Telescope grep_string<cr>
 nnoremap <M-h> <cmd>Telescope grep_string<cr>
-nnoremap èg <cmd>Telescope live_grep<cr>
+" nnoremap èg <cmd>Telescope live_grep<cr>
 nnoremap <M-g> <cmd>Telescope live_grep<cr>
-nnoremap àà <cmd>Telescope buffers<cr>
+" nnoremap àà <cmd>Telescope buffers<cr>
 nnoremap <M-'> <cmd>Telescope buffers<cr>
 nnoremap <M-k> <cmd>Telescope quickfix<cr>
+nnoremap <M-s-h> <cmd>Telescope resume<cr>
+nnoremap <M-s-g> <cmd>Telescope pickers<cr>
 inoremap <c-p> <c-r>"
 cnoremap <c-p> <c-r>"
+
+""""""""""""""""""""""""""""
+" vim-signature
+""""""""""""""""""""""""""""
+let g:SignatureIncludeMarks='abcdefghijklmnorstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'  " Remove pq from visible marks
 
 """"""""""""""""""""""""""""
 "  LUA PLUGINS
@@ -814,7 +822,6 @@ require('telescope').setup{
                 ["<M-q>"] = require("telescope.actions").close,
             },
             n = {
-                ["<M-h>"] = {"<S-I><Esc>v$hy:lua require('telescope.builtin').grep_string({ search = <C-R>\"})<cr>", type="command"},
                 ["<M-k>"] = require("telescope.actions").smart_send_to_qflist,
                 ["<M-q>"] = require("telescope.actions").close,
                 ["t"] = "move_selection_next",
@@ -826,6 +833,9 @@ require('telescope').setup{
             },
         },
         prompt_prefix="🔍 ",
+        cache_picker={
+            num_pickers = 10,
+        },
     },
     pickers = {
         find_files = {
@@ -847,11 +857,32 @@ require('telescope').setup{
                 height = 30,
                 preview_height = 15,
             },
+            mappings = {
+                i = {
+                    ["<M-f>"] = {
+                        "<Esc>02<right>v$hy:lua require('telescope.builtin').find_files { default_text = require('telescope.actions.state').get_current_line() }<CR>",
+                        type="command"},
+                },
+                n = {
+                    ["x"] = "delete_buffer",
+                    ["<M-f>"] = {
+                        "02<right>v$hy:lua require('telescope.builtin').find_files { default_text = require('telescope.actions.state').get_current_line() }<cr>",
+                        type="command"},
+                },
+            },
         },
         live_grep = {
             theme = "dropdown",
             layout_config = {
                 width = 0.95,
+            },
+            mappings = {
+                i = {
+                    ["<M-h>"] = "to_fuzzy_refine",
+                },
+                n = {
+                    ["<M-h>"] = "to_fuzzy_refine",
+                },
             },
         },
         quickfix = {
@@ -936,6 +967,30 @@ require('bqf').setup({
         }
     }
 })
+
+
+-- which key
+local wk = require("which-key")
+
+wk.register({
+
+  é = {
+    name = "Movements", -- optional group name
+    é = {"<Plug>(easymotion-bd-f)", "[easy] Move to char"},
+    w = {"<Plug>(easymotion-bd-w)", "[easy] Move to start word"},
+    e = {"<Plug>(easymotion-bd-e)", "[easy] Move to end word"},
+    ["."] = {"<Plug>(easymotion-repeat)", "[easy] Repeat last move"},
+    n = {"<Plug>(easymotion-vim-n)", "[easy] Next search"},
+    N = {"<Plug>(easymotion-vim-N)", "[easy] previous search"},
+    ["/"] = {"<Plug>(easymotion-sn)", "[easy] search"},
+    d = "Next git conflict position",
+  },
+  è = {
+      name = "Débug",
+  },
+})
+local presets = require("which-key.plugins.presets")
+presets.operators["c"] = nil
 
 
 EOF

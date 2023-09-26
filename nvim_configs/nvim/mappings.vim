@@ -53,9 +53,9 @@ noremap g$ $
 
 " When saving, `[ and `] are forgotten, so we cannot select pasted text with auto-save
 " In addition, for visual, you mustn't yank text
-vnoremap p "_dP`]mQ`[mP
-nnoremap p p`]mQ`[mP
-nnoremap <expr> èp '`P' . getregtype()[0] . '`Q'
+vnoremap p "_dP`]mq`[mp
+nnoremap p p`]mq`[mp
+nnoremap <expr> èp '`p' . getregtype()[0] . '`q'
 
 nnoremap <silent> éd /\v[<=>]{7}(<space>\|$)<CR>
 
