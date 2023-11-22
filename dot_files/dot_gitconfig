@@ -34,7 +34,7 @@
     sdu = switch -d upstream/upstairs
     cp = cherry-pick
     ft = fetch
-    fa = fetch --all
+    fa = fetch --prune --all
     st = status
     br = branch
     ds = diff --stat
