@@ -35,8 +35,8 @@ xkb_symbols "bepo_perso" {
     name[Group1]= "French (Bepo, ergonomic, Dvorak way)";
 
     // Special keys
-    key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
-    key <BKSL> {[  ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla]};
+    key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla]};
+    key <BKSL> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
     key <RALT> {[            Escape]};
 
     // First row
