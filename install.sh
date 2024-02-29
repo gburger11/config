@@ -2,7 +2,7 @@
 sudo add-apt-repository ppa:lazygit-team/release  # Get lazygit repo
 sudo apt-get update
 
-sudo apt install tree tmux xclip curl vim byobu python3-pip zsh python meld fzy silversearcher-ag exuberant-ctags par lazygit
+sudo apt install tree tmux xclip curl vim tmux python3-pip zsh meld fzy silversearcher-ag exuberant-ctags par lazygit
 
 ln -s $HOME/Private/config/nvim_configs/nvim $HOME/.config
 
@@ -18,7 +18,6 @@ mkdir -p $HOME/.local
 mkdir -p $HOME/.local/bin
 ln -s $HOME/.soft_manually_installed/nvim.appimage $HOME/.local/bin/nvim
 pip3 install -U pynvim neovim-remote black pylint mypy isort --user
-pip2 install -U pynvim --user
 cd -
 
 cd nvim_configs

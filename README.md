@@ -94,7 +94,8 @@ Add in bashrc
 - Install zsh (and make it default with `chsh -s $(which zsh)` and log out/in)
 - Install neovim (by apt-get in Ubuntu 18 !!)
 - Install neovim-remote (`pip3 install neovim-remote`)
-- Install byobu (by apt-get in Ubuntu 18 !!)
+- Install tmux
+- ~~Install byobu (by apt-get in Ubuntu 18 !!)~~
 - Copy `.zshrc` (don't forget to change user name if need be!)
 - Import oh-my-zsh from `git@github.com:guibur/oh-my-zsh.git` (don't forget to change user name in themes/guillaumeburger.zsh-theme if need be)
 - Copy all files and folders except plugins to ~/.config/nvim
