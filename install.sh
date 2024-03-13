@@ -2,7 +2,7 @@
 sudo add-apt-repository ppa:lazygit-team/release  # Get lazygit repo
 sudo apt-get update
 
-sudo apt install tree tmux xclip curl vim tmux python3-pip zsh meld fzy silversearcher-ag exuberant-ctags par lazygit
+sudo apt install tree tmux xclip curl vim tmux python3-pip zsh meld fzy silversearcher-ag exuberant-ctags par lazygit ripgrep fd-find
 
 ln -s $HOME/Private/config/nvim_configs/nvim $HOME/.config
 

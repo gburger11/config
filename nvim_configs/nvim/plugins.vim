@@ -60,7 +60,7 @@ Plug 'brooth/far.vim'  " Find And Replace very powerful
 Plug 'folke/which-key.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.6'}
 Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'haya14busa/is.vim'  " IncSearch -> color search only when searching
@@ -766,7 +766,7 @@ require'treesitter-context'.setup{
 }
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "help", "python", "cpp" },
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
