@@ -1,200 +1,200 @@
 gui:
-  scrollHeight: 2
-  scrollPastBottom: true
-  mouseEvents: true
-  skipUnstageLineWarning: false
-  skipStashWarning: true
-  sidePanelWidth: 0.3333
-  expandFocusedSidePanel: false
-  mainPanelSplitMode: flexible
-  theme:
-    lightTheme: false
-    activeBorderColor:
-    - green
-    - bold
-    inactiveBorderColor:
-    - white
-    optionsTextColor:
-    - blue
-    selectedLineBgColor:
-    - default
-    selectedRangeBgColor:
-    - blue
-  commitLength:
-    show: true
-  skipNoStagedFilesWarning: false
-  showFileTree: false
+    scrollHeight: 2
+    scrollPastBottom: true
+    mouseEvents: true
+    skipDiscardChangeWarning: false
+    skipStashWarning: true
+    sidePanelWidth: 0.3333
+    expandFocusedSidePanel: false
+    mainPanelSplitMode: flexible
+    theme:
+        lightTheme: false
+        activeBorderColor:
+            - green
+            - bold
+        inactiveBorderColor:
+            - white
+        optionsTextColor:
+            - blue
+        selectedLineBgColor:
+            - default
+        selectedRangeBgColor:
+            - blue
+    commitLength:
+        show: true
+    skipNoStagedFilesWarning: false
+    showFileTree: false
 git:
-  paging:
-    colorArg: always
-    pager: ""
-    useConfig: false
-  merging:
-    manualCommit: false
-    args: ""
-  pull:
-    mode: merge
-  skipHookPrefix: WIP
-  autoFetch: true
-  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' {{branchName}} --
-  allBranchesLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-  overrideGpg: false
-  disableForcePushing: false
-  commitPrefixes: {}
+    paging:
+        colorArg: always
+        pager: ""
+        useConfig: false
+    merging:
+        manualCommit: false
+        args: ""
+    pull:
+        mode: merge
+    skipHookPrefix: WIP
+    autoFetch: true
+    branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' {{branchName}} --
+    allBranchesLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    overrideGpg: false
+    disableForcePushing: false
+    commitPrefixes: {}
 update:
-  method: prompt
-  days: 14
+    method: prompt
+    days: 14
 refresher:
-  refreshInterval: 10
-  fetchInterval: 60
+    refreshInterval: 10
+    fetchInterval: 60
 reporting: undetermined
 splashUpdatesIndex: 0
 confirmOnQuit: false
 quitOnTopLevelReturn: false
 keybinding:
-  universal:
-    quit: q
-    quit-alt1: <c-c>
-    return: <esc>
-    quitWithoutChangingDirectory: (
-    togglePanel: <tab>
-    prevItem: <up>
-    nextItem: <down>
-    prevItem-alt: s
-    nextItem-alt: t
-    prevPage: ','
-    nextPage: .
-    gotoTop: g
-    gotoBottom: G
-    prevBlock: <left>
-    nextBlock: <right>
-    prevBlock-alt: c
-    nextBlock-alt: r
-    nextMatch: "n"
-    prevMatch: "N"
-    startSearch: /
-    optionMenu: x
-    optionMenu-alt1: '?'
-    select: <space>
-    goInto: <enter>
-    confirm: <enter>
-    confirm-alt1: "y"
-    remove: d
-    new: "n"
-    edit: e
-    openFile: o
-    scrollUpMain: <pgup>
-    scrollDownMain: <pgdown>
-    scrollUpMain-alt1: S
-    scrollDownMain-alt1: T
-    scrollUpMain-alt2: <c-u>
-    scrollDownMain-alt2: <c-d>
-    executeCustomCommand: ':'
-    createRebaseOptionsMenu: B
-    pushFiles: <c-p>
-    pullFiles: <c-P>
-    refresh: R
-    createPatchOptionsMenu: <c-p>
-    nextTab: ']'
-    prevTab: '['
-    nextScreenMode: +
-    prevScreenMode: _
-    undo: z
-    redo: <c-z>
-    filteringMenu: <c-h>
-    diffingMenu: W
-    diffingMenu-alt: <c-e>
-    copyToClipboard: <c-o>
-    submitEditorText: <enter>
-    appendNewline: <a-enter>
-  status:
-    checkForUpdate: u
-    recentRepos: <enter>
-    allBranchesLogGraph: a
-  files:
-    commitChanges: m
-    commitChangesWithoutHook: w
-    amendLastCommit: A
-    commitChangesWithEditor: M
-    ignoreFile: i
-    refreshFiles: R
-    stashAllChanges: h
-    viewStashOptions: H
-    toggleStagedAll: a
-    viewResetOptions: D
-    fetch: f
-    toggleTreeView: '`'
-    openMergeTool: <c-m>
-  branches:
-    createPullRequest: o
-    copyPullRequestURL: <c-y>
-    checkoutBranchByName: k
-    forceCheckoutBranch: F
-    rebaseBranch: b
-    renameBranch: m
-    mergeIntoCurrentBranch: M
-    viewGitFlowOptions: i
-    fastForward: f
-    pushTag: P
-    setUpstream: u
-    fetchRemote: f
-  commits:
-    squashDown: h
-    renameCommit: m
-    renameCommitWithEditor: M
-    viewResetOptions: Z
-    markCommitAsFixup: <c-f>
-    createFixupCommit: F
-    squashAboveCommits: H
-    moveDownCommit: <c-t>
-    moveUpCommit: <c-s>
-    amendToCommit: A
-    pickCommit: é
-    revertCommit: <C-R>
-    cherryPickCopy: k
-    cherryPickCopyRange: K
-    pasteCommits: v
-    tagCommit: É
-    checkoutCommit: <space>
-    resetCherryPick: <c-K>
-    copyCommitMessageToClipboard: <c-y>
-  stash:
-    popStash: p
-  commitFiles:
-    checkoutCommitFile: k
-  main:
-    toggleDragSelect: v
-    toggleDragSelect-alt: V
-    toggleSelectHunk: a
-    pickBothHunks: b
-  submodules:
-    init: i
-    update: u
-    bulkMenu: b
+    universal:
+        quit: q
+        quit-alt1: <c-c>
+        return: <esc>
+        quitWithoutChangingDirectory: (
+        togglePanel: <tab>
+        prevItem: <up>
+        nextItem: <down>
+        prevItem-alt: s
+        nextItem-alt: t
+        prevPage: ','
+        nextPage: .
+        gotoTop: g
+        gotoBottom: G
+        prevBlock: <left>
+        nextBlock: <right>
+        prevBlock-alt: c
+        nextBlock-alt: r
+        nextMatch: "n"
+        prevMatch: "N"
+        startSearch: /
+        optionMenu: x
+        optionMenu-alt1: '?'
+        select: <space>
+        goInto: <enter>
+        confirm: <enter>
+        confirm-alt1: "y"
+        remove: d
+        new: "n"
+        edit: e
+        openFile: o
+        scrollUpMain: <pgup>
+        scrollDownMain: <pgdown>
+        scrollUpMain-alt1: S
+        scrollDownMain-alt1: T
+        scrollUpMain-alt2: <c-u>
+        scrollDownMain-alt2: <c-d>
+        executeCustomCommand: ':'
+        createRebaseOptionsMenu: B
+        pushFiles: <c-p>
+        pullFiles: <c-P>
+        refresh: R
+        createPatchOptionsMenu: <c-p>
+        nextTab: ']'
+        prevTab: '['
+        nextScreenMode: +
+        prevScreenMode: _
+        undo: z
+        redo: <c-z>
+        filteringMenu: <c-n>
+        diffingMenu: W
+        diffingMenu-alt: <c-e>
+        copyToClipboard: <c-o>
+        submitEditorText: <enter>
+        appendNewline: <a-enter>
+    status:
+        checkForUpdate: u
+        recentRepos: <enter>
+        allBranchesLogGraph: a
+    files:
+        commitChanges: m
+        commitChangesWithoutHook: w
+        amendLastCommit: A
+        commitChangesWithEditor: M
+        ignoreFile: i
+        refreshFiles: R
+        stashAllChanges: h
+        viewStashOptions: H
+        toggleStagedAll: a
+        viewResetOptions: D
+        fetch: f
+        toggleTreeView: '`'
+        openMergeTool: <c-n>
+    branches:
+        createPullRequest: o
+        copyPullRequestURL: <c-y>
+        checkoutBranchByName: k
+        forceCheckoutBranch: F
+        rebaseBranch: b
+        renameBranch: m
+        mergeIntoCurrentBranch: M
+        viewGitFlowOptions: i
+        fastForward: f
+        pushTag: P
+        setUpstream: u
+        fetchRemote: f
+    commits:
+        squashDown: h
+        renameCommit: m
+        renameCommitWithEditor: M
+        viewResetOptions: Z
+        markCommitAsFixup: <c-f>
+        createFixupCommit: F
+        squashAboveCommits: H
+        moveDownCommit: <c-t>
+        moveUpCommit: <c-s>
+        amendToCommit: A
+        pickCommit: é
+        revertCommit: <C-R>
+        cherryPickCopy: k
+        cherryPickCopyRange: K
+        pasteCommits: v
+        tagCommit: É
+        checkoutCommit: <space>
+        resetCherryPick: <c-K>
+        copyCommitMessageToClipboard: <c-y>
+    stash:
+        popStash: p
+    commitFiles:
+        checkoutCommitFile: k
+    main:
+        toggleDragSelect: v
+        toggleDragSelect-alt: V
+        toggleSelectHunk: a
+        pickBothHunks: b
+    submodules:
+        init: i
+        update: u
+        bulkMenu: b
 os:
-  openCommand: sh -c "nvr {{filename}} -cc close >/dev/null"
-  openLinkCommand: sh -c "xdg-open {{link}} >/dev/null"
+    openCommand: sh -c "nvr {{filename}} -cc close >/dev/null"
+    openLinkCommand: sh -c "xdg-open {{link}} >/dev/null"
 disableStartupPopups: false
 customCommands:
-  - key: f
-    command: 'git fetch --all'
-    context: 'localBranches'
-    loadingText: 'Fetching all'
-    description: 'fetch all'
-  - key: p
-    command: 'git push -u origin {{.SelectedLocalBranch.Name}}'
-    context: 'localBranches'
-    loadingText: 'Pushing current branch to origin'
-    description: 'push current branch'
-  - key: P
-    command: 'git push -u origin {{.SelectedLocalBranch.Name}} --force'
-    context: 'localBranches'
-    loadingText: 'Pushing current branch to origin (force)'
-    description: 'push current branch (with force)'
-  - key: k
-    command: 'python tools/ide/autoformat.py'
-    context: 'files'
-    loadingText: 'Formatting Python code...'
-    description: 'launch python formatting tools'
+    - key: f
+      command: 'git fetch --all'
+      context: 'localBranches'
+      loadingText: 'Fetching all'
+      description: 'fetch all'
+    - key: p
+      command: 'git push -u origin {{.SelectedLocalBranch.Name}}'
+      context: 'localBranches'
+      loadingText: 'Pushing current branch to origin'
+      description: 'push current branch'
+    - key: P
+      command: 'git push -u origin {{.SelectedLocalBranch.Name}} --force'
+      context: 'localBranches'
+      loadingText: 'Pushing current branch to origin (force)'
+      description: 'push current branch (with force)'
+    - key: k
+      command: 'python tools/ide/autoformat.py'
+      context: 'files'
+      loadingText: 'Formatting Python code...'
+      description: 'launch python formatting tools'
 services: {}
 notARepository: prompt

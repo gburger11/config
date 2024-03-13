@@ -627,11 +627,15 @@ map gz# <Plug>(asterisk-gz#)
 
 let g:asterisk#keeppos = 1
 
+"""""""""""""""""""""""""""""""""""""""""""""""
+"  Telescope
+"""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <M-f> <cmd>Telescope find_files<cr>
 nnoremap <M-h> <cmd>Telescope grep_string<cr>
 vnoremap <M-h> "sy<cmd>lua require("telescope.builtin").grep_string({search = vim.fn.getreg('s')})<cr>
 nnoremap <M-g> <cmd>Telescope live_grep<cr>
 nnoremap <M-'> <cmd>Telescope buffers<cr>
+nnoremap <M-’> <cmd>Telescope buffers<cr>
 nnoremap <M-k> <cmd>Telescope quickfix<cr>
 nnoremap <M-s-h> <cmd>Telescope resume<cr>
 nnoremap <M-s-g> <cmd>Telescope pickers<cr>
