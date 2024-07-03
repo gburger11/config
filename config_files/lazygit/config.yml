@@ -50,7 +50,7 @@ refresher:
 reporting: undetermined
 splashUpdatesIndex: 0
 confirmOnQuit: false
-quitOnTopLevelReturn: false
+quitOnTopLevelReturn: true
 keybinding:
     universal:
         quit: q

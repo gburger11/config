@@ -18,6 +18,7 @@ augroup TypeDependentSettings
 
     au TermOpen * call s:termSpecificLocalChanges() | call s:termSpecificChangingChanges()
     au BufEnter,WinEnter * call s:termSpecificChangingChanges()
+    au TermOpen term://*lazygit* tnoremap <buffer> <esc> <esc>| tnoremap <buffer> <c-n> <c-\><c-n>
 
 augroup END
 
