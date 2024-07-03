@@ -8,6 +8,10 @@ endif
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.config/nvim/plugins')
 
+" Plug 'benlubas/molten-nvim'
+Plug 'luk400/vim-jukit'
+Plug 'jpalardy/vim-slime'
+
 " Motion
 Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-smooth-scroll'
@@ -16,10 +20,10 @@ Plug 'majutsushi/tagbar'
 Plug 'rbong/vim-vertical'  " Motion block by block (mapped to <C-t> and <C-s>)
 Plug 'tpope/vim-unimpaired'
 Plug 'Pocco81/auto-save.nvim'
+Plug 'jeetsukumaran/vim-pythonsense'  " Motion and selection of python objects
 " Colors
 Plug 'morhetz/gruvbox'
-Plug 'blueyed/vim-diminactive'
-Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'levouh/tint.nvim'
 
 Plug 'luochen1990/rainbow'  " Matching parentheses
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
@@ -33,7 +37,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'preservim/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'Vimjas/vim-python-pep8-indent'  " Necessary for python indentation
-Plug 'psf/black', { 'tag': '22.6.0' }  " TODO 30/08/2022 : stable = 21.9b0 raises `got int, expected bool`. Go back to stable when fixed
+Plug 'psf/black',
 Plug 'stsewd/isort.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Yggdroot/indentLine'  " displays indentation levels with spaces (with ¦)
 Plug 'godlygeek/tabular'
@@ -46,7 +50,6 @@ Plug 'udalov/kotlin-vim'
 " Plug 'wellle/context.vim'  " Awesome, but slow when tested in 02/2023
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'cloudhead/neovim-fuzzy'
-Plug 'guibur/bufexplorer'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
 Plug 'declancm/maximize.nvim'
@@ -60,6 +63,7 @@ Plug 'brooth/far.vim'  " Find And Replace very powerful
 Plug 'folke/which-key.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.6'}
 Plug 'kevinhwang91/nvim-bqf'
 
@@ -218,6 +222,14 @@ inoremap <expr> <Tab>
 inoremap <expr> <S-Tab>
     \ pumvisible() ? "\<C-p>" : "<S-TAB>"
 
+call deoplete#custom#option('candidate_marks', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    execute 'inoremap <expr> ' . i .'ê pumvisible() ? deoplete#insert_candidate(' . i . ') : "' . i . '"'
+endfor
+" for [i, l] in [[0, 'c'], [1, 't'], [2, 's'], [3, 'r'], [4, 'n'], [5, 'm'], [6, 'v'], [7, 'd'], [8, 'l'], [9, 'j']]
+    " execute 'inoremap <expr> <M-' . l .'> pumvisible() ? deoplete#insert_candidate(' . i . ') : "' . l . '"'
+" endfor
+
 " disable autocomplete on telescope prompts
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
@@ -237,7 +249,7 @@ let g:neomake_py_mypy_maker = {
     \ }
 let g:neomake_python_enabled_makers = ['pylint', 'mypy']
 
-let g:neomake_cpp_enable_makers = ['clang']
+let g:neomake_cpp_enable_makers = ['clang', 'cppcheck']
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -257,27 +269,6 @@ let g:tagbar_sort = 0
 " Tags
 """"""""""""""""""""""""""""""""""""""""""""""""""
 nmap <silent> à] :!ctags -R --exclude='**/build/**' --exclude='**/dist/**'<CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" BufExplorer
-""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:bufExplorerSortBy='number'
-" nnoremap àà :BufExplorer<CR>
-" tnoremap àà <C-\><C-n>:BufExplorer<CR>
-" nmap à. :BufExplorer<CR>b
-" tmap à. <Esc>:BufExplorer<CR>b
-set hidden
-set confirm
-
-" Need to change plugging mappings internally
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""
-" Dim inactive: dim inactive windows.
-""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:diminactive_enable_focus = 1
-let g:diminactive_enable_focus = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -320,8 +311,6 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Camel case and undercore motion and text objects
 """"""""""""""""""""""""""""""""""""""""""""""""""
-let g:bufExplorerDisableDefaultKeyMapping = 1  " Avoid conflicts for <leader>b… mapping
-
 map <nowait> <space>w <Plug>CamelCaseMotion_w
 map <nowait> <space>b <Plug>CamelCaseMotion_b
 map <nowait> <space>e <Plug>CamelCaseMotion_e
@@ -497,7 +486,7 @@ let g:editcommand_no_mappings = 1
 tmap <M-j> <Plug>EditCommand
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
-" Debug strings
+" Debug strings  -> to not use in C++ and Python. Prefer èo mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> èbb :execute "normal \<Plug>DumpDebugStringVar"<CR>
 nnoremap èbr :ResetDebugCounter<CR>
@@ -512,7 +501,7 @@ vnoremap <silent> èbT "vyk:execute "normal \<Plug>DumpDebugStringVar"<CR>:AddDe
 nnoremap <silent> èbe :execute "normal \<Plug>DumpDebugStringExpr"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
-" Abolish
+" Abolish -> :Subvert
 """"""""""""""""""""""""""""""""""""""""""""""""""
 let g:abolish_no_mappings = 1
 
@@ -576,7 +565,7 @@ let g:openbrowser_search_engines = {
             \}
 let g:openbrowser_default_search = 'lilo'
 let g:openbrowser_browser_commands = [
-\   {'name': 'chromium-browser',
+\   {'name': 'firefox',
 \    'args': ['{browser}', '{uri}']}
 \]
 nmap gx <plug>(openbrowser-smart-search)
@@ -630,22 +619,101 @@ let g:asterisk#keeppos = 1
 """""""""""""""""""""""""""""""""""""""""""""""
 "  Telescope
 """""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <M-f> <cmd>Telescope find_files<cr>
+for map_command in ['noremap', 'noremap!', 'tnoremap']
+    " noremap -> normal, visual, operator_pending
+    " noremap! -> insert and command
+    " tnoremap -> terminal mode
+    execute map_command . ' <silent> <M-f> <C-\><C-n><cmd>Telescope find_files<cr>'
+    execute map_command . ' <silent> <M-g> <C-\><C-n><cmd>Telescope live_grep<cr>'
+    execute map_command . " <silent> <M-'> <cmd>Telescope buffers<cr>"
+    execute map_command . ' <silent> <M-’> <cmd>Telescope buffers<cr>'
+    execute map_command . ' <silent> <M-k> <cmd>Telescope quickfix<cr>'
+    execute map_command . ' <silent> <M-s-h> <cmd>Telescope resume<cr>'
+    execute map_command . ' <silent> <M-s-g> <cmd>Telescope pickers<cr>'
+endfor
+
 nnoremap <M-h> <cmd>Telescope grep_string<cr>
+tnoremap <M-h> <C-\><C-n><cmd>Telescope grep_string<cr>
+noremap! <M-h> <C-\><C-n><cmd>Telescope grep_string<cr>
 vnoremap <M-h> "sy<cmd>lua require("telescope.builtin").grep_string({search = vim.fn.getreg('s')})<cr>
-nnoremap <M-g> <cmd>Telescope live_grep<cr>
-nnoremap <M-'> <cmd>Telescope buffers<cr>
-nnoremap <M-’> <cmd>Telescope buffers<cr>
-nnoremap <M-k> <cmd>Telescope quickfix<cr>
-nnoremap <M-s-h> <cmd>Telescope resume<cr>
-nnoremap <M-s-g> <cmd>Telescope pickers<cr>
-inoremap <c-p> <c-r>"
-cnoremap <c-p> <c-r>"
 
 """"""""""""""""""""""""""""
 " vim-signature
 """"""""""""""""""""""""""""
 let g:SignatureIncludeMarks='abcdefghijklmnorstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'  " Remove pq from visible marks
+
+
+""""""""""""""""""""""""""""
+"  Jukit (Jupyter adapter) and Slime (send to ipython)
+"""""""""""""""""""""""""""
+let g:jukit_mpl_block = 1  " plt.show with block=False
+let g:jukit_mappings = 0
+let g:jukit_shell_cmd = 'ipython3'
+
+
+function! s:activate_jukit_mappings()
+    nnoremap koh :call jukit#splits#output_and_history()<cr>
+    nnoremap k<space> :call jukit#send#section(1)<cr>
+    nnoremap kk :call jukit#send#line()<cr>
+    vnoremap k :<C-U>call jukit#send#selection()<cr>
+    nnoremap kg :call jukit#send#until_current_section()<cr>
+    nnoremap ka :call jukit#send#all()<cr>
+    nnoremap kt :call jukit#cell#jump_to_next_cell()<cr>
+    nnoremap ks :call jukit#cell#jump_to_previous_cell()<cr>
+
+    nnoremap kco :call jukit#cells#create_below(0)<cr>
+    "   - Create new code cell below. Argument: Whether to create code cell (0) or markdown cell (1)
+    nnoremap kcO :call jukit#cells#create_above(0)<cr>
+    "   - Create new code cell above. Argument: Whether to create code cell (0) or markdown cell (1)
+    nnoremap kcp :call jukit#cells#create_below(1)<cr>
+    "   - Create new textcell below. Argument: Whether to create code cell (0) or markdown cell (1)
+    nnoremap kcP :call jukit#cells#create_above(1)<cr>
+    "   - Create new textcell above. Argument: Whether to create code cell (0) or markdown cell (1)
+    nnoremap kcd :call jukit#cells#delete()<cr>
+    "   - Delete current cell
+    nnoremap kcs :call jukit#cells#split()<cr>
+    "   - Split current cell (saved output will then be assigned to the resulting cell above)
+    nnoremap kcM :call jukit#cells#merge_above()<cr>
+    "   - Merge current cell with the cell above
+    nnoremap kcm :call jukit#cells#merge_below()<cr>
+    "   - Merge current cell with the cell below
+    nnoremap kck :call jukit#cells#move_up()<cr>
+    "   - Move current cell up
+    nnoremap kcj :call jukit#cells#move_down()<cr>
+    "   - Move current cell down
+endfunction
+
+
+let g:slime_python_ipython = 1
+let g:slime_target = "neovim"
+let g:slime_menu_config=1
+let g:slime_input_pid=1
+let g:slime_no_mappings = 1
+
+
+function! s:activate_slime_mappings()
+    "send visual selection
+    xnoremap k <Plug>SlimeRegionSend
+    "send based on motion or text object
+    nnoremap k <Plug>SlimeMotionSend
+    "send line
+    nnoremap kk <Plug>SlimeLineSend
+endfunction
+
+
+command! JukitActivate call s:activate_jukit_mappings()
+command! SlimeActivate call s:activate_slime_mappings()
+
+""""""""""""""""""""""""""""
+" " Send
+"""""""""""""""""""""""""""
+" let g:send_disable_mapping=1
+
+" nmap kk <Plug>SendLine
+" nmap kà <Plug>Send
+" vmap kk <Plug>Send
+" nmap K s$
+
 
 """"""""""""""""""""""""""""
 "  LUA PLUGINS
@@ -832,6 +900,7 @@ require('telescope').setup{
                 ["<S-t>"] = "preview_scrolling_down",
                 ["<C-s>"] = "preview_scrolling_up",
                 ["<C-t>"] = "preview_scrolling_down",
+                ["<C-h>"] = "file_split",
             },
         },
         prompt_prefix="🔍 ",
@@ -841,19 +910,31 @@ require('telescope').setup{
     },
     pickers = {
         find_files = {
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
                 width = 0.95,
             },
+            mappings = {
+                i = {
+                    ["<M-'>"] = {
+                        "<Esc>02<right>v$hy:lua require('telescope.builtin').buffers { default_text = require('telescope.actions.state').get_current_line() }<CR>",
+                        type="command"},
+                },
+                n = {
+                    ["<M-'>"] = {
+                        "02<right>v$hy:lua require('telescope.builtin').buffers { default_text = require('telescope.actions.state').get_current_line() }<cr>",
+                        type="command"},
+                },
+            },
         },
         grep_string = {
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
                 width = 0.95,
             },
         },
         buffers = {
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
                 width = 0.95,
                 height = 30,
@@ -874,7 +955,7 @@ require('telescope').setup{
             },
         },
         live_grep = {
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
                 width = 0.95,
             },
@@ -888,7 +969,7 @@ require('telescope').setup{
             },
         },
         quickfix = {
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
                 width = 0.95,
             },
@@ -994,5 +1075,21 @@ wk.register({
 local presets = require("which-key.plugins.presets")
 presets.operators["c"] = nil
 
+
+-- """"""""""""""""""""""""""""
+-- " REPL
+-- """""""""""""""""""""""""""
+-- require("nvim-python-repl").setup()
+
+-- vim.keymap.set("n", "kk", function() require('nvim-python-repl').send_statement_definition() end, { desc = "Send semantic unit to REPL"})
+-- vim.keymap.set("v", "kk", function() require('nvim-python-repl').send_visual_to_repl() end, { desc = "Send visual selection to REPL"})
+-- vim.keymap.set("n", "kp", function() require('nvim-python-repl').send_buffer_to_repl() end, { desc = "Send entire buffer to REPL"})
+-- vim.keymap.set("n", "ke", function() require('nvim-python-repl').toggle_execute() end, { desc = "Automatically execute command in REPL after sent"})
+-- vim.keymap.set("n", "kv", function() require('nvim-python-repl').toggle_vertical() end, { desc = "Create REPL in vertical or horizontal split"})
+-- vim.keymap.set("n", "ko", function() require('nvim-python-repl').open_repl() end, { desc = "Opens the REPL in a window split"})
+
+
+require('maximize').setup()
+require('tint').setup()
 
 EOF
