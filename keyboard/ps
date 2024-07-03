@@ -36,6 +36,81 @@ xkb_symbols "bepo_perso" {
 
     // Special keys
     key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla]};
+    // key <BKSL> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
+    key <BKSL> {[      apostrophe,     questiondown,   question,      dead_hook ]};
+    // key <RALT> {[            Escape]};
+    // key <RALT> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
+
+    // First row
+    // key <TLDE> { [          Multi_key  ] };  // https://wiki.archlinux.org/title/Xorg/Keyboard_configuration
+    key <TLDE> { [          dollar , numbersign, Multi_key ] };  // https://wiki.archlinux.org/title/Xorg/Keyboard_configuration
+    key <AE01> { type[group1] = "FOUR_LEVEL", [     asciicircum,       dead_circumflex,        percent,           permille] }; // 1
+    key <AE02> { type[group1] = "FOUR_LEVEL", [            less,   leftdoublequotemark,  guillemotleft,      lessthanequal] }; // 2
+    key <AE03> { type[group1] = "FOUR_LEVEL", [         greater,  rightdoublequotemark, guillemotright,   greaterthanequal] }; // 3
+    key <AE04> { type[group1] = "FOUR_LEVEL", [       parenleft,                    at,       EuroSign,    dead_currency  ] }; // 4
+    key <AE05> { type[group1] = "FOUR_LEVEL", [      parenright,            dead_greek                                    ] }; // 5
+    key <AE06> { type[group1] = "FOUR_LEVEL", [        EuroSign,         dead_currency                                    ] }; // 6
+    key <AE07> { type[group1] = "FOUR_LEVEL", [           plus ,            dead_caron,           plus,         plusminus ] }; // 7
+    key <AE08> { type[group1] = "FOUR_LEVEL", [          minus ,            underscore,          minus                    ] }; // 9
+    key <AE09> { type[group1] = "FOUR_LEVEL", [          slash ,            numbersign,          slash                    ] }; // 8
+    key <AE10> { type[group1] = "FOUR_LEVEL", [       asterisk ,                exclam,       asterisk ,      exclamdown  ] }; // 9
+    key <AE11> { type[group1] = "FOUR_LEVEL", [         equal ,                degree,         equal,    dead_abovedot  ] }; // 0
+    key <AE12> { type[group1] = "FOUR_LEVEL", [         percent,                grave,       permille,        seconds ] }; // % ` ‰ ″
+
+    // Second row
+    key <AD01> { [               b,            B,            bar,      brokenbar ] }; // b B | ¦
+    key <AD02> { [          eacute,       Eacute,     dead_acute, dead_doubleacute ] }; // é É ˊ ˝
+    key <AD03> { [               p,            P,      ampersand,        section ] }; // p P & §
+    key <AD04> { [               o,            O,             oe,             OE ] }; // o O œ Œ
+    key <AD05> { [          egrave,       Egrave,          grave,     dead_grave ] }; // è È ` `
+    key <AD06> { [ dead_circumflex,   dead_caron, periodcentered                 ] }; // ^ ˇ ·
+    key <AD07> { [               v,            V,              6,              6 ] }; // v V 6 6
+    key <AD08> { [               d,            D,              7,              7 ] }; // d D 7 7
+    key <AD09> { [               l,            L,              8,              8 ] }; // l L 8 8
+    key <AD10> { [               j,            J,              9,              9 ] }; // j J 9 9
+    key <AD11> { [               z,            Z,              G,              G ] }; // z Z G G
+    key <AD12> { [          ntilde,       Ntilde,     dead_tilde,     dead_tilde ] }; // ñ Ñ ~ ~
+
+    // Third row
+    key <AC01> { [               a,            A,             ae,             AE ] }; // a A æ Æ
+    key <AC02> { [               u,            U,         ugrave,         Ugrave ] }; // u U ù Ù
+    key <AC03> { [               i,            I, dead_diaeresis, dead_diaeresis ] }; // i I = =
+    key <AC04> { [               e,            E,    ecircumflex,    Ecircumflex ] }; // e E ê Ê
+    key <AC05> { [           comma,    semicolon,       quotedbl, rightsinglequotemark ] }; // , ; ¨ ’
+    key <AC06> { [               c,            C,              0,              0 ] }; // c C 0 0
+    key <AC07> { [               t,            T,              1,              1 ] }; // t T 1 1
+    key <AC08> { [               s,            S,              2,              2 ] }; // s S 2 2
+    key <AC09> { [               r,            R,              3,              3 ] }; // r R 3 3
+    key <AC10> { [               n,            N,              4,              4 ] }; // n N 4 4
+    key <AC11> { [               m,            M,              5,              5 ] }; // m M 5 5
+
+    // Fourth row
+    key <LSGT> { [               k,            K,          slash,    dead_stroke ] }; // ê Ê / /
+    key <AB01> { [          agrave,       Agrave,      backslash                 ] }; // à À \
+    key <AB02> { [               y,            Y,      braceleft, leftsinglequotemark  ] }; // y Y { ‘
+    key <AB03> { [               x,            X,     braceright, rightsinglequotemark ] }; // x X } ’
+    key <AB04> { [          period,        colon,       ellipsis, periodcentered ] }; // . : … ·
+    key <AB05> { [               w,            W,     asciitilde,     dead_tilde ] }; // k K ~ ~
+    key <AB06> { [      Escape] };
+    // key <AB06> { [      apostrophe,     question,   questiondown,      dead_hook ] }; // ' ? ¿  ̉
+    key <AB07> { [               q,            Q,         exclam,     exclamdown ] }; // q Q (
+    key <AB08> { [               g,            G,    bracketleft                 ] }; // g G [
+    key <AB09> { [               h,            H,   bracketright                 ] }; // h H ]
+    key <AB10> { [               f,            F,     parenright                 ] }; // f F )
+
+    key <SPCE> { [           space, nobreakspace,          space,          U202F ] }; // ␣ (espace insécable) _ (espace insécable fin)
+};
+
+partial alphanumeric_keys
+xkb_symbols "bepo_perso_old" {
+
+    include "level3(ralt_switch)"
+    include "keypad(oss)"
+
+    name[Group1]= "French (Bepo, ergonomic, Dvorak way)";
+
+    // Special keys
+    key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla]};
     key <BKSL> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
     key <RALT> {[            Escape]};
 
