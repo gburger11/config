@@ -46,6 +46,8 @@ set smartcase
 let breakindentopt = 'sbr'
 let &showbreak = ' ↳ '
 set breakindent
+set linebreak
+set wrap
 
 " get the differences since last saved
 com! Diffs w !diff % - 
