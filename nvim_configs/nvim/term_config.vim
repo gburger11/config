@@ -23,28 +23,22 @@ function! ConfirmQuit(writeFile)
     endif
 endfu
 
-cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
-nnoremap <M-q> <C-w>c
-nnoremap <M-S-o> <C-w>o
-tnoremap <M-q> <C-\><C-n><C-w>c
-tnoremap <M-S-o> <C-\><C-n><C-w>o
-inoremap <M-q> <Esc><C-w>c
-inoremap <M-S-o> <Esc><C-w>o
-xnoremap <M-q> <Esc><C-w>c
-xnoremap <M-S-o> <Esc><C-w>o
-" cnoremap <silent x<CR>  :call ConfirmQuit(1)<CR>
+function! s:map_all_modes(mapping, target_action)
+    for map_command in ['noremap', 'noremap!', 'tnoremap']
+        " noremap -> normal, visual, operator_pending
+        " noremap! -> insert and command
+        " tnoremap -> terminal mode
+        execute map_command . ' <silent> ' . a:mapping . ' <C-\><C-n>' . a:target_action
+    endfor
+endfunction
 
-" Enter in insert mode terminal
-" augroup TerminalInsert
-    " au!
-    " autocmd BufWinEnter,WinEnter term://* startinsert
-    " autocmd BufLeave term://* stopinsert
-" augroup END
+call s:map_all_modes('<M-q>', '<C-w>c')  " Close current pannel (don't delete buffer)
+call s:map_all_modes('<M-S-o>', '<C-w>o')  " Close all pannels except current (don't delete buffers)
 
 " Enter terminal mode if a pressed
 vnoremap a <Esc>a
 
-nnoremap à$ ?\(-G@PC-Burger.*➭\\|-builder:.*\$\)<CR>
+nnoremap à$ ?\(:G\.burger@.*➭\\|D\|.-.\{,5\}:.*\$\)<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Window and tab management identical to byobu window and panes.
@@ -53,172 +47,61 @@ set splitright
 set splitbelow
 set diffopt+=vertical
 " movements
-nnoremap <M-c> <C-W>h
-nnoremap <M-t> <C-W>j
-nnoremap <M-s> <C-W>k
-nnoremap <M-r> <C-W>l
-nnoremap <M-d> gt
-nnoremap <M-v> gT
-tnoremap <M-c> <C-\><C-n><C-W>h
-tnoremap <M-t> <C-\><C-n><C-W>j
-tnoremap <M-s> <C-\><C-n><C-W>k
-tnoremap <M-r> <C-\><C-n><C-W>l
-tnoremap <M-d> <C-\><C-n>gt
-tnoremap <M-v> <C-\><C-n>gT
-inoremap <M-c> <Esc><C-W>h
-inoremap <M-t> <Esc><C-W>j
-inoremap <M-s> <Esc><C-W>k
-inoremap <M-r> <Esc><C-W>l
-inoremap <M-d> <Esc>gt
-inoremap <M-v> <Esc>gT
-xnoremap <M-c> <Esc><C-W>h
-xnoremap <M-t> <Esc><C-W>j
-xnoremap <M-s> <Esc><C-W>k
-xnoremap <M-r> <Esc><C-W>l
-xnoremap <M-d> <Esc>gt
-xnoremap <M-v> <Esc>gT
+call s:map_all_modes('<M-c>', '<C-W>h')  " Move to left panel
+call s:map_all_modes('<M-t>', '<C-W>j')  " Move to down panel
+call s:map_all_modes('<M-s>', '<C-W>k')  " Move to up panel
+call s:map_all_modes('<M-r>', '<C-W>l')  " Move to right panel
+call s:map_all_modes('<M-d>', 'gt')      " Move to next tab
+call s:map_all_modes('<M-v>', 'gT')      " Move to previous tab
+
+" Split with last buffer
+call s:map_all_modes('<M-S-r>', '<cmd>vsplit<cr><cmd>b#<cr>')
+call s:map_all_modes('<M-S-c>', '<cmd>vsplit<cr><C-w>h<cmd>b#<cr>')
+call s:map_all_modes('<M-S-t>', '<cmd>split<cr><cmd>b#<cr>')
+call s:map_all_modes('<M-S-s>', '<cmd>vsplit<cr><C-w>k<cmd>b#<cr>')
 " normal splits
-nnoremap <silent> <M-n><M-l>  :tabnew<CR>
-nnoremap <silent> <M-n><M-r>  :vsplit<CR>:enew<CR>
-nnoremap <silent> <M-n><M-c>  :vsplit<CR><C-w>h:enew<CR>
-nnoremap <silent> <M-n><M-t>  :split<CR>:enew<CR>
-nnoremap <silent> <M-n><M-s>  :split<CR><C-w>k:enew<CR>
-tnoremap <silent> <M-n><M-l>  <C-\><C-n>:tabnew<CR>
-tnoremap <silent> <M-n><M-r>  <C-\><C-n>:vsplit<CR>:enew<CR>
-tnoremap <silent> <M-n><M-c>  <C-\><C-n>:vsplit<CR><C-w>h:enew<CR>
-tnoremap <silent> <M-n><M-t>  <C-\><C-n>:split<CR>:enew<CR>
-tnoremap <silent> <M-n><M-s>  <C-\><C-n>:split<CR><C-w>k:enew<CR>
-inoremap <silent> <M-n><M-l>  <Esc>:tabnew<CR>
-inoremap <silent> <M-n><M-r>  <Esc>:vsplit<CR>:enew<CR>
-inoremap <silent> <M-n><M-c>  <Esc>:vsplit<CR><C-w>h:enew<CR>
-inoremap <silent> <M-n><M-t>  <Esc>:split<CR>:enew<CR>
-inoremap <silent> <M-n><M-s>  <Esc>:split<CR><C-w>k:enew<CR>
-xnoremap <silent> <M-n><M-l>  <Esc>:tabnew<CR>
-xnoremap <silent> <M-n><M-r>  <Esc>:vsplit<CR>:enew<CR>
-xnoremap <silent> <M-n><M-c>  <Esc>:vsplit<CR><C-w>h:enew<CR>
-xnoremap <silent> <M-n><M-t>  <Esc>:split<CR>:enew<CR>
-xnoremap <silent> <M-n><M-s>  <Esc>:split<CR><C-w>k:enew<CR>
+call s:map_all_modes('<M-n><M-l>', '<cmd>tabnew<CR>')                " Open new tab with empty file
+call s:map_all_modes('<M-n><M-r>', '<cmd>vsplit<CR>:enew<CR>')       " Open new pane on the right with empty file
+call s:map_all_modes('<M-n><M-c>', '<cmd>vsplit<CR><C-w>h:enew<CR>') " Open new pane on the left with empty file
+call s:map_all_modes('<M-n><M-t>', '<cmd>split<CR>:enew<CR>')        " Open new pane on the bottom with empty file
+call s:map_all_modes('<M-n><M-s>', '<cmd>split<CR><C-w>k:enew<CR>')  " Open new pane on the top with empty file
 " open terminal
-nnoremap <silent> <M-S-n><M-S-n>  :te<CR>
-nnoremap <silent> <M-S-n><M-S-l>  :tabnew<CR>:te<CR>
-nnoremap <silent> <M-S-n><M-S-r>  :vsplit<CR>:te<CR>
-nnoremap <silent> <M-S-n><M-S-c>  :vsplit<CR><C-w>h:te<CR>
-nnoremap <silent> <M-S-n><M-S-t>  :split<CR>:te<CR>
-nnoremap <silent> <M-S-n><M-S-s>  :split<CR><C-w>k:te<CR>
-tnoremap <silent> <M-S-n><M-S-n>  <C-\><C-n>:te<CR>
-tnoremap <silent> <M-S-n><M-S-l>  <C-\><C-n>:tabnew<CR>:te<CR>
-tnoremap <silent> <M-S-n><M-S-r>  <C-\><C-n>:vsplit<CR>:te<CR>
-tnoremap <silent> <M-S-n><M-S-c>  <C-\><C-n>:vsplit<CR><C-w>h:te<CR>
-tnoremap <silent> <M-S-n><M-S-t>  <C-\><C-n>:split<CR>:te<CR>
-tnoremap <silent> <M-S-n><M-S-s>  <C-\><C-n>:split<CR><C-w>k:te<CR>
-inoremap <silent> <M-S-n><M-S-n>  <Esc>:te<CR>
-inoremap <silent> <M-S-n><M-S-l>  <Esc>:tabnew<CR>:te<CR>
-inoremap <silent> <M-S-n><M-S-r>  <Esc>:vsplit<CR>:te<CR>
-inoremap <silent> <M-S-n><M-S-c>  <Esc>:vsplit<CR><C-w>h:te<CR>
-inoremap <silent> <M-S-n><M-S-t>  <Esc>:split<CR>:te<CR>
-inoremap <silent> <M-S-n><M-S-s>  <Esc>:split<CR><C-w>k:te<CR>
-xnoremap <silent> <M-S-n><M-S-n>  <Esc>:te<CR>
-xnoremap <silent> <M-S-n><M-S-l>  <Esc>:tabnew<CR>:te<CR>
-xnoremap <silent> <M-S-n><M-S-r>  <Esc>:vsplit<CR>:te<CR>
-xnoremap <silent> <M-S-n><M-S-c>  <Esc>:vsplit<CR><C-w>h:te<CR>
-xnoremap <silent> <M-S-n><M-S-t>  <Esc>:split<CR>:te<CR>
-xnoremap <silent> <M-S-n><M-S-s>  <Esc>:split<CR><C-w>k:te<CR>
+call s:map_all_modes('<M-S-n><M-S-n>', '<cmd>:te<CR>')
+call s:map_all_modes('<M-S-n><M-S-l>', '<CR><cmd>te<CR>')
+call s:map_all_modes('<M-S-n><M-S-r>', '<cmd>vsplit<CR><cmd>te<CR>')
+call s:map_all_modes('<M-S-n><M-S-c>', '<cmd>vsplit<CR><C-w>h<cmd>te<CR>')
+call s:map_all_modes('<M-S-n><M-S-t>', '<cmd>split<CR><cmd>te<CR>')
+call s:map_all_modes('<M-S-n><M-S-s>', '<cmd>split<CR><C-w>k<cmd>te<CR>')
 " scratch
-nnoremap <silent> <M-C-n><M-C-n>  :Scratch<CR>
-nnoremap <silent> <M-C-n><M-C-l>  :tabnew<CR>:Scratch<CR>
-nnoremap <silent> <M-C-n><M-C-r>  :vsplit<CR>:Scratch<CR>
-nnoremap <silent> <M-C-n><M-C-c>  :vsplit<CR><C-w>h:Scratch<CR>
-nnoremap <silent> <M-C-n><M-C-t>  :split<CR>:Scratch<CR>
-nnoremap <silent> <M-C-n><M-C-s>  :split<CR><C-w>k:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-n>  <C-\><C-n>:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-l>  <C-\><C-n>:tabnew<CR>:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-r>  <C-\><C-n>:vsplit<CR>:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-c>  <C-\><C-n>:vsplit<CR><C-w>h:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-t>  <C-\><C-n>:split<CR>:Scratch<CR>
-tnoremap <silent> <M-C-n><M-C-s>  <C-\><C-n>:split<CR><C-w>k:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-n>  <Esc>:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-l>  <Esc>:tabnew<CR>:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-r>  <Esc>:vsplit<CR>:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-c>  <Esc>:vsplit<CR><C-w>h:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-t>  <Esc>:split<CR>:Scratch<CR>
-inoremap <silent> <M-C-n><M-C-s>  <Esc>:split<CR><C-w>k:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-n>  <Esc>:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-l>  <Esc>:tabnew<CR>:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-r>  <Esc>:vsplit<CR>:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-c>  <Esc>:vsplit<CR><C-w>h:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-t>  <Esc>:split<CR>:Scratch<CR>
-xnoremap <silent> <M-C-n><M-C-s>  <Esc>:split<CR><C-w>k:Scratch<CR>
+call s:map_all_modes('<M-C-n><M-C-n>', '<cmd>Scratch<CR>')
+call s:map_all_modes('<M-C-n><M-C-l>', '<cmd>tabnew<CR><cmd>Scratch<CR>')
+call s:map_all_modes('<M-C-n><M-C-r>', '<cmd>vsplit<CR><cmd>Scratch<CR>')
+call s:map_all_modes('<M-C-n><M-C-c>', '<cmd>vsplit<CR><C-w>h<cmd>Scratch<CR>')
+call s:map_all_modes('<M-C-n><M-C-t>', '<cmd>split<CR><cmd>Scratch<CR>')
+call s:map_all_modes('<M-C-n><M-C-s>', '<cmd>split<CR><C-w>k<cmd>Scratch<CR>')
 " resizing
-nnoremap <silent> <M-+> <C-w>+
-inoremap <silent> <M-+> <Esc><C-w>+
-tnoremap <silent> <M-+> <C-\><C-n><C-w>+
-xnoremap <silent> <M-+> <Esc><C-w>+
-nnoremap <silent> <M--> <C-w>-
-inoremap <silent> <M--> <Esc><C-w>-
-tnoremap <silent> <M--> <C-\><C-n><C-w>-t
-xnoremap <silent> <M--> <Esc><C-w>-
-nnoremap <silent> <M->> <C-w>>
-inoremap <silent> <M->> <Esc><C-w>>
-tnoremap <silent> <M->> <C-\><C-n><C-w>>
-xnoremap <silent> <M->> <Esc><C-w>>
-nnoremap <silent> <M-<> <C-w><
-inoremap <silent> <M-<> <Esc><C-w><
-tnoremap <silent> <M-<> <C-\><C-n><C-w><
-xnoremap <silent> <M-<> <Esc><C-w><
+call s:map_all_modes('<M-+>', '<C-w>+')
+call s:map_all_modes('<M-->', '<C-w>-')
+call s:map_all_modes('<M->>', '<C-w>>')
+call s:map_all_modes('<M-<>', '<C-w><')
+
 " other operations
-nnoremap <silent> <M-l> :MaximizerToggle<CR>
-inoremap <silent> <M-l> <Esc>:MaximizerToggle<CR>i
-tnoremap <silent> <M-l> <C-\><C-n>:MaximizerToggle<CR>A
-xnoremap <silent> <M-l> <Esc>:MaximizerToggle<CR>
-nnoremap <M-m> :file term:://T-
-tnoremap <M-m> <C-\><C-n>:file term:://T-
-nnoremap <silent> <M-x> :BD<CR>
-inoremap <silent> <M-x> <Esc>:BD<CR>
-xnoremap <silent> <M-x> <Esc>:BD<CR>
-tnoremap <silent> <M-x> <C-\><C-n>:BD<CR>
-nnoremap <silent> <M-S-x> :BD!<CR>
-inoremap <silent> <M-S-x> <Esc>:BD!<CR>
-xnoremap <silent> <M-S-x> <Esc>:BD!<CR>
-tnoremap <silent> <M-S-x> <C-\><C-n>:BD!<CR>
-nnoremap <silent> <M-w> :BW<CR>
-inoremap <silent> <M-w> <Esc>:BW<CR>
-xnoremap <silent> <M-w> <Esc>:BW<CR>
-tnoremap <silent> <M-w> <C-\><C-n>:BW<CR>
-nnoremap <silent> <M-S-w> :BW!<CR>
-inoremap <silent> <M-S-w> <Esc>:BW!<CR>
-xnoremap <silent> <M-S-w> <Esc>:BW!<CR>
-tnoremap <silent> <M-S-w> <C-\><C-n>:BW!<CR>
+call s:map_all_modes('<M-m>', '<cmd>file term:://T-')  " Rename current pane with term name
+call s:map_all_modes('<M-x>', '<cmd>BD<CR>')           " Delete current buffer
+call s:map_all_modes('<M-S-x>', '<cmd>BD!<CR>')
+call s:map_all_modes('<M-w>', '<cmd>BW<CR>')
+call s:map_all_modes('<M-S-w>', '<cmd>BW!<CR>')
 
-" nnoremap <silent> <M-q> :BB<CR>
-" inoremap <silent> <M-q> <Esc>:BB<CR>
-" xnoremap <silent> <M-q> <Esc>:BB<CR>
-" tnoremap <silent> <M-q> <C-\><C-n>:BB<CR>
-" nnoremap <silent> <M-g> :BF<CR>
-" inoremap <silent> <M-g> <Esc>:BF<CR>
-" xnoremap <silent> <M-g> <Esc>:BF<CR>
-" tnoremap <silent> <M-g> <C-\><C-n>:BF<CR>
+" Quick change bufferts to terminal buffers
+call s:map_all_modes('àt', '<cmd>b1<CR>')
+call s:map_all_modes('às', '<cmd>b2<CR>')
+call s:map_all_modes('àr', '<cmd>b3<CR>')
+call s:map_all_modes('àn', '<cmd>b4<CR>')
+call s:map_all_modes('àm', '<cmd>b5<CR>')
+call s:map_all_modes('àv', '<cmd>b6<CR>')
+call s:map_all_modes('àd', '<cmd>b7<CR>')
+call s:map_all_modes('àl', '<cmd>b8<CR>')
+call s:map_all_modes('àj', '<cmd>b9<CR>')
 
-nnoremap <silent> àb :b#<CR>
-tnoremap <silent> àb <C-\><C-n>:b#<CR>
-
-nnoremap <silent> àt :b1<CR>
-tnoremap <silent> àt <C-\><C-n>:b1<CR>
-nnoremap <silent> às :b2<CR>
-tnoremap <silent> às <C-\><C-n>:b2<CR>
-nnoremap <silent> àr :b3<CR>
-tnoremap <silent> àr <C-\><C-n>:b3<CR>
-nnoremap <silent> àn :b4<CR>
-tnoremap <silent> àn <C-\><C-n>:b4<CR>
-nnoremap <silent> àm :b5<CR>
-tnoremap <silent> àm <C-\><C-n>:b5<CR>
-nnoremap <silent> àv :b6<CR>
-tnoremap <silent> àv <C-\><C-n>:b6<CR>
-nnoremap <silent> àd :b7<CR>
-tnoremap <silent> àd <C-\><C-n>:b7<CR>
-nnoremap <silent> àl :b8<CR>
-tnoremap <silent> àl <C-\><C-n>:b8<CR>
-nnoremap <silent> àj :b9<CR>
-tnoremap <silent> àj <C-\><C-n>:b9<CR>
-
-nnoremap <silent> àc :b#<CR>
-tnoremap <silent> àc <C-\><C-n>:b#<CR>
+" Go to last buffer
+call s:map_all_modes('àc', '<cmd>b#<CR>')

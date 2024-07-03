@@ -194,7 +194,7 @@ function! s:switch_env(n_env)
                 sleep 20m
             endif
 
-            let is_dipython = (getbufline(i, "$")[0][0:3] ==# "In [")  " Ugly way of checking if in Docker. More robust ??
+            let is_dipython = (getbufline(i, "$")[0][0:3] ==# "In [")  " Ugly way of checking if in dipython. More robust ??
             if is_dipython
                 call chansend(getbufvar(i, 'terminal_job_id'), [
                         \ "\<C-q>exit",
@@ -209,12 +209,32 @@ function! s:switch_env(n_env)
                         \ ])
         endif
     endfor
-    execute "cd ~/workspace_".a:n_env."/src/wandercode/"
+    execute "cd ~/workspaces/".a:n_env."/src/wandercode/"
     echo "Switched to env ".a:n_env
 endfunction
 
-nnoremap <silent> <script> <M-S-S>c :call <SID>switch_env(0)<CR>
-nnoremap <silent> <script> <M-S-S>t :call <SID>switch_env(1)<CR>
+function Send_commands(cmd)
+    for i in range(1, 1000)
+        if buflisted(i) && getbufvar(i, 'terminal_job_id', 'NO_TERM') !=# 'NO_TERM' 
+            call chansend(getbufvar(i, 'terminal_job_id'), [
+                        \ "\<C-q>".a:cmd,
+                        \ "",
+                        \ ])
+            sleep 20m
+        endif
+    endfor
+endfunction
+
+function Cd(folder)
+    call Send_commands("cd ".a:folder)
+    execute "cd ".a:folder
+endfunction
+
+command -nargs=1 -complete=file CD call Cd(<f-args>)
+
+nnoremap <silent> <script> <M-S-S>c :call <SID>switch_env('c')<CR>
+nnoremap <silent> <script> <M-S-S>t :call <SID>switch_env('t')<CR>
+nnoremap <silent> <script> <M-S-S>s :call <SID>switch_env('s')<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
