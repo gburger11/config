@@ -160,6 +160,7 @@ keybinding:
         copyCommitMessageToClipboard: <c-y>
     stash:
         popStash: p
+        renameStash: 'm'
     commitFiles:
         checkoutCommitFile: k
     main:
@@ -192,9 +193,9 @@ customCommands:
       loadingText: 'Pushing current branch to origin (force)'
       description: 'push current branch (with force)'
     - key: k
-      command: 'python tools/ide/autoformat.py'
+      command: 'python3 tools/ide/autoformat.py'
       context: 'files'
       loadingText: 'Formatting Python code...'
       description: 'launch python formatting tools'
 services: {}
-notARepository: prompt
+notARepository: skip

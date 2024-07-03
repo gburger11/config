@@ -55,7 +55,7 @@
 
     push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
     push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
-    fetch-ext-branch = !sh -c 'cd /my_workspace/source/wandercode && git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && cd - && git checkout -b EXT_$0__$1 FETCH_HEAD'
+    fetch-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && git checkout -b EXT_$0__$1 FETCH_HEAD'
     mr = !sh -c 'git fetch upstream merge-requests/$1/head:mr-$1 && git checkout mr-$1' -
 [push]
 	default = matching
