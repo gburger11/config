@@ -1,10 +1,4 @@
-# config
-- Title and Command/Custom command: `/usr/bin/byobu`.
-- Edit/Keyboard Shortcuts: uncheck `Enable menu access keys`.
-- `ln -s` the dot files in dot_files, zshrcs and vimrcs to home.
-
-# keyboard config with sudo rights
-~~evdev.lst and evdev.xml to copy in /usr/share/X11/xkb/rules~~
+# keyboard config (with sudo rights)
 
 Add to /usr/share/X11/xkb/rules/evdev.xml:
 ```
@@ -42,17 +36,6 @@ Add in bashrc
 
 # TODO on a new computer
 
-## For work
-- Encrypt home folder
-   1. Install ecryptfs
-   1. `sudo adduser --encrypt-home <user>*` pour creer une nouvelle sesion avec un home crypter
-   2. se donner les droit sudo `sudo usermod -aG sudo <user>`
-   3. se logger sur la nouvelle session et supprimer la premiere
-- Install veracrypt
-- Add certificates on Chromium (settings-> advanced ->  and Firefox
-- Install printer
-- Install mattermost and trello (https://github.com/danielchatfield/trello-desktop)
-
 ## Little things
 - change mouse side
 - add Alt+5/4/6/2/8 for lecture/davance/return/volume down/volume up [For Ubuntu 18.04, it is in settings/Devices/keyboard]
@@ -64,12 +47,11 @@ Add in bashrc
 ## keyboard
 #### With sudo rights
 - Add `  ps              Perso` and `bepo_perso      ps: Perso` lines to `/usr/share/X11/xkb/rules/evedv.lst` respectively in the `! layout` and `! variant` sections
-- Add to evdev.xml :
+- Complete `evdev.xml` as well :
 ```
     <layout>
       <configItem>
         <name>ps</name>
-        
         <shortDescription>ps</shortDescription>
         <description>Perso</description>
         <languageList>
@@ -86,33 +68,20 @@ Add in bashrc
       </variantList>
     </layout>
 ```
-- Add to `/usr/share/console-setup/KeyboardNames.pl` the language. (TODO: develop if working)
+- Add to `/usr/share/console-setup/KeyboardNames.pl` the language. (Necessary for setting keyboard at login)
 - copy `ps` file to `/usr/share/X11/xkb/symbols`
 - Change default keyboard in `/etc/default/keyboard`
 
 ## terminal preparation
 - Install zsh (and make it default with `chsh -s $(which zsh)` and log out/in)
-- Install neovim (by apt-get in Ubuntu 18 !!)
+- Install neovim (Avoid apt as it always install (very) old versins)
 - Install neovim-remote (`pip3 install neovim-remote`)
 - Install tmux
-- ~~Install byobu (by apt-get in Ubuntu 18 !!)~~
 - Copy `.zshrc` (don't forget to change user name if need be!)
 - Import oh-my-zsh from `git@github.com:guibur/oh-my-zsh.git` (don't forget to change user name in themes/guillaumeburger.zsh-theme if need be)
 - Copy all files and folders except plugins to ~/.config/nvim
 - Open new neovim do `:PlugInstall` and `:UpdateRemotePlugins`
 - Install `sudo apt-get install exuberant-ctags silversearcher-ag fzy`
-
-#### Problem of compatibility python2 and 3 with deoplete and work configuration
-- install virtualenv (pip install)
-- create virtualenv with python3 and pip install neovim
-- add to zshrc:
-```
-    if ! { [ -n "${NVIM_LISTEN_ADDRESS+x}" ]; } then
-        export PYTHONPATH=
-        source $HOME/neovim_env/neovim_env/bin/activate
-        nvim
-    fi
-```
 
 ## configs
 - Do `lesskey path/to/config/dot_files/lesskey`
