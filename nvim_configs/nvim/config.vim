@@ -49,8 +49,8 @@ set breakindent
 set linebreak
 set wrap
 
-" get the differences since last saved
-com! Diffs w !diff % - 
-
 "print as PDF file
 com!  PDF hardcopy > toPrint.pdf
+
+" Remove swapfiles bugged
+set noswapfile

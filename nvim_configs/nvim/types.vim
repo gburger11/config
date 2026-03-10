@@ -29,16 +29,54 @@ fun! s:termSpecificLocalChanges()
         setlocal norelativenumber
     endif
 endfun
+let g:match_trailingspace_id = -1
+let g:match_overlength_id = -1
 fun! s:termSpecificChangingChanges()
     if &buftype ==# 'terminal' || &buftype ==# 'nofile'
-        hi clear OverLength
-        hi clear TrailingSpaces
-        if &filetype ==# 'lazygit'
+        " ColorTerm
+        " hi clear @special.overlength
+        " hi clear @special.trailingspaces
+        " highlight! @special.trailingspaces guibg=NONE
+        if &filetype ==# 'lazygit' || &filetype ==# 'TelescopePrompt'
             hi NormalFloat ctermbg=NONE ctermfg=white
         endif
+        let matches = getmatches()
+        for match in matches
+            if match.group ==# '@special.trailingspaces' || match.group ==# '@special.overlength'
+                call matchdelete(match.id)
+            endif
+            " if g:match_trailingspace_id > 0
+                " trylet g:match_trailingspace_id = -1
+                    " call matchdelete(g:match_trailingspace_id)
+                " catch
+                    " " Do nothing
+                " endtry
+                " let g:match_trailingspace_id = -1
+            " endif
+            " if g:match_overlength_id > 0
+                " try
+                    " call matchdelete(g:match_overlength_id)
+                " catch
+                    " " Do nothing
+                " endtry
+                " let g:match_overlength_id = -1
+            " endif
+        endfor
     else
-        highlight OverLength ctermbg=68 ctermfg=white guibg=#592929
-        highlight TrailingSpaces ctermbg=142
+        " ColorThings
+        " highlight OverLength ctermbg=68 ctermfg=white guibg=#592929
+        " highlight TrailingSpaces ctermbg=142
+        " highlight! @special.trailingspaces guibg=LightCyan
+
+        " if g:match_trailingspace_id < 0
+            " let g:match_trailingspace_id = matchadd('@special.trailingspaces', '\s\+$', 150)
+        " endif
+        " if g:match_overlength_id < 0
+            " let g:match_overlength_id = matchadd('@special.overlength', '\%121v.\+', 150)
+        " endif
+        call matchadd('@special.trailingspaces', '\s\+$', 150)
+        call matchadd('@special.overlength', '\%121v.\+', 150)
+
         hi! link NormalFloat Pmenu
     endif
 endfun

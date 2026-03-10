@@ -99,6 +99,14 @@ nnoremap <silent> <c-o> :call JumpInFile("\<c-i>", "\<c-o>")<cr>
 " nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
+" Copy path
+""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <c-g><c-g> <cmd>let @+=expand("%")<CR><cmd>echo @+<CR>
+nnoremap <c-g>f <cmd>let @+=expand("%:p")<CR><cmd>echo @+<CR>
+nnoremap <c-g>n <cmd>let @+=expand("%:t")<CR><cmd>echo @+<CR>
+nnoremap <c-g>h <cmd>let @+=expand("%:h")<CR><cmd>echo @+<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " Diffing buffers
 """"""""""""""""""""""""""""""""""""""""""""""""""
 

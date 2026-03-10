@@ -38,3 +38,6 @@ noremap [h [s
 
 noremap , :
 noremap ’ ,
+" Scroll horizontally
+noremap ér z<S-l>
+noremap éc z<S-h>

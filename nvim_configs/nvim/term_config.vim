@@ -32,6 +32,19 @@ function! s:map_all_modes(mapping, target_action)
     endfor
 endfunction
 
+function! ClearTerminal()
+  set scrollback=1
+  let &g:scrollback=1
+  echo &scrollback
+  call feedkeys("\i")
+  call feedkeys("clear\<CR>")
+  call feedkeys("\<C-\>\<C-n>")
+  call feedkeys("\i")
+  sleep 100m
+  let &scrollback=10000
+endfunction
+call s:map_all_modes('<M-l>', '<cmd>call ClearTerminal()<cr>')  "
+
 call s:map_all_modes('<M-q>', '<C-w>c')  " Close current pannel (don't delete buffer)
 call s:map_all_modes('<M-S-o>', '<C-w>o')  " Close all pannels except current (don't delete buffers)
 
@@ -58,7 +71,7 @@ call s:map_all_modes('<M-v>', 'gT')      " Move to previous tab
 call s:map_all_modes('<M-S-r>', '<cmd>vsplit<cr><cmd>b#<cr>')
 call s:map_all_modes('<M-S-c>', '<cmd>vsplit<cr><C-w>h<cmd>b#<cr>')
 call s:map_all_modes('<M-S-t>', '<cmd>split<cr><cmd>b#<cr>')
-call s:map_all_modes('<M-S-s>', '<cmd>vsplit<cr><C-w>k<cmd>b#<cr>')
+" call s:map_all_modes('<M-S-s>', '<cmd>vsplit<cr><C-w>k<cmd>b#<cr>')
 " normal splits
 call s:map_all_modes('<M-n><M-l>', '<cmd>tabnew<CR>')                " Open new tab with empty file
 call s:map_all_modes('<M-n><M-r>', '<cmd>vsplit<CR>:enew<CR>')       " Open new pane on the right with empty file
@@ -86,22 +99,43 @@ call s:map_all_modes('<M->>', '<C-w>>')
 call s:map_all_modes('<M-<>', '<C-w><')
 
 " other operations
-call s:map_all_modes('<M-m>', '<cmd>file term:://T-')  " Rename current pane with term name
+call s:map_all_modes('<M-m>', '<C-\><C-n>file term:://T-')  " Rename current pane with term name
 call s:map_all_modes('<M-x>', '<cmd>BD<CR>')           " Delete current buffer
 call s:map_all_modes('<M-S-x>', '<cmd>BD!<CR>')
 call s:map_all_modes('<M-w>', '<cmd>BW<CR>')
 call s:map_all_modes('<M-S-w>', '<cmd>BW!<CR>')
 
 " Quick change bufferts to terminal buffers
-call s:map_all_modes('àt', '<cmd>b1<CR>')
-call s:map_all_modes('às', '<cmd>b2<CR>')
-call s:map_all_modes('àr', '<cmd>b3<CR>')
-call s:map_all_modes('àn', '<cmd>b4<CR>')
-call s:map_all_modes('àm', '<cmd>b5<CR>')
-call s:map_all_modes('àv', '<cmd>b6<CR>')
-call s:map_all_modes('àd', '<cmd>b7<CR>')
-call s:map_all_modes('àl', '<cmd>b8<CR>')
-call s:map_all_modes('àj', '<cmd>b9<CR>')
+let id_l = 1
+for l in ["t", "s", "r", "n", "m", "v", "d", "l", "j"]
+    execute "let g:term_id_".l."=\"".id_l."\""
+    let id_l += 1
+    " call s:map_all_modes( "à<S-".l.">", "<cmd>let g:term_id_" . l . "=bufnr()<CR>")
+    call s:map_all_modes( "à".l, "<cmd>execute \"buffer\" g:term_id_" . l . "<CR>")
+    call s:map_all_modes( "à<S-".l.">", "<cmd>execute \"buffer\" g:term_id_" . l . "<CR><cmd>BD!<CR><cmd>terminal<CR><cmd>let g:term_id_" . l . "=bufnr()<CR>")
+    call s:map_all_modes( "à<M-".l.">", "<cmd>terminal<CR><cmd>let g:term_id_" . l . "=bufnr()<CR>")
+endfor
+
+function! s:print_term_mappings()
+    let res = ""
+    let id_l = 1
+    for l in ["t", "s", "r", "n", "m", "v", "d", "l", "j"]
+        execute "let res .= \"" . id_l . ":\" . g:term_id_" . l .".\" - \""
+        let id_l += 1
+    endfor
+    echo res
+endfunction
+map <script> à. <cmd>call <SID>print_term_mappings()<CR>
+
+" call s:map_all_modes('àt', '<cmd>b1<CR>')
+" call s:map_all_modes('às', '<cmd>b2<CR>')
+" call s:map_all_modes('àr', '<cmd>b3<CR>')
+" call s:map_all_modes('àn', '<cmd>b4<CR>')
+" call s:map_all_modes('àm', '<cmd>b5<CR>')
+" call s:map_all_modes('àv', '<cmd>b6<CR>')
+" call s:map_all_modes('àd', '<cmd>b7<CR>')
+" call s:map_all_modes('àl', '<cmd>b8<CR>')
+" call s:map_all_modes('àj', '<cmd>b9<CR>')
 
 " Go to last buffer
-call s:map_all_modes('àc', '<cmd>b#<CR>')
+call s:map_all_modes('àà', '<cmd>b#<CR>')

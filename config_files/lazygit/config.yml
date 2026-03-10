@@ -35,7 +35,7 @@ git:
     pull:
         mode: merge
     skipHookPrefix: WIP
-    autoFetch: true
+    autoFetch: false
     branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' {{branchName}} --
     allBranchesLogCmd: git log --graph --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     overrideGpg: false
@@ -101,7 +101,7 @@ keybinding:
         prevScreenMode: _
         undo: z
         redo: <c-z>
-        filteringMenu: <c-n>
+        filteringMenu: <c-f>
         diffingMenu: W
         diffingMenu-alt: <c-e>
         copyToClipboard: <c-o>
@@ -124,7 +124,7 @@ keybinding:
         viewResetOptions: D
         fetch: f
         toggleTreeView: '`'
-        openMergeTool: <c-n>
+        openMergeTool: <c-a>
     branches:
         createPullRequest: o
         copyPullRequestURL: <c-y>
@@ -143,7 +143,7 @@ keybinding:
         renameCommit: m
         renameCommitWithEditor: M
         viewResetOptions: Z
-        markCommitAsFixup: <c-f>
+        markCommitAsFixup: f
         createFixupCommit: F
         squashAboveCommits: H
         moveDownCommit: <c-t>
@@ -173,8 +173,10 @@ keybinding:
         update: u
         bulkMenu: b
 os:
-    openCommand: sh -c "nvr {{filename}} -cc close >/dev/null"
-    openLinkCommand: sh -c "xdg-open {{link}} >/dev/null"
+    editPreset: 'nvim-remote'
+    edit: 'sh -c "nvr {{filename}} -cc close > /dev/null"'
+    editAtLine: 'sh -c "nvr {{filename}} +{{line}} -cc close > /dev/null"'
+    openDirInEditor: 'nvr {{dir}}'
 disableStartupPopups: false
 customCommands:
     - key: f
@@ -193,7 +195,7 @@ customCommands:
       loadingText: 'Pushing current branch to origin (force)'
       description: 'push current branch (with force)'
     - key: k
-      command: 'python3 tools/ide/autoformat.py'
+      command: 'WDC_SRC_DIR={{.SelectedWorktree.Path}} python3 tools/ide/autoformat.py'
       context: 'files'
       loadingText: 'Formatting Python code...'
       description: 'launch python formatting tools'

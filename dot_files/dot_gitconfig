@@ -1,24 +1,18 @@
 [user]
-	name = guillaumeb
-	email = guillaume.burger@wandercraft.eu
+	name = Guillaume Burger
+	email = guillaume.burger@wandercraft.health
 [core]
     editor = 'nvr' --remote-wait-silent
 [alias]
-    lg = !"git lg1"
-    lgg = !"git lg1 | less -X"
-    lg1 = !"git lg1-specific --all"
-    lg2 = !"git lg2-specific --all"
-    lg3 = !"git lg3-specific --all"
+    lg = !"git lgb --all"
+    lgg = !"git lgb | less -X"
 
-    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) -%C(italic magenta) %an%C(reset)'
-    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+    lgb = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold yellow)(%ar)%C(reset) %C(auto)%d%C(reset) %C(white)%s%C(reset) -%C(italic magenta) %an%C(reset)'
 
     rb = rebase
     rbm = rebase upstream/master
-    rbc = rebase upstream/cybathlon
-    rbmh = rebase upstream/master HEAD
-    rbch = rebase upstream/cybathlon HEAD
+    rbv = rebase upstream/calvin_v2_valeo
+    rbr = rebase upstream/calvin_v2_renault
     rbma = rebase upstream/master --autostash
     rim = rebase -i upstream/master
     ri = rebase -i
@@ -26,12 +20,14 @@
     cma = commit -a -m
     co = checkout
     com = checkout upstream/master
-    cou = checkout upstream/upstairs
+    cov = checkout upstream/calvin_v2_valeo
+    cor = checkout upstream/calvin_v2_renault
     sw = switch
     sc = switch -c
     sd = switch -d
     sdm = switch -d upstream/master
-    sdu = switch -d upstream/upstairs
+    sdv = switch -d upstream/calvin_v2_valeo
+    sdr = switch -d upstream/calvin_v2_renault
     cp = cherry-pick
     ft = fetch
     fa = fetch --prune --all
@@ -48,14 +44,13 @@
     BD = !sh -c 'git branch -D $0 && git push --delete origin $0'
     ap = add --patch
     upm = "upstream/master"
-    upc = "upstream/cybathlon"
-    buldozer = !"git add --all && git commit --amend --no-edit && git push -f origin HEAD"
     cleanup-branch = "!git checkout upstream/master && git branch --merged | grep -v -P '^\\*|master|develop' | xargs -n1 -r git branch -d"
     cleanup-remote = !"git checkout upstream/master && git remote prune origin && git branch -r --merged | grep 'origin' | grep -v -P '^\\*|master|develop|HEAD' | sed -r 's/origin\\///g' | xargs -n1 -r git push --delete origin"
 
-    push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
-    push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:\\1\\/wandercode.git \\0:\\2 /\")'
-    fetch-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:$0/wandercode.git $1 && git checkout -b EXT_$0__$1 FETCH_HEAD'
+    push-ext-branch = !sh -c 'git push $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:wdc\\/software\\/forks\\/\\1\\/wandercode.git \\0:\\2 /\")'
+    push-ext-branch-force = !sh -c 'git push --force $(echo $0 | sed \"s/^EXT_\\(.\\+\\)__\\(.\\+\\)$/git@gitlab.local.wandercraft.eu:wdc\\/software\\/forks\\/\\1\\/wandercode.git \\0:\\2 /\")'
+    fetch-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:wdc/software/forks/$0/wandercode.git $1 && git checkout -b EXT_$0__$1 FETCH_HEAD'
+    pull-ext-branch = !sh -c 'git fetch git@gitlab.local.wandercraft.eu:wdc/software/forks/$0/wandercode.git $1 && git rebase FETCH_HEAD EXT_$0__$1'
     mr = !sh -c 'git fetch upstream merge-requests/$1/head:mr-$1 && git checkout mr-$1' -
 [push]
 	default = matching

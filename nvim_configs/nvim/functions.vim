@@ -67,20 +67,20 @@ endfunction
 " " vnoremap <script> èqh ^E3lW<Esc>:call <SID>formatWrap(120)<CR>gvgq:call <SID>replaceSpacesByTabs()<CR>
 " vnoremap <script> èqh ^E3lW<Esc>:call <SID>formatWrap(120)<CR>gvgq
 " vnoremap <script> èq( ^E3lW<Esc>:call <SID>formatWrap(120)<CR>gvgq
-nnoremap <script> èqc :call <SID>formatCppHeaderWrap(120, 0, 0)<CR>
-nnoremap <script> èqt :call <SID>formatCppHeaderWrap(120, 0, 1)<CR>
-nnoremap <script> èqs :call <SID>formatCppHeaderWrap(120, 0, 2)<CR>
-nnoremap <script> èqhc :call <SID>formatCppHeaderWrap(120, 1, 0)<CR>
-nnoremap <script> èqht :call <SID>formatCppHeaderWrap(120, 1, 1)<CR>
-nnoremap <script> èqhs :call <SID>formatCppHeaderWrap(120, 1, 2)<CR>
+nnoremap <script> èqc :call <SID>formatCppHeaderWrap(100, 0, 0)<CR>
+nnoremap <script> èqt :call <SID>formatCppHeaderWrap(100, 0, 1)<CR>
+nnoremap <script> èqs :call <SID>formatCppHeaderWrap(100, 0, 2)<CR>
+nnoremap <script> èqhc :call <SID>formatCppHeaderWrap(100, 1, 0)<CR>
+nnoremap <script> èqht :call <SID>formatCppHeaderWrap(100, 1, 1)<CR>
+nnoremap <script> èqhs :call <SID>formatCppHeaderWrap(100, 1, 2)<CR>
 
 " For visual mapping, do the same, but join all lines in one first.
-vnoremap <script> èqc :j<CR>:call <SID>formatCppHeaderWrap(120, 0, 0)<CR>
-vnoremap <script> èqt :j<CR>:call <SID>formatCppHeaderWrap(120, 0, 1)<CR>
-vnoremap <script> èqs :j<CR>:call <SID>formatCppHeaderWrap(120, 0, 2)<CR>
-vnoremap <script> èqhc :j<CR>:call <SID>formatCppHeaderWrap(120, 1, 0)<CR>
-vnoremap <script> èqht :j<CR>:call <SID>formatCppHeaderWrap(120, 1, 1)<CR>
-vnoremap <script> èqhs :j<CR>:call <SID>formatCppHeaderWrap(120, 1, 2)<CR>
+vnoremap <script> èqc :j<CR>:call <SID>formatCppHeaderWrap(100, 0, 0)<CR>
+vnoremap <script> èqt :j<CR>:call <SID>formatCppHeaderWrap(100, 0, 1)<CR>
+vnoremap <script> èqs :j<CR>:call <SID>formatCppHeaderWrap(100, 0, 2)<CR>
+vnoremap <script> èqhc :j<CR>:call <SID>formatCppHeaderWrap(100, 1, 0)<CR>
+vnoremap <script> èqht :j<CR>:call <SID>formatCppHeaderWrap(100, 1, 1)<CR>
+vnoremap <script> èqhs :j<CR>:call <SID>formatCppHeaderWrap(100, 1, 2)<CR>
 
 
 """""""""""""
@@ -124,32 +124,32 @@ vnoremap <script> gs :call SwapLR()<CR>
 " KEEP CURSOR POSITION WHEN SWITCHING BUFFERS
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " Save current view settings on a per-window, per-buffer basis.
-function! AutoSaveWinView()
-    if !exists("w:SavedBufView")
-        let w:SavedBufView = {}
-    endif
-    let w:SavedBufView[bufnr("%")] = winsaveview()
-endfunction
+" function! AutoSaveWinView()
+    " if !exists("w:SavedBufView")
+        " let w:SavedBufView = {}
+    " endif
+    " let w:SavedBufView[bufnr("%")] = winsaveview()
+" endfunction
 
-" Restore current view settings.
-function! AutoRestoreWinView()
-    let buf = bufnr("%")
-    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
-        let v = winsaveview()
-        let atStartOfFile = v.lnum == 1 && v.col == 0
-        if atStartOfFile && !&diff
-            call winrestview(w:SavedBufView[buf])
-        endif
-        unlet w:SavedBufView[buf]
-    endif
-endfunction
+" " Restore current view settings.
+" function! AutoRestoreWinView()
+    " let buf = bufnr("%")
+    " if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        " let v = winsaveview()
+        " let atStartOfFile = v.lnum == 1 && v.col == 0
+        " if atStartOfFile && !&diff
+            " call winrestview(w:SavedBufView[buf])
+        " endif
+        " unlet w:SavedBufView[buf]
+    " endif
+" endfunction
 
-" When switching buffers, preserve window view.
-if v:version >= 700
-    autocmd BufLeave * call AutoSaveWinView()
-    autocmd BufEnter * call AutoRestoreWinView()
-    " autocmd BufEnter * silent! normal! g`"
-endif
+" " When switching buffers, preserve window view.
+" if v:version >= 700
+    " autocmd BufLeave * call AutoSaveWinView()
+    " autocmd BufEnter * call AutoRestoreWinView()
+    " " autocmd BufEnter * silent! normal! g`"
+" endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " KILL TERM WHEN EXITING
@@ -182,7 +182,9 @@ endfunction
 
 nnoremap <script> <M-S-Q> :call <SID>kill_all_terminal()<CR>
 
+let g:curr_env='c'
 function! s:switch_env(n_env)
+    let g:curr_env=a:n_env
     for i in range(1, 1000)
         if buflisted(i) && getbufvar(i, 'terminal_job_id', 'NO_TERM') !=# 'NO_TERM'
             let is_docker = (getbufline(i, "$")[0][0:1] ==# "D|")  " Ugly way of checking if in Docker. More robust ??
@@ -235,11 +237,41 @@ command -nargs=1 -complete=file CD call Cd(<f-args>)
 nnoremap <silent> <script> <M-S-S>c :call <SID>switch_env('c')<CR>
 nnoremap <silent> <script> <M-S-S>t :call <SID>switch_env('t')<CR>
 nnoremap <silent> <script> <M-S-S>s :call <SID>switch_env('s')<CR>
+nnoremap <silent> <script> <M-S-S>r :call <SID>switch_env('r')<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " GO TO FILE WITH DOCKER AND LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>
+" nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>
+nnoremap gf :let @/=substitute(expand('<cfile>'), '^/src/', '', '') <CR>gngf
 nnoremap g<c-f> Bf:lviw"lyf:lviw"cyB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, <C-R>c)<CR>
-nnoremap g<m-f> B/ line \zs<CR>lviw"lyBB:let @/=substitute(expand('<cfile>'), '^/src/', '', '') <bar>normal gngf<CR>:call cursor(<C-R>l, 0)<CR>
+" nnoremap g<m-f> B/ line \zs<CR>lviw"lyBB:let @/=substitute(expand('<cfile>'), '^/src/', '', '')<CR>gngf:call cursor(<C-R>l, 0)<CR>
+nmap g<m-f> B/ line \zs<CR>viw"lyBBgf:call cursor(<C-R>l, 0)<CR>
+
+" Wipe all deleted (unloaded & unlisted) or all unloaded buffers
+function! Bwipeout() abort
+    let l:buffers = filter(getbufinfo(), {_, v -> !v.loaded && !v.listed})
+    if !empty(l:buffers)
+        echomsg 'bwipeout' join(map(l:buffers, {_, v -> v.bufnr}))
+    endif
+endfunction
+
+lua << EOF
+    function ClearTerm(reset)
+      vim.opt_local.scrollback = 1
+
+      vim.api.nvim_command("startinsert")
+      if reset == 1 then
+        vim.api.nvim_feedkeys("reset", 't', false)
+      else
+        vim.api.nvim_feedkeys("clear", 't', false)
+      end
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<cr>', true, false, true), 't', true)
+
+      vim.opt_local.scrollback = 10000
+    end
+
+    vim.api.nvim_set_keymap('t', '<C-l><C-l>', [[<C-\><C-N>:lua ClearTerm(0)<CR>]], {noremap = true})
+    vim.api.nvim_set_keymap('t', '<C-l><C-l><C-l>', [[<C-\><C-N>:lua ClearTerm(1)<CR>]], {noremap = true})
+EOF
