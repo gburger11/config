@@ -212,9 +212,12 @@ let g:autoimport#python#db_import_as = {
                 \     '\CLOWER': 'UPPER',
                 \     '\CFLYING': 'FLAT',
                 \     '\CFLAT': 'FLYING',
+                \     '\CTop': 'Bottom',
+                \     '\Ctop': 'bottom',
+                \     '\CBottom': 'Top',
+                \     '\Cbottom': 'top',
                 \   }
                 \]
-    nnoremap gc :call switch#Switch({'definitions': g:case_switch_custom_definitions})<cr>
 
     """"""""""""""""""""""""""""""""""""""""""""""""""
     " Chromatica
@@ -695,10 +698,11 @@ for map_command in ['noremap', 'noremap!', 'tnoremap']
     execute map_command . ' <silent> <M-s-g> <cmd>Telescope pickers<cr>'
 endfor
 
-nnoremap <M-h> <cmd>Telescope grep_string<cr>
-tnoremap <M-h> <C-\><C-n><cmd>Telescope grep_string<cr>
-noremap! <M-h> <C-\><C-n><cmd>Telescope grep_string<cr>
+nnoremap <M-h> viw"sy<cmd>Telescope grep_string<cr>
+tnoremap <M-h> viw"sy<C-\><C-n><cmd>Telescope grep_string<cr>
+noremap! <M-h> viw"sy<C-\><C-n><cmd>Telescope grep_string<cr>
 vnoremap <M-h> "sy<cmd>lua require("telescope.builtin").grep_string({search = vim.fn.getreg('s')})<cr>
+noremap è<S-r> :cdo s.<c-r>s.<c-r>s.g \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 """"""""""""""""""""""""""""
 " vim-signature
@@ -902,6 +906,7 @@ require("auto-save").setup {
 --     -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
 --     separator = nil,
 -- }
+
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
@@ -982,6 +987,7 @@ require('telescope').setup{
                 ["<M-k>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
                 ["<M-q>"] = require("telescope.actions").close,
                 ["s"] = "move_selection_previous",
+                ["r"] = "move_selection_next",
                 ["<S-s>"] = "preview_scrolling_up",
                 ["<S-t>"] = "preview_scrolling_down",
                 ["<C-s>"] = "preview_scrolling_up",

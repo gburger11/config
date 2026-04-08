@@ -111,14 +111,6 @@ function! SwapWords(dict, ...)
         \ . delimiter . 'ge'
 endfunction
 
-function! SwapLR()
-    exe 'S/left/XXXtmp_footXXX/ge'
-    exe 'S/right/left/ge'
-    exe 'S/XXXtmp_footXXX/right/ge'
-endfunction
-
-vnoremap <script> gs :call SwapLR()<CR>
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " KEEP CURSOR POSITION WHEN SWITCHING BUFFERS
