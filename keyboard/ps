@@ -35,10 +35,11 @@ xkb_symbols "bepo_perso" {
     name[Group1]= "French (Bepo, ergonomic, Dvorak way)";
 
     // Special keys
-    key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, ccedilla, Ccedilla]};
+    key <CAPS> {[  ISO_Level3_Shift, ISO_Level3_Shift, question, quotedbl]}; // questiondown
     // key <BKSL> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
-    key <BKSL> {[      apostrophe,     questiondown,   question,      dead_hook ]};
-    // key <RALT> {[            Escape]};
+    // key <BKSL> {[      apostrophe,     questiondown,   question,      dead_hook ]};
+    key <BKSL> {[      ISO_Level3_Shift, ISO_Level3_Shift, ccedilla,     Ccedilla ]};
+    key <RALT> { type[group1] = "FOUR_LEVEL", [      apostrophe,     question,   quotedbl,      dead_hook ]};
     // key <RALT> {[  ISO_Level3_Shift, ISO_Level3_Shift, quotedbl          ]};
 
     // First row
@@ -76,7 +77,7 @@ xkb_symbols "bepo_perso" {
     key <AC02> { [               u,            U,         ugrave,         Ugrave ] }; // u U ù Ù
     key <AC03> { [               i,            I, dead_diaeresis, dead_diaeresis ] }; // i I = =
     key <AC04> { [               e,            E,    ecircumflex,    Ecircumflex ] }; // e E ê Ê
-    key <AC05> { [           comma,    semicolon,       quotedbl, rightsinglequotemark ] }; // , ; ¨ ’
+    key <AC05> { [           comma,    semicolon, ISO_Level3_Lock, rightsinglequotemark ] }; // , ; ¨ ’
     key <AC06> { [               c,            C,              0,              0 ] }; // c C 0 0
     key <AC07> { [               t,            T,              1,              1 ] }; // t T 1 1
     key <AC08> { [               s,            S,              2,              2 ] }; // s S 2 2
