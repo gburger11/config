@@ -4,11 +4,13 @@ curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/lates
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
 
-sudo apt install tree tmux vim python3-pip zsh meld fzy silversearcher-ag exuberant-ctags par ripgrep fd-find python3-venv cppcheck
+# xclip necessary in addition of clipboard=unnamedplus,unnamed to have access to copy-paste naturally in and out of neovim
+sudo apt install tree tmux vim python3-pip zsh meld fzy silversearcher-ag exuberant-ctags par ripgrep fd-find python3-venv cppcheck xclip
 # For bluetooth headset
 sudo apt install blueman
 # For two / three fingers click on touchpad -> then set correct setting in Tweak (reboot needed)
-sudo apt install xserver-xorg-input-synaptics gnome-tweaks
+# sudo apt install xserver-xorg-input-synaptics gnome-tweaks
+sudo apt install touchegg
 
 ln -s $HOME/Private/config/nvim_configs/nvim $HOME/.config
 
@@ -18,13 +20,24 @@ chsh -s $(which zsh)
 # Install neovim and dependencies. Do not use apt as it install very old versions
 mkdir -p $HOME/.soft_manually_installed
 cd $HOME/.soft_manually_installed
-curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-chmod u+x nvim.appimage
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage
 mkdir -p $HOME/.local
 mkdir -p $HOME/.local/bin
-ln -s $HOME/.soft_manually_installed/nvim.appimage $HOME/.local/bin/nvim
+ln -s $HOME/.soft_manually_installed/nvim-linux-x86_64.appimage $HOME/.local/bin/nvim
+cd -
+
+cd $HOME
+python3 -m venv global_tools
+source global_tools/bin/activate
 pip3 install -U pynvim neovim-remote black pylint mypy isort --user
 cd -
+
+# Remove trash icon from left dock -> can be set manually with `dconf-editor`
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
+
+# Font manager
+sudo apt install font-manager
 
 cd nvim_configs
 ln -s $HOME/Private/config/nvim $HOME/.config/nvim

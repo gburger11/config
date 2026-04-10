@@ -170,6 +170,7 @@ if ! { [ -n "$TMUX" ]; } then
     tmux attach
 else
     if ! { [ -n "$NVIM" ]; } then
+        source $HOME/global_tools/bin/activate
         nvim -c te -c te -c te -c te -c te -c te -c te -c te -c te -c b1
     fi
 fi

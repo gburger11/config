@@ -266,4 +266,21 @@ lua << EOF
 
     vim.api.nvim_set_keymap('t', '<C-l><C-l>', [[<C-\><C-N>:lua ClearTerm(0)<CR>]], {noremap = true})
     vim.api.nvim_set_keymap('t', '<C-l><C-l><C-l>', [[<C-\><C-N>:lua ClearTerm(1)<CR>]], {noremap = true})
+
+    vim.api.nvim_create_user_command('ShowRootHighlightUnderCursor', function()
+        local function findRoot(id, tree)
+            local transId = vim.fn.synIDtrans(id)
+            local name = vim.fn.synIDattr(id, 'name')
+            table.insert(tree, name)
+
+            if id == transId then
+                print(table.concat(tree, ' -> '))
+            else
+                findRoot(transId, tree)
+            end
+        end
+
+        local id = vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 0)
+        findRoot(id, {})
+    end, {})
 EOF

@@ -37,12 +37,13 @@ Add in bashrc
 # TODO on a new computer
 
 ## Little things
-- change mouse side
-- add Alt+5/4/6/2/8 for lecture/davance/return/volume down/volume up [For Ubuntu 18.04, it is in settings/Devices/keyboard]
-- show dock on all displays
+- ~~change mouse side~~
+- ~~add Alt+5/4/6/2/8 for lecture/davance/return/volume down/volume up [For Ubuntu 18.04, it is in settings/Devices/keyboard]~~
+- ~~show dock on all displays~~
+- Change lock for `Super+k` (options / keyboard / keyboard shortcut / search for Lock Screen)
 - Install ssh key for github and gitlab
-- Install pip and pip3 (`sudo apt-get install python-pip python3-pip`)
-- Install and configure numlockx (https://doc.ubuntu-fr.org/numlockx)
+- ~~Install pip and pip3 (`sudo apt-get install python-pip python3-pip`)~~
+- ~~Install and configure numlockx (https://doc.ubuntu-fr.org/numlockx)~~
 
 ## keyboard
 #### With sudo rights
@@ -68,13 +69,15 @@ Add in bashrc
       </variantList>
     </layout>
 ```
+- Optionnally do the same to base.lst and base.xml [necessary ???]
 - Add to `/usr/share/console-setup/KeyboardNames.pl` the language. (Necessary for setting keyboard at login)
 - copy `ps` file to `/usr/share/X11/xkb/symbols`
 - Change default keyboard in `/etc/default/keyboard`
 
 ## terminal preparation
 - Install zsh (and make it default with `chsh -s $(which zsh)` and log out/in)
-- Install neovim (Avoid apt as it always install (very) old versins)
+- Make zsh default in the terminal -> menu -> preferences -> Profiles / Unnamed -> Command -> Yes to "Run a custom command instead of my shell" -> `/usr/bin/zsh`
+- Install neovim (Avoid apt as it always install (very) old versions)
 - Install neovim-remote (`pip3 install neovim-remote`)
 - Install tmux
 - Copy `.zshrc` (don't forget to change user name if need be!)
@@ -82,6 +85,9 @@ Add in bashrc
 - Copy all files and folders except plugins to ~/.config/nvim
 - Open new neovim do `:PlugInstall` and `:UpdateRemotePlugins`
 - Install `sudo apt-get install exuberant-ctags silversearcher-ag fzy`
+- Font changes:
+    - install nerd font from https://www.nerdfonts.com/font-downloads (eg Jet Brain Mono Nerd Font, chose Mono Regular version)
+    - Change then into terminal -> menu -> preferences -> Profiles / Unnamed -> custom font
 
 ## configs
 - Do `lesskey path/to/config/dot_files/lesskey`

@@ -37,7 +37,8 @@ fun! s:termSpecificChangingChanges()
         " hi clear @special.overlength
         " hi clear @special.trailingspaces
         " highlight! @special.trailingspaces guibg=NONE
-        if &filetype ==# 'lazygit' || &filetype ==# 'TelescopePrompt'
+        " if &filetype ==# 'lazygit' || &filetype ==# 'TelescopePrompt'
+        if &filetype ==# 'lazygit'
             hi NormalFloat ctermbg=NONE ctermfg=white
         endif
         let matches = getmatches()
