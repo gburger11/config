@@ -30,7 +30,6 @@ Plug 'luochen1990/rainbow'  " Matching parentheses
 Plug 'itchyny/lightline.vim'  " colorized bottom bar
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}  " Show context
 " Help syntax
-" Plug 'wookayin/vim-autoimport'
 Plug 'gburger11/vim-autoimport', {'tag': 'custom_db'}
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }  " tag 4.1 is necessary because 5.0 is compatible with nvim 0.3+ only, and default in ubuntu 18.04 is nvim 0.2.2
 Plug 'zchee/deoplete-jedi'
@@ -40,14 +39,14 @@ Plug 'neomake/neomake'
 Plug 'Vimjas/vim-python-pep8-indent'  " Necessary for python indentation
 Plug 'psf/black',
 Plug 'stsewd/isort.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Yggdroot/indentLine'  " displays indentation levels with spaces (with ¦)
-Plug 'nvimdev/indentmini.nvim'
+Plug 'nvimdev/indentmini.nvim'  " Show indentation
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-abolish'  " Allow case sensitive replacement with `:Subvert/.../.../`
 Plug 'tell-k/vim-autopep8'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'udalov/kotlin-vim'
+
 " Help navigation
 " Plug 'wellle/context.vim'  " Awesome, but slow when tested in 02/2023
 " Plug 'nvim-treesitter/nvim-treesitter-context'
@@ -56,15 +55,12 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
 Plug 'declancm/maximize.nvim'
 Plug 'tpope/vim-fugitive'  " Easy support for git in vim
-" Plug 'airblade/vim-gitgutter'  " Show git change in the margin + quick preview or reset
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'rhysd/conflict-marker.vim'  " Highlight conflict, allow jump and selection
 Plug 'kdheepak/lazygit.nvim'
 Plug 'kshenoy/vim-signature'  " Show marks in the margin
 Plug 'scrooloose/nerdtree'
-" Plug 'gburger11/CurtineIncSw.vim'  " Swap from source file to header file
 Plug 'gburger11/ouroboros.nvim'  " Swap from source file to header file, better
-" Plug 'brooth/far.vim'  " Find And Replace very powerful -> replaced by telescope + bqf
 Plug 'folke/which-key.nvim'
 Plug 'rbong/vim-flog'
 
@@ -86,6 +82,8 @@ Plug 'AndrewRadev/switch.vim'  " Switch between true/false, left/right...
 Plug 'bergercookie/vim-debugstring'
 " Terminal plugins
 Plug 'brettanomyces/nvim-editcommand'
+
+" Plug 'goldos24/rainbow-variables-nvim'
 
 " Specific visualizers
 Plug 'lervag/vimtex'
@@ -906,6 +904,13 @@ require("auto-save").setup {
 --     separator = nil,
 -- }
 
+-- require('nvim-treesitter.configs').setup {
+--   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
+--   highlight = {
+--     enable = true,
+--     additional_vim_regex_highlighting = false,
+--   },
+-- }
 -- require'nvim-treesitter.configs'.setup {
 --   -- A list of parser names, or "all" (the four listed parsers should always be installed)
 --   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
@@ -1196,5 +1201,7 @@ vim.g.indentmini_key = '<F5>'
 require("indentmini").setup({
     char = "¦",
 })
+
+-- require('rainbow-variables-nvim').start_with_config({})
 
 EOF

@@ -10,7 +10,11 @@ sudo apt install tree tmux vim python3-pip zsh meld fzy silversearcher-ag exuber
 sudo apt install blueman
 # For two / three fingers click on touchpad -> then set correct setting in Tweak (reboot needed)
 # sudo apt install xserver-xorg-input-synaptics gnome-tweaks
-sudo apt install touchegg
+sudo apt install touchegg  # For three-finger clicks
+
+## Install tree-sitter-cli... (A pain):
+# - cargo install tree-sitter-cli (need rustup default stable to update)
+# - export PATH=$HOME/.cargo/bin:$PATH
 
 ln -s $HOME/Private/config/nvim_configs/nvim $HOME/.config
 

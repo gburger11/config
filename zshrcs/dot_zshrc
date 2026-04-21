@@ -89,6 +89,7 @@ source $ZSH/oh-my-zsh.sh
 
 export TERM=screen-256color
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 
 # disable the freezing by <C-s>
 stty -ixon
