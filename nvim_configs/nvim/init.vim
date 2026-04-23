@@ -10,5 +10,6 @@ else
     source ~/.config/nvim/functions.vim
     source ~/.config/nvim/mappings.vim
     source ~/.config/nvim/colors.vim
+    source ~/.config/nvim/rainbow_colors.lua
     source ~/.config/nvim/types.vim
 endif

@@ -47,9 +47,13 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'udalov/kotlin-vim'
 
+Plug 'NyxVim/nvim-colorizer.lua'
+
+" Plug 'neovim/nvim-lspconfig'
+
 " Help navigation
 " Plug 'wellle/context.vim'  " Awesome, but slow when tested in 02/2023
-" Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 " Plug 'cloudhead/neovim-fuzzy'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
@@ -82,8 +86,6 @@ Plug 'AndrewRadev/switch.vim'  " Switch between true/false, left/right...
 Plug 'bergercookie/vim-debugstring'
 " Terminal plugins
 Plug 'brettanomyces/nvim-editcommand'
-
-" Plug 'goldos24/rainbow-variables-nvim'
 
 " Specific visualizers
 Plug 'lervag/vimtex'
@@ -125,6 +127,17 @@ endfunction
 function! GetShortCwd()
     return substitute(expand(getcwd()), $HOME, "~", "")
 endfunction
+
+" Disable lightline on all floating windows (Telescope, lazygit)
+augroup LightlineFloatingFix
+    autocmd!
+    autocmd WinEnter,BufEnter *
+        \ if nvim_win_get_config(win_getid())['relative'] != '' |
+        \   call lightline#disable() |
+        \ else |
+        \   call lightline#enable() |
+        \ endif
+augroup END
 
 
 """"""""""""""""""""""""""
@@ -778,8 +791,6 @@ command! SlimeActivate call s:activate_slime_mappings()
 " nmap kà <Plug>Send
 " vmap kk <Plug>Send
 " nmap K s$
-"
-"
 
 
 """"""""""""""""""""""""""""
@@ -796,114 +807,117 @@ require("auto-save").setup {
     execution_message = {}
     }
 
--- require'treesitter-context'.setup{
---     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
---     max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
---     trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
---     min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
---     patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
---         -- For all filetypes
---         -- Note that setting an entry here replaces all other patterns for this entry.
---         -- By setting the 'default' entry below, you can control which nodes you want to
---         -- appear in the context window.
---         default = {
---             'class',
---             'function',
---             'method',
---             'for',
---             'while',
---             'if',
---             'switch',
---             'case',
---             'interface',
---             'struct',
---             'enum',
---         },
---         -- Patterns for specific filetypes
---         -- If a pattern is missing, *open a PR* so everyone can benefit.
---         tex = {
---             'chapter',
---             'section',
---             'subsection',
---             'subsubsection',
---         },
---         haskell = {
---             'adt'
---         },
---         rust = {
---             'impl_item',
--- 
---         },
---         terraform = {
---             'block',
---             'object_elem',
---             'attribute',
---         },
---         scala = {
---             'object_definition',
---         },
---         vhdl = {
---             'process_statement',
---             'architecture_body',
---             'entity_declaration',
---         },
---         markdown = {
---             'section',
---         },
---         elixir = {
---             'anonymous_function',
---             'arguments',
---             'block',
---             'do_block',
---             'list',
---             'map',
---             'tuple',
---             'quoted_content',
---         },
---         json = {
---             'pair',
---         },
---         typescript = {
---             'export_statement',
---         },
---         yaml = {
---             'block_mapping_pair',
---         },
---         python = {
---             'block_mapping_pair',
---             'object_definition',
---             'entity_declaration',
---             'argument_list',
---             'parenthesized_expression',
---             'dictionary',
---             'list',
---             'set',
---             'tuple',
---             'elif',
---             'else',
---         },
---         cpp = {
---             'else',
---             'else_if',
---         },
---     },
---     exact_patterns = {
---         -- Example for a specific filetype with Lua patterns
---         -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
---         -- exactly match "impl_item" only)
---         -- rust = true,
---     },
--- 
---     -- [!] The options below are exposed but shouldn't require your attention,
---     --     you can safely ignore them.
--- 
---     zindex = 20, -- The Z-index of the context window
---     mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
---     -- Separator between context and content. Should be a single character string, like '-'.
---     -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
---     separator = nil,
--- }
+require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        -- For all filetypes
+        -- Note that setting an entry here replaces all other patterns for this entry.
+        -- By setting the 'default' entry below, you can control which nodes you want to
+        -- appear in the context window.
+        default = {
+            'class',
+            'function',
+            'method',
+            'for',
+            'while',
+            'if',
+            'switch',
+            'case',
+            'interface',
+            'struct',
+            'enum',
+        },
+        -- Patterns for specific filetypes
+        -- If a pattern is missing, *open a PR* so everyone can benefit.
+        tex = {
+            'chapter',
+            'section',
+            'subsection',
+            'subsubsection',
+        },
+        haskell = {
+            'adt'
+        },
+        rust = {
+            'impl_item',
 
+        },
+        terraform = {
+            'block',
+            'object_elem',
+            'attribute',
+        },
+        scala = {
+            'object_definition',
+        },
+        vhdl = {
+            'process_statement',
+            'architecture_body',
+            'entity_declaration',
+        },
+        markdown = {
+            'section',
+        },
+        elixir = {
+            'anonymous_function',
+            'arguments',
+            'block',
+            'do_block',
+            'list',
+            'map',
+            'tuple',
+            'quoted_content',
+        },
+        json = {
+            'pair',
+        },
+        typescript = {
+            'export_statement',
+        },
+        yaml = {
+            'block_mapping_pair',
+        },
+        python = {
+            'block_mapping_pair',
+            'object_definition',
+            'entity_declaration',
+            'argument_list',
+            'parenthesized_expression',
+            'dictionary',
+            'list',
+            'set',
+            'tuple',
+            'elif',
+            'else',
+        },
+        cpp = {
+            'else',
+            'else_if',
+        },
+    },
+    exact_patterns = {
+        -- Example for a specific filetype with Lua patterns
+        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+        -- exactly match "impl_item" only)
+        -- rust = true,
+    },
+
+    -- [!] The options below are exposed but shouldn't require your attention,
+    --     you can safely ignore them.
+
+    zindex = 20, -- The Z-index of the context window
+    mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+    -- Separator between context and content. Should be a single character string, like '-'.
+    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+    separator = nil,
+}
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'cpp', 'python', 'vim', 'lua', 'markdown', 'toml' },
+  callback = function() vim.treesitter.start() end,
+})
 -- require('nvim-treesitter.configs').setup {
 --   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
 --   highlight = {
@@ -1202,6 +1216,8 @@ require("indentmini").setup({
     char = "¦",
 })
 
--- require('rainbow-variables-nvim').start_with_config({})
+require 'colorizer'.setup()
+
+-- vim.lsp.enable("clangd")
 
 EOF
