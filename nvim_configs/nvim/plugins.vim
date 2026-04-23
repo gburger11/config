@@ -49,12 +49,9 @@ Plug 'udalov/kotlin-vim'
 
 Plug 'NyxVim/nvim-colorizer.lua'
 
-" Plug 'neovim/nvim-lspconfig'
-
 " Help navigation
 " Plug 'wellle/context.vim'  " Awesome, but slow when tested in 02/2023
 Plug 'nvim-treesitter/nvim-treesitter-context'
-" Plug 'cloudhead/neovim-fuzzy'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/scratch.vim'
 Plug 'declancm/maximize.nvim'
@@ -155,146 +152,95 @@ let g:autoimport#python#db_import_as = {
             \ 'nevergrad': 'ng'
             \ }
 
-" let g:autoimport#python#db_import = {
-    " \ 'tiger': v:null,
-    " \ 'pinocchio': ['Quaternion', 'SE3']
-    " \ }
 
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " Easy-motion
-    """"""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Switch
+""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:case_switch_custom_definitions =
+            \ [
+            \   {
+            \     '\<\(\l\)\(\l\+\(\u\l\+\)\+\)\>': '\=toupper(submatch(1)) . submatch(2)',
+            \     '\<\(\u\l\+\)\(\u\l\+\)\+\>': "\\=tolower(substitute(submatch(0), '\\(\\l\\)\\(\\u\\)', '\\1_\\2', 'g'))",
+            \     '\<\(\l\+\)\(_\l\+\)\+\>': '\U\0',
+            \     '\<\(\u\+\)\(_\u\+\)\+\>': "\\=tolower(substitute(submatch(0), '_', '-', 'g'))",
+            \     '\<\(\l\+\)\(-\l\+\)\+\>': "\\=substitute(submatch(0), '-\\(\\l\\)', '\\u\\1', 'g')",
+            \   }
+            \ ]
+let g:switch_custom_definitions = [
+            \   {
+            \     '\CRight': 'Left',
+            \     '\CLeft' : 'Right',
+            \     '\Cright': 'left',
+            \     '\Cleft' : 'right',
+            \     '\CRIGHT': 'LEFT',
+            \     '\CLEFT' : 'RIGHT',
+            \     '\Cmin'  : 'max',
+            \     '\CMin'  : 'Max',
+            \     '\CMIN'  : 'MAX',
+            \     '\CUpper': 'Lower',
+            \     '\Cupper': 'lower',
+            \     '\CUPPER': 'LOWER',
+            \     '\CLower': 'Upper',
+            \     '\Clower': 'upper',
+            \     '\CLOWER': 'UPPER',
+            \     '\CFLYING': 'FLAT',
+            \     '\CFLAT': 'FLYING',
+            \     '\CTop': 'Bottom',
+            \     '\Ctop': 'bottom',
+            \     '\CBottom': 'Top',
+            \     '\Cbottom': 'top',
+            \   }
+            \]
 
-    " map é <Plug>(easymotion-prefix)
-    " map éé <Plug>(easymotion-bd-f)
-    " map éw <Plug>(easymotion-bd-w)
-    " map ée <Plug>(easymotion-bd-e)
-    " map én <Plug>(easymotion-vim-n)
-    " map éN <Plug>(easymotion-vim-N)
-    " map é/ <Plug>(easymotion-sn)
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Deoplete
+""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1
+inoremap <expr> <Tab>
+            \ pumvisible() ? "\<C-n>" : "<TAB>"
+inoremap <expr> <S-Tab>
+            \ pumvisible() ? "\<C-p>" : "<S-TAB>"
 
-    " " map éW <Plug>(easymotion-W)
-    " " map éàe <Plug>(easymotion-ge)
-    " " map éàE <Plug>(easymotion-gE)
-    " " nmap ét <Plug>(easymotion-j)
-    " " nmap és <Plug>(easymotion-w)
-    " " nmap ér <Plug>(easymotion-sn)
-    " " nmap éy <Plug>(easymotion-bd-t)
-    " " nmap éx <Plug>(easymotion-bd-n)
-    " " nmap é* <Plug>(easymotion-next)
-    " " nmap é# <Plug>(easymotion-prev)
-    " " nmap én <Plug>(easymotion-bd-n)
-    " "
-    " map étt <Plug>(easymotion-sol-j)
-    " map été <Plug>(easymotion-eol-j)
-    " map éss <Plug>(easymotion-sol-k)
-    " map ésé <Plug>(easymotion-eol-k)
-    " nmap é. <Plug>(easymotion-repeat)
+call deoplete#custom#option('candidate_marks', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    execute 'inoremap <expr> ' . i .'ê pumvisible() ? deoplete#insert_candidate(' . i . ') : "' . i . '"'
+endfor
 
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " Switch
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    let g:case_switch_custom_definitions =
-                \ [
-                \   {
-                \     '\<\(\l\)\(\l\+\(\u\l\+\)\+\)\>': '\=toupper(submatch(1)) . submatch(2)',
-                \     '\<\(\u\l\+\)\(\u\l\+\)\+\>': "\\=tolower(substitute(submatch(0), '\\(\\l\\)\\(\\u\\)', '\\1_\\2', 'g'))",
-                \     '\<\(\l\+\)\(_\l\+\)\+\>': '\U\0',
-                \     '\<\(\u\+\)\(_\u\+\)\+\>': "\\=tolower(substitute(submatch(0), '_', '-', 'g'))",
-                \     '\<\(\l\+\)\(-\l\+\)\+\>': "\\=substitute(submatch(0), '-\\(\\l\\)', '\\u\\1', 'g')",
-                \   }
-                \ ]
-    let g:switch_custom_definitions = [
-                \   {
-                \     '\CRight': 'Left',
-                \     '\CLeft' : 'Right',
-                \     '\Cright': 'left',
-                \     '\Cleft' : 'right',
-                \     '\CRIGHT': 'LEFT',
-                \     '\CLEFT' : 'RIGHT',
-                \     '\Cmin'  : 'max',
-                \     '\CMin'  : 'Max',
-                \     '\CMIN'  : 'MAX',
-                \     '\CUpper': 'Lower',
-                \     '\Cupper': 'lower',
-                \     '\CUPPER': 'LOWER',
-                \     '\CLower': 'Upper',
-                \     '\Clower': 'upper',
-                \     '\CLOWER': 'UPPER',
-                \     '\CFLYING': 'FLAT',
-                \     '\CFLAT': 'FLYING',
-                \     '\CTop': 'Bottom',
-                \     '\Ctop': 'bottom',
-                \     '\CBottom': 'Top',
-                \     '\Cbottom': 'top',
-                \   }
-                \]
+" disable autocomplete on telescope prompts
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " Chromatica
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " let g:chromatica#libclang_path='/usr/lib/llvm-3.9/lib/'
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Neomake
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" When writing a buffer, and on normal mode changes (after 750ms).
+call neomake#configure#automake('nrw', 100)
+let g:neomake_py_mypy_maker = {
+            \ 'args': ['%:p', '--python-version=3.8']
+            \ }
+let g:neomake_python_enabled_makers = ['pylint', 'mypy']
 
 
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " Deoplete
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    let g:deoplete#enable_at_startup = 1
-    inoremap <expr> <Tab>
-                \ pumvisible() ? "\<C-n>" : "<TAB>"
-    inoremap <expr> <S-Tab>
-                \ pumvisible() ? "\<C-p>" : "<S-TAB>"
+""""""""""""""""""""""""""""""""""""""""""""""""
+" Tag bar
+""""""""""""""""""""""""""""""""""""""""""""""""
+" nmap <silent> àg :TagbarOpen fj<CR>
+" nmap <silent> àk :TagbarClose<CR>
+nmap <silent> àf :TagbarToggle<CR>
+let g:tagbar_autofocus=1
 
-    call deoplete#custom#option('candidate_marks', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
-    for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        execute 'inoremap <expr> ' . i .'ê pumvisible() ? deoplete#insert_candidate(' . i . ') : "' . i . '"'
-    endfor
-    " for [i, l] in [[0, 'c'], [1, 't'], [2, 's'], [3, 'r'], [4, 'n'], [5, 'm'], [6, 'v'], [7, 'd'], [8, 'l'], [9, 'j']]
-    " execute 'inoremap <expr> <M-' . l .'> pumvisible() ? deoplete#insert_candidate(' . i . ') : "' . l . '"'
-    " endfor
+let g:tagbar_map_togglesort = 'è'
+let g:tagbar_map_togglepause = 'f'
+let g:tagbar_map_toggleautoclose = 'a'
+let g:tagbar_sort = 0
 
-    " disable autocomplete on telescope prompts
-    autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " Neomake
-    """"""""""""""""""""""""""""""""""""""""""""""""""
-    " When writing a buffer, and on normal mode changes (after 750ms).
-    call neomake#configure#automake('nrw', 100)
-    " let g:neomake_py_pylint_maker = {
-        " \ 'args': ['%:p', '--max-line-length=100']
-        " \ }
-        " let g:neomake_py_flake_maker = {
-            " \ 'args': ['%:p', '--max-line-length=100']
-            " \ }
-            let g:neomake_py_mypy_maker = {
-                        \ 'args': ['%:p', '--python-version=3.8']
-                        \ }
-            let g:neomake_python_enabled_makers = ['pylint', 'mypy']
-
-            " let g:neomake_cpp_enable_makers = ['clang', 'cppcheck']
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tags
+""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <silent> à] :!ctags -R --exclude='**/build/**' --exclude='**/dist/**'<CR>
 
 
-            """"""""""""""""""""""""""""""""""""""""""""""""
-            " Tag bar
-            """"""""""""""""""""""""""""""""""""""""""""""""
-            " nmap <silent> àg :TagbarOpen fj<CR>
-            " nmap <silent> àk :TagbarClose<CR>
-            nmap <silent> àf :TagbarToggle<CR>
-            let g:tagbar_autofocus=1
-
-            let g:tagbar_map_togglesort = 'è'
-            let g:tagbar_map_togglepause = 'f'
-            let g:tagbar_map_toggleautoclose = 'a'
-            let g:tagbar_sort = 0
-
-            """"""""""""""""""""""""""""""""""""""""""""""""""
-            " Tags
-            """"""""""""""""""""""""""""""""""""""""""""""""""
-            nmap <silent> à] :!ctags -R --exclude='**/build/**' --exclude='**/dist/**'<CR>
-
-
-            """"""""""""""""""""""""""""""""""""""""""""""""
-            " Rainbow parenthesis configuration
+""""""""""""""""""""""""""""""""""""""""""""""""
+" Rainbow parenthesis configuration
 """"""""""""""""""""""""""""""""""""""""""""""""
 
 let g:rainbow_conf = {
@@ -388,9 +334,6 @@ let g:vim_markdown_conceal = 0
 """"""""""""""""""""""""""""""""""""""""""""""""
 " configuration for nerdtree
 """"""""""""""""""""""""""""""""""""""""""""""""
-" active tree shortcut
-" map <silent> àf :NERDTreeFocus<CR>
-" map <silent> àx :NERDTreeClose<CR>
 
 " Open NERDTree in the directory of the current file (or cwd if no file is open)
 map <silent> àq :call NERDTreeToggleInCurDir()<cr>
@@ -443,54 +386,12 @@ nmap ]ê <Plug>unimpairedMoveDown
 xmap ]ê <Plug>unimpairedMoveSelectionDown
 xmap [ê <Plug>unimpairedMoveSelectionUp
 nmap [ê <Plug>unimpairedMoveUp
-" nmap ]œ& & :call <SNR>170_setup_paste()<CR>o
-" nmap ]œ& & :call <SNR>170_setup_paste()<CR>O
-" unmap >p
-" unmap >P
-" unmap <p
-" unmap <P
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fuzzy
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" nnoremap <M-f> :FuzzyOpen<CR>
-" tnoremap <M-f> <C-\><C-n>:FuzzyOpen<CR>
-" nnoremap èg viw"gy:FuzzyGrep <C-r>g
-" nnoremap èG :FuzzyGrep 
-" vnoremap èg "gy:FuzzyGrep <C-r>g
-
-let g:fuzzy_bindkeys = 0
-autocmd FileType fuzzy tnoremap <silent> <buffer> <Esc> <C-\><C-n>:FuzzyKill<CR>
-autocmd FileType fuzzy tnoremap <silent> <buffer> <M-S-T> <C-\><C-n>:FuzzyOpenFileInTab<CR>
-autocmd FileType fuzzy tnoremap <silent> <buffer> <C-H> <C-\><C-n>:FuzzyOpenFileInSplit<CR>
-autocmd FileType fuzzy tnoremap <silent> <buffer> <C-V> <C-\><C-n>:FuzzyOpenFileInVSplit<CR>
-
-autocmd FileType fuzzy tnoremap <silent> <buffer> <C-T> <down>
-autocmd FileType fuzzy tnoremap <silent> <buffer> <C-s> <up>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " GitGutter
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
-" let g:gitgutter_map_keys = 0
-
-" nmap gha <Plug>(GitGutterStageHunk)
-" nmap ghu <Plug>(GitGutterUndoHunk)
-" nmap ghp <Plug>(GitGutterPreviewHunk)
-
-" nmap ghh <Plug>(GitGutterNextHunk)
-" nmap ghg <Plug>(GitGutterPrevHunk)
-
-" nmap <silent> ghv :GitGutterLineHighlightsToggle<CR>
-
-" omap ih <Plug>(GitGutterTextObjectInnerPending)
-" omap ah <Plug>(GitGutterTextObjectOuterPending)
-" xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-" xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-
-" command! Glist GitGutterQuickFix | copen
-"
 nmap gha <cmd>Gitsigns stage_hunk<CR>
 nmap ghp <cmd>Gitsigns preview_hunk_inline<CR>
 nmap ghw <cmd>Gitsigns toggle_word_diff<CR>
@@ -593,13 +494,6 @@ let g:vimtex_quickfix_mode=0
 let g:tex_no_error=1
 
 set conceallevel=1
-
-" xmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
-" nmap  ésD <Plug>(vimtex-delim-toggle-modifier-reverse)
-" xmap  ésd <Plug>(vimtex-delim-toggle-modifier)
-" nmap  ésd <Plug>(vimtex-delim-toggle-modifier)
-" nmap  ésc <Plug>(vimtex-cmd-toggle-star)
-" nmap  ése <Plug>(vimtex-env-toggle-star)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Vimtex
@@ -781,443 +675,3 @@ endfunction
 
 command! JukitActivate call s:activate_jukit_mappings()
 command! SlimeActivate call s:activate_slime_mappings()
-
-""""""""""""""""""""""""""""
-" " Send
-"""""""""""""""""""""""""""
-" let g:send_disable_mapping=1
-
-" nmap kk <Plug>SendLine
-" nmap kà <Plug>Send
-" vmap kk <Plug>Send
-" nmap K s$
-
-
-""""""""""""""""""""""""""""
-"  LUA PLUGINS
-"""""""""""""""""""""""""""
-lua << EOF
------------------------
--- auto-save.nvim
------------------------
-require("auto-save").setup {
-    -- your config goes here
-    -- or just leave it empty :)
-    debounce_delay = 200,
-    execution_message = {}
-    }
-
-require'treesitter-context'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-            'class',
-            'function',
-            'method',
-            'for',
-            'while',
-            'if',
-            'switch',
-            'case',
-            'interface',
-            'struct',
-            'enum',
-        },
-        -- Patterns for specific filetypes
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        tex = {
-            'chapter',
-            'section',
-            'subsection',
-            'subsubsection',
-        },
-        haskell = {
-            'adt'
-        },
-        rust = {
-            'impl_item',
-
-        },
-        terraform = {
-            'block',
-            'object_elem',
-            'attribute',
-        },
-        scala = {
-            'object_definition',
-        },
-        vhdl = {
-            'process_statement',
-            'architecture_body',
-            'entity_declaration',
-        },
-        markdown = {
-            'section',
-        },
-        elixir = {
-            'anonymous_function',
-            'arguments',
-            'block',
-            'do_block',
-            'list',
-            'map',
-            'tuple',
-            'quoted_content',
-        },
-        json = {
-            'pair',
-        },
-        typescript = {
-            'export_statement',
-        },
-        yaml = {
-            'block_mapping_pair',
-        },
-        python = {
-            'block_mapping_pair',
-            'object_definition',
-            'entity_declaration',
-            'argument_list',
-            'parenthesized_expression',
-            'dictionary',
-            'list',
-            'set',
-            'tuple',
-            'elif',
-            'else',
-        },
-        cpp = {
-            'else',
-            'else_if',
-        },
-    },
-    exact_patterns = {
-        -- Example for a specific filetype with Lua patterns
-        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-        -- exactly match "impl_item" only)
-        -- rust = true,
-    },
-
-    -- [!] The options below are exposed but shouldn't require your attention,
-    --     you can safely ignore them.
-
-    zindex = 20, -- The Z-index of the context window
-    mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-    -- Separator between context and content. Should be a single character string, like '-'.
-    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-    separator = nil,
-}
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'cpp', 'python', 'vim', 'lua', 'markdown', 'toml' },
-  callback = function() vim.treesitter.start() end,
-})
--- require('nvim-treesitter.configs').setup {
---   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
---   highlight = {
---     enable = true,
---     additional_vim_regex_highlighting = false,
---   },
--- }
--- require'nvim-treesitter.configs'.setup {
---   -- A list of parser names, or "all" (the four listed parsers should always be installed)
---   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python", "cpp", "toml" },
--- 
---   -- Install parsers synchronously (only applied to `ensure_installed`)
---   sync_install = false,
--- 
---   -- Automatically install missing parsers when entering buffer
---   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
---   auto_install = true,
--- 
---   -- List of parsers to ignore installing (for "all")
---   ---ignore_install = { "javascript" },
--- 
---   ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
---   -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
--- 
---   highlight = {
---     -- `false` will disable the whole extension
---     enable = true,
--- 
---     ----- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
---     ----- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
---     ----- the name of the parser)
---     ----- list of language that will be disabled
---     ---disable = { "c", "rust" },
---     ----- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
---     ---disable = function(lang, buf)
---     ---    local max_filesize = 100 * 1024 -- 100 KB
---     ---    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
---     ---    if ok and stats and stats.size > max_filesize then
---     ---        return true
---     ---    end
---     ---end,
--- 
---     ----- Setting this to true will run `:h syntax` and tree-sitter at the same time.
---     ----- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
---     ----- Using this option may slow down your editor, and you may see some duplicate highlights.
---     ----- Instead of true it can also be a list of languages
---     additional_vim_regex_highlighting = false,
---   },
--- }
-vim.api.nvim_set_hl(0, "@function", { link = "GruvboxPurple" })
-
--- ["<S-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.previewers").vim_buffer_qflist.new,
--- ["<S-q>"] = require("telescope.actions").smart_send_to_qflist + require('telescope.actions').open_qflist,
-require('telescope').setup{
-    defaults = {
-        -- configure to use ripgrep   TODO : works ???
-        vimgrep_arguments = {
-            "rg",
-            "--follow",        -- Follow symbolic links
-            "--hidden",        -- Search for hidden files
-            "--no-heading",    -- Don't group matches by each file
-            "--with-filename", -- Print the file path with the matched lines
-            "--line-number",   -- Show line numbers
-            "--column",        -- Show column numbers
-            "--smart-case",    -- Smart case search
-
-            -- Exclude some patterns from search
-            "--glob=!**/.git/*",
-            "--glob=!**/.idea/*",
-            "--glob=!**/.vscode/*",
-            "--glob=!**/build/*",
-            "--glob=!**/dist/*",
-            "--glob=!**/yarn.lock",
-            "--glob=!**/package-lock.json",
-        },
-        mappings = {
-            i = {
-                ["<C-s>"] = "preview_scrolling_up",
-                ["<C-t>"] = "preview_scrolling_down",
-                ["<C-p>"] = {"<C-r>\"", type = "command"},
-                ["<M-k>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
-                ["<M-q>"] = require("telescope.actions").close,
-            },
-            n = {
-                ["<M-k>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
-                ["<M-q>"] = require("telescope.actions").close,
-                ["s"] = "move_selection_previous",
-                ["r"] = "move_selection_next",
-                ["<S-s>"] = "preview_scrolling_up",
-                ["<S-t>"] = "preview_scrolling_down",
-                ["<C-s>"] = "preview_scrolling_up",
-                ["<C-t>"] = "preview_scrolling_down",
-                ["<C-h>"] = "file_split",
-            },
-        },
-        prompt_prefix="🔍 ",
-        cache_picker={
-            num_pickers = 10,
-        },
-    },
-    pickers = {
-        find_files = {
-            -- theme = "dropdown",
-            layout_config = {
-                width = 0.95,
-            },
-            mappings = {
-                i = {
-                    ["<M-'>"] = {
-                        "<Esc>02<right>v$hy:lua require('telescope.builtin').buffers { default_text = require('telescope.actions.state').get_current_line() }<CR>",
-                        type="command"},
-                },
-                n = {
-                    ["<M-'>"] = {
-                        "02<right>v$hy:lua require('telescope.builtin').buffers { default_text = require('telescope.actions.state').get_current_line() }<cr>",
-                        type="command"},
-                },
-            },
-        },
-        grep_string = {
-            -- theme = "dropdown",
-            layout_config = {
-                width = 0.95,
-            },
-        },
-        buffers = {
-            -- theme = "dropdown",
-            layout_config = {
-                width = 0.95,
-                height = 30,
-                -- preview_height = 15,
-            },
-            mappings = {
-                i = {
-                    ["<M-f>"] = {
-                        "<Esc>02<right>v$hy:lua require('telescope.builtin').find_files { default_text = require('telescope.actions.state').get_current_line() }<CR>",
-                        type="command"},
-                },
-                n = {
-                    ["x"] = "delete_buffer",
-                    ["<M-f>"] = {
-                        "02<right>v$hy:lua require('telescope.builtin').find_files { default_text = require('telescope.actions.state').get_current_line() }<cr>",
-                        type="command"},
-                },
-            },
-        },
-        live_grep = {
-            -- theme = "dropdown",
-            layout_config = {
-                width = 0.95,
-            },
-            mappings = {
-                i = {
-                    ["<M-h>"] = "to_fuzzy_refine",
-                },
-                n = {
-                    ["<M-h>"] = "to_fuzzy_refine",
-                },
-            },
-        },
-        quickfix = {
-            -- theme = "dropdown",
-            layout_config = {
-                width = 0.95,
-            },
-        },
-    },
-}
-
--- Make quickfix more beautiful
-
-local fn = vim.fn
-
-function _G.qftf(info)
-    local items
-    local ret = {}
-    -- The name of item in list is based on the directory of quickfix window.
-    -- Change the directory for quickfix window make the name of item shorter.
-    -- It's a good opportunity to change current directory in quickfixtextfunc :)
-    --
-    -- local alterBufnr = fn.bufname('#') -- alternative buffer is the buffer before enter qf window
-    -- local root = getRootByAlterBufnr(alterBufnr)
-    -- vim.cmd(('noa lcd %s'):format(fn.fnameescape(root)))
-    --
-    if info.quickfix == 1 then
-        items = fn.getqflist({id = info.id, items = 0}).items
-    else
-        items = fn.getloclist(info.winid, {id = info.id, items = 0}).items
-    end
-    local limit = 31
-    local fnameFmt1, fnameFmt2 = '%-' .. limit .. 's', '…%.' .. (limit - 1) .. 's'
-    local validFmt = '%s │%5d:%-3d│%s %s'
-    for i = info.start_idx, info.end_idx do
-        local e = items[i]
-        local fname = ''
-        local str
-        if e.valid == 1 then
-            if e.bufnr > 0 then
-                fname = fn.bufname(e.bufnr)
-                if fname == '' then
-                    fname = '[No Name]'
-                else
-                    fname = fname:gsub('^' .. vim.env.HOME, '~')
-                end
-                -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
-                if #fname <= limit then
-                    fname = fnameFmt1:format(fname)
-                else
-                    fname = fnameFmt2:format(fname:sub(1 - limit))
-                end
-            end
-            local lnum = e.lnum > 99999 and -1 or e.lnum
-            local col = e.col > 999 and -1 or e.col
-            local qtype = e.type == '' and '' or ' ' .. e.type:sub(1, 1):upper()
-            str = validFmt:format(fname, lnum, col, qtype, e.text)
-        else
-            str = e.text
-        end
-        table.insert(ret, str)
-    end
-    return ret
-end
-
-vim.o.qftf = '{info -> v:lua._G.qftf(info)}'
-
--- Adapt fzf's delimiter in nvim-bqf
-require('bqf').setup({
-    func_map = {
-        pscrollup = "<S-s>",
-        pscrolldown = "<S-t>",
-        -- set to empty string to disable
-        tab = '',
-        tabb = '',
-        tabc = '',
-    },
-    filter = {
-        fzf = {
-            action_for = {},
-            extra_opts = {'--bind', 'ctrl-o:toggle-all', '--delimiter', '│', '--prompt', '> '}
-        }
-    }
-})
-
-
--- which key
-local wk = require("which-key")
-
-wk.add({
-  { "è", group = "Débug" },
-  { "é", group = "Movements" },
-  { "é.", "<Plug>(easymotion-repeat)", desc = "[easy] Repeat last move" },
-  { "é/", "<Plug>(easymotion-sn)", desc = "[easy] search" },
-  { "éN", "<Plug>(easymotion-vim-N)", desc = "[easy] previous search" },
-  { "éd", desc = "Next git conflict position" },
-  { "ée", "<Plug>(easymotion-bd-e)", desc = "[easy] Move to end word" },
-  { "én", "<Plug>(easymotion-vim-n)", desc = "[easy] Next search" },
-  { "éw", "<Plug>(easymotion-bd-w)", desc = "[easy] Move to start word" },
-  { "éé", "<Plug>(easymotion-bd-f)", desc = "[easy] Move to char" },
-})
-
-local presets = require("which-key.plugins.presets")
-presets.operators["c"] = nil
-
-
--- """"""""""""""""""""""""""""
--- " REPL
--- """""""""""""""""""""""""""
--- require("nvim-python-repl").setup()
-
--- vim.keymap.set("n", "kk", function() require('nvim-python-repl').send_statement_definition() end, { desc = "Send semantic unit to REPL"})
--- vim.keymap.set("v", "kk", function() require('nvim-python-repl').send_visual_to_repl() end, { desc = "Send visual selection to REPL"})
--- vim.keymap.set("n", "kp", function() require('nvim-python-repl').send_buffer_to_repl() end, { desc = "Send entire buffer to REPL"})
--- vim.keymap.set("n", "ke", function() require('nvim-python-repl').toggle_execute() end, { desc = "Automatically execute command in REPL after sent"})
--- vim.keymap.set("n", "kv", function() require('nvim-python-repl').toggle_vertical() end, { desc = "Create REPL in vertical or horizontal split"})
--- vim.keymap.set("n", "ko", function() require('nvim-python-repl').open_repl() end, { desc = "Opens the REPL in a window split"})
-
-
-require('maximize').setup()
-
--- these are the defaults, customize as desired
-require('ouroboros').setup({
-    extension_preferences_table = {
-          -- Higher numbers are a heavier weight and thus preferred.
-          c = {h = 2, hpp = 1},
-          cc = {h = 3, hpp = 2,  tpp = 1},
-          h = {cc = 4, c = 3, cpp = 2, tpp = 1},
-          cpp = {hpp = 2, h = 1},
-          hpp = {cpp = 1, c = 2},
-    },
-})
-
-require('gitsigns').setup()
-
-vim.g.indentmini_key = '<F5>'
-require("indentmini").setup({
-    char = "¦",
-})
-
-require 'colorizer'.setup()
-
--- vim.lsp.enable("clangd")
-
-EOF

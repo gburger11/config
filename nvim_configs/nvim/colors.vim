@@ -9,6 +9,8 @@ hi Normal ctermbg=16 ctermfg=white guibg=Black guifg=NvimLightGray2
 hi NormalNC ctermbg=235 guibg=NvimDarkGray3 guifg=NvimLightGray2
 hi link @function GruvboxPurpleBold
 
+hi link jsonCommentError Comment
+
 set t_Co=256
 
 

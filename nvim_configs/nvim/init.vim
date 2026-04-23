@@ -6,6 +6,7 @@ else
     source ~/.config/nvim/config.vim
     source ~/.config/nvim/bepo_basic.vim
     source ~/.config/nvim/plugins.vim
+    source ~/.config/nvim/plugins.lua
     source ~/.config/nvim/term_config.vim
     source ~/.config/nvim/functions.vim
     source ~/.config/nvim/mappings.vim
