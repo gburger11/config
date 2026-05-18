@@ -1,5 +1,9 @@
 if exists('g:vscode')
     "do stuff
+    source ~/.config/nvim/bepo_basic.vim
+    source ~/.config/nvim/mappings.vim
+    source ~/.config/nvim/vscode.vim
+    source ~/.config/nvim/vscode.lua
 else
     set guicursor=
 
@@ -8,8 +12,10 @@ else
     source ~/.config/nvim/plugins.vim
     source ~/.config/nvim/plugins.lua
     source ~/.config/nvim/term_config.vim
+    source ~/.config/nvim/window_management.vim
     source ~/.config/nvim/functions.vim
     source ~/.config/nvim/mappings.vim
+    source ~/.config/nvim/mappings_novscode.vim
     source ~/.config/nvim/colors.vim
     source ~/.config/nvim/rainbow_colors.lua
     source ~/.config/nvim/types.vim

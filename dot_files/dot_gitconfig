@@ -2,7 +2,7 @@
 	name = Guillaume Burger
 	email = guillaume.burger@wandercraft.health
 [core]
-    editor = 'nvr' --remote-wait-silent
+    editor = 'code' --wait
 [alias]
     lg = !"git lgb --all"
     lgg = !"git lgb | less -X"

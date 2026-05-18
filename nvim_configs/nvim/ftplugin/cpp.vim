@@ -1,12 +1,20 @@
-map <buffer> <C-K> :pyf /usr/share/clang/clang-format-10/clang-format.py<CR>
-imap <buffer> <C-K> <C-O>:pyf /usr/share/clang/clang-format-10/clang-format.py<CR>
+if exists('g:vscode')
+    " do stuff
+else
+    map <buffer> <C-K> :pyf /usr/share/clang/clang-format-10/clang-format.py<CR>
+    imap <buffer> <C-K> <C-O>:pyf /usr/share/clang/clang-format-10/clang-format.py<CR>
+
+    setlocal cindent
+    setlocal cino=(0
+    setlocal foldmethod=syntax
+endif
 
 nnoremap <buffer> èoo ocore::Logger::error() << "DEBUG \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
 nnoremap <buffer> è<S-o><S-o> Ocore::Logger::error() << "DEBUG \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
 
 " nnoremap <buffer> èoè viwyOic()<Esc>P
 nnoremap <buffer> èoè viwyocore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
-nnoremap <buffer> è<S-o>è viwyocore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
+nnoremap <buffer> è<S-o>è viwyOcore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
 nnoremap <buffer> è<S-o><S-è> viwyOcore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
 vnoremap <buffer> èoè yocore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
 vnoremap <buffer> è<S-o>è yOcore::Logger::error() << "DEBUG \| <Esc>pa : " << <Esc>pa << " \| <C-r>=expand("%:t")<CR> : " << __LINE__ << " in " << __func__;<Esc>
@@ -33,7 +41,3 @@ nnoremap <buffer> èB ggO<Esc>cc#include <iostream><Esc><C-O>
 
 nnoremap <buffer> èob <cmd>%s/core::Logger::error() \(<< "DEBUG \|.*\);/std::cerr \1 << std::endl;/<cr>
 nnoremap <buffer> èbo <cmd>%s/std::cerr \(<< "DEBUG \|.*\) << std::endl;/core::Logger::error() \1;/<cr>
-
-setlocal cindent
-setlocal cino=(0
-setlocal foldmethod=syntax

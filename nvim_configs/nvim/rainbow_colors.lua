@@ -39,34 +39,10 @@ local function hash_name(text)
     return h
 end
 
-local function rainbow_vars_v0(bufnr)
-    vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-    local parser = vim.treesitter.get_parser(bufnr)
-    if not parser then return end
-    local query = vim.treesitter.query.get(parser:lang(), "highlights")
-    if not query then return end
-    local tree = parser:parse()[1]
-    local node_found = nil
-    local found = false
-    local blocked = true
-    for id, node in query:iter_captures(tree:root(), bufnr) do
-        local name = query.captures[id]
-        if name:match("^variable") then
-            found = true
-            node_found = node
-
-            local text = vim.treesitter.get_node_text(node_found, bufnr)
-            local color = colors[(hash_name(text) % #colors) + 1]
-            local row1, col1, row2, col2 = node_found:range()
-            local hl_group = "RainbowVar_" .. text:gsub("[^%w]", "_")
-            vim.api.nvim_set_hl(0, hl_group, { fg = color })
-            vim.api.nvim_buf_set_extmark(bufnr, ns, row1, col1,
-                { end_row = row2, end_col = col2, hl_group = hl_group, priority = 200 })
-        end
-    end
-end
+vim.g.rainbow_active = false
 
 local function rainbow_vars(bufnr)
+    if not vim.g.rainbow_active then return end
     vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
     local parser = vim.treesitter.get_parser(bufnr)
     if not parser then return end
@@ -74,7 +50,7 @@ local function rainbow_vars(bufnr)
     if not query then return end
     local tree = parser:parse()[1]
 
-    -- First pass: collect all nodes captured as functions
+    -- First pass: collect all nodes captured as function, macros or other exceptions
     local function_nodes = {}
     for id, node in query:iter_captures(tree:root(), bufnr) do
         local name = query.captures[id]
@@ -84,7 +60,7 @@ local function rainbow_vars(bufnr)
         end
     end
 
-    -- Second pass: color variables that are not in function_nodes
+    -- Second pass: color variables that are not exceptions
     for id, node in query:iter_captures(tree:root(), bufnr) do
         local name = query.captures[id]
         if name:match("^variable") then
@@ -106,3 +82,5 @@ end
 vim.api.nvim_create_autocmd({"BufEnter", "BufWritePost", "TextChanged"},  {
     callback = function(args) rainbow_vars(args.buf) end
 })
+
+vim.api.nvim_create_user_command("ToggleRainbow", "lua vim.g.rainbow_active = not vim.g.rainbow_active", {})

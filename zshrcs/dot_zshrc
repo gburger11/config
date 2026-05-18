@@ -89,6 +89,7 @@ source $ZSH/oh-my-zsh.sh
 
 export TERM=screen-256color
 export PATH=$HOME/.local/bin:$PATH
+
 export PATH=$HOME/.cargo/bin:$PATH
 
 # disable the freezing by <C-s>
@@ -167,7 +168,12 @@ if [ -d $HOME/.xkb/keymap ]; then
     fi
 fi
 
-if ! { [ -n "$TMUX" ]; } then
+if [ "$TERM_PROGRAM" = "vscode" ]; then
+    # if ! { [ -n "$NVIM" ]; } then
+    #     source $HOME/global_tools/bin/activate
+    #     nvim -c te
+    # fi
+elif ! { [ -n "$TMUX" ]; } then
     tmux attach
 else
     if ! { [ -n "$NVIM" ]; } then
