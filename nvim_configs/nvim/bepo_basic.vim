@@ -24,7 +24,7 @@ noremap J T
    " {L} = « Change »             (l = attend un mvt, L = jusqu'à la fin de ligne)
 noremap l c
 noremap ll cc
-noremap L C
+" noremap L C
    " {H} = « Remplace »           (h = un caractère slt, H = reste en « Remplace »)
 noremap h r
 noremap H R
@@ -39,5 +39,5 @@ noremap [h [s
 noremap , :
 noremap ’ ,
 " Scroll horizontally
-noremap ér z<S-l>
-noremap éc z<S-h>
+noremap L z<S-l>
+noremap C z<S-h>

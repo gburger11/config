@@ -11,10 +11,9 @@
 
     rb = rebase
     rbm = rebase upstream/master
-    rbv = rebase upstream/calvin_v2_valeo
-    rbr = rebase upstream/calvin_v2_renault
+    rbc = rebase upstream/calvin
     rbma = rebase upstream/master --autostash
-    rim = rebase -i upstream/master
+    rbca = rebase upstream/calvin --autostash
     ri = rebase -i
     cm = commit -m
     cma = commit -a -m
@@ -26,8 +25,7 @@
     sc = switch -c
     sd = switch -d
     sdm = switch -d upstream/master
-    sdv = switch -d upstream/calvin_v2_valeo
-    sdr = switch -d upstream/calvin_v2_renault
+    sdc = switch -d upstream/calvin
     cp = cherry-pick
     ft = fetch
     fa = fetch --prune --all

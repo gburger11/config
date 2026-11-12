@@ -9,7 +9,8 @@ gui:
   mainPanelSplitMode: flexible
   branchColorPatterns:
     '^calvin_v2': 'red'
-    'master': 'magenta'
+    '^master$': 'magenta'
+    '^calvin$': 'magenta'
   theme:
     lightTheme: false
     activeBorderColor:
@@ -98,14 +99,14 @@ keybinding:
     pushFiles: <c-p>
     pullFiles: <c-P>
     refresh: R
-    createPatchOptionsMenu: <c-p>
+    createPatchOptionsMenu: é
     nextTab: ']'
     prevTab: '['
     nextScreenMode: +
     prevScreenMode: _
     undo: z
     redo: <c-z>
-    filteringMenu: <c-f>
+    filteringMenu: f
     diffingMenu: W
     diffingMenu-alt: <c-e>
     copyToClipboard: <c-o>
@@ -147,9 +148,9 @@ keybinding:
     renameCommit: m
     renameCommitWithEditor: M
     viewResetOptions: Z
-    markCommitAsFixup: f
-    setFixupMessage: <c-f>
-    createFixupCommit: F
+    markCommitAsFixup: F
+    setFixupMessage: X
+    createFixupCommit: x
     squashAboveCommits: H
     moveDownCommit: <c-t>
     moveUpCommit: <c-s>
@@ -158,7 +159,7 @@ keybinding:
     revertCommit: <C-R>
     cherryPickCopy: k
     cherryPickCopyRange: K
-    pasteCommits: v
+    pasteCommits: <c-v>
     tagCommit: É
     checkoutCommit: <space>
     resetCherryPick: <c-K>
@@ -179,6 +180,7 @@ keybinding:
     bulkMenu: b
 os:
   editPreset: 'nvim-remote'
+  open: 'code --goto {{filename}} --command workbench.action.toggleSidebarVisibility'
   edit: 'sh -c "nvr {{filename}} -cc close > /dev/null"'
   editAtLine: 'sh -c "nvr {{filename}} +{{line}} -cc close > /dev/null"'
   openDirInEditor: 'nvr {{dir}}'
@@ -200,7 +202,7 @@ customCommands:
     loadingText: 'Pushing current branch to origin (force)'
     description: 'push current branch (with force)'
   - key: k
-    command: 'WDC_SRC_DIR={{.SelectedWorktree.Path}} python3 tools/ide/autoformat.py'
+    command: 'WDC_SRC_DIR=${WDC_SRC_DIR:-{{.SelectedWorktree.Path}}} python3 tools/ide/autoformat.py'
     context: 'files'
     loadingText: 'Formatting Python code...'
     description: 'launch python formatting tools'

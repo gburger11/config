@@ -40,10 +40,11 @@ noremap ê ge
 noremap Ê gE
 
 " easy motions with wrappings
-noremap t gj
-noremap <Down> gj
-noremap s gk
-noremap <Up> gk
+" need to use map to use the vscode features
+map t gj
+map <Down> gj
+map s gk
+map <Up> gk
 noremap 0 g0
 noremap $ g$
 noremap T j

@@ -30,11 +30,33 @@ nnoremap èc <Plug>VSCodeCommentaryLine
 vnoremap èc <Plug>VSCodeCommentary
 
 
-nnoremap àq <Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>
-nnoremap àh viw<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>
-vnoremap àh <Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>
+" nnoremap àq <Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>
+" nnoremap àh viw<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>
+" vnoremap àh <Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>
 nnoremap àg <Cmd>call VSCodeNotify('outline.focus')<CR>
-nnoremap : <Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>
+" nnoremap : <Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>
+
+nnoremap àc <cmd>call VSCodeNotify('vscode-harpoon.addEditor')<CR>
+nnoremap à<S-c> <cmd>call VSCodeNotify('vscode-harpoon.editEditors')<CR>
+nnoremap àà <cmd>call VSCodeNotify('vscode-harpoon.editorQuickPick')<CR>
+nnoremap à<S-t> <cmd>call VSCodeNotify('vscode-harpoon.addEditor1')<CR>
+nnoremap à<S-s> <cmd>call VSCodeNotify('vscode-harpoon.addEditor2')<CR>
+nnoremap à<S-r> <cmd>call VSCodeNotify('vscode-harpoon.addEditor3')<CR>
+nnoremap à<S-n> <cmd>call VSCodeNotify('vscode-harpoon.addEditor4')<CR>
+nnoremap à<S-m> <cmd>call VSCodeNotify('vscode-harpoon.addEditor5')<CR>
+nnoremap à<S-v> <cmd>call VSCodeNotify('vscode-harpoon.addEditor6')<CR>
+nnoremap à<S-d> <cmd>call VSCodeNotify('vscode-harpoon.addEditor7')<CR>
+nnoremap à<S-l> <cmd>call VSCodeNotify('vscode-harpoon.addEditor8')<CR>
+nnoremap à<S-j> <cmd>call VSCodeNotify('vscode-harpoon.addEditor9')<CR>
+nnoremap àt <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor1')<CR>
+nnoremap às <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor2')<CR>
+nnoremap àr <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor3')<CR>
+nnoremap àn <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor4')<CR>
+nnoremap àm <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor5')<CR>
+nnoremap àv <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor6')<CR>
+nnoremap àd <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor7')<CR>
+nnoremap àl <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor8')<CR>
+nnoremap àj <cmd>call VSCodeNotify('vscode-harpoon.gotoEditor9')<CR>
 
 map <C-s> <C-w>+
 map <C-t> <C-w>-
@@ -45,7 +67,11 @@ nnoremap <M-S-t> <Cmd>call VSCodeNotify('workbench.action.moveEditorToBelowGroup
 nnoremap <M-S-s> <Cmd>call VSCodeNotify('workbench.action.moveEditorToAboveGroup')<CR>
 nnoremap <M-S-r> <Cmd>call VSCodeNotify('workbench.action.moveEditorToRightGroup')<CR>
 
-nnoremap gh< <cmd>
+nnoremap èh <Cmd>call VSCodeNotify('merge-conflict.next')<CR>
+nnoremap èg <Cmd>call VSCodeNotify('merge-conflict.previous')<CR>
+nnoremap è< <Cmd>call VSCodeNotify('merge-conflict.accept.current')<CR>
+nnoremap è> <Cmd>call VSCodeNotify('merge-conflict.accept.current')<CR>
+nnoremap è= <Cmd>call VSCodeNotify('merge-conflict.accept.both')<CR>
 
 " nnoremap <M-h> <cmd>call VSCodeNotify("lazygit-vscode.toggle")<CR>
 
