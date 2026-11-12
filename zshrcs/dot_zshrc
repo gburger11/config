@@ -158,7 +158,12 @@ alias wdc_tags="cd ~/dev/wandercode && ctags -R . && cd -"
 alias disk_usage="bash du -sch .[\!.]* * | sort -h"
 
 if [[ -a /my_workspace/my_scripts/wdc_configs/zshrc.wdc ]]; then
-    source /my_workspace/my_scripts/wdc_configs/zshrc.wdc
+    export MY_WORKSPACE=/my_workspace
+elif [[ -a $HOME/my_workspace/my_scripts/wdc_configs/zshrc.wdc ]]; then
+    export MY_WORKSPACE=$HOME/my_workspace
+fi
+if [[ -n "$MY_WORKSPACE" ]]; then
+    source $MY_WORKSPACE/my_scripts/wdc_configs/zshrc.wdc
 fi
 
 if [ -d $HOME/.xkb/keymap ]; then
@@ -169,23 +174,23 @@ if [ -d $HOME/.xkb/keymap ]; then
     fi
 fi
 
-if [ "$TERM_PROGRAM" = "vscode" ]; then
-    if ! { [ -n "$TMUX" ]; } then
+if ! { [ -n "$TMUX" ]; } then
+    if [ "$TERM_PROGRAM" = "vscode" ]; then
         # Start tmux with vscode socket name to make it totally independant from default tmux (in normal terminal)
         tmux -L vscode && exit
     fi
 elif [ "$(basename $(echo $TMUX | cut -f1 -d','))" != "vscode" ]; then
     # Here only if tmux wasn't started with vscode socket name.
-    if ! { [ -n "$TMUX" ]; } then
-        # tmux attach && exit
-        tmux attach
-    else
+    if [ "$(basename $(echo $TMUX | cut -f1 -d','))" = "nvim_container" ]; then
         if ! { [ -n "$NVIM" ]; } then
             source $HOME/global_tools/bin/activate
             nvim -c te -c te -c te -c te -c te -c te -c te -c te -c te -c b1 && exit
         fi
     fi
 fi
+
+alias nv_start="tmux -L nvim_container attach && exit"
+
 
 conda_activate() {
     # >>> conda initialize >>>
@@ -207,7 +212,7 @@ conda_activate() {
 # conda activate wan24
 
 eval "$(starship init zsh)"
-export ZPLUG_HOME=/my_workspace/.zplug
+export ZPLUG_HOME=$MY_WORKSPACE/.zplug
 source $ZPLUG_HOME/init.zsh
 zplug "jeffreytse/zsh-vi-mode"
 zplug "zsh-users/zsh-syntax-highlighting", as:plugin
