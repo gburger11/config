@@ -7,10 +7,6 @@ gui:
   sidePanelWidth: 0.3333
   expandFocusedSidePanel: false
   mainPanelSplitMode: flexible
-  branchColorPatterns:
-    '^calvin_v2': 'red'
-    '^master$': 'magenta'
-    '^calvin$': 'magenta'
   theme:
     lightTheme: false
     activeBorderColor:
@@ -24,15 +20,19 @@ gui:
       - blue
     selectedRangeBgColor:
       - blue
+    branchColorPatterns:
+      '^calvin_v2': 'red'
+      '^master$': 'magenta'
+      '^calvin$': 'magenta'
   commitLength:
     show: true
   skipNoStagedFilesWarning: false
   showFileTree: false
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: ""
       useConfig: false
+      type: rawGit
   merging:
     manualCommit: false
     args: ""
@@ -97,7 +97,7 @@ keybinding:
     executeShellCommand: ':'
     createRebaseOptionsMenu: B
     pushFiles: <c-p>
-    pullFiles: <c-P>
+    pullFiles: <ctrl+shift+p>
     refresh: R
     createPatchOptionsMenu: é
     nextTab: ']'
@@ -156,13 +156,13 @@ keybinding:
     moveUpCommit: <c-s>
     amendToCommit: A
     pickCommit: é
-    revertCommit: <C-R>
+    revertCommit: <ctrl+shift+r>
     cherryPickCopy: k
     cherryPickCopyRange: K
     pasteCommits: <c-v>
     tagCommit: É
     checkoutCommit: <space>
-    resetCherryPick: <c-K>
+    resetCherryPick: <ctrl+shift+k>
     copyCommitMessageToClipboard: <c-y>
   stash:
     popStash: p
