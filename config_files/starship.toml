@@ -1,4 +1,5 @@
 format = """
+${custom.hostname}\
 ${custom.docker}\
 ${custom.docker_camera}\
 ${custom.docker_privileged}\
@@ -32,6 +33,12 @@ $character
 continuation_prompt = '▶▶ '
 
 palette = 'catppuccin_frappe'
+
+
+[custom.hostname]
+command = 'echo 🧌'
+format = '[](subtext0)[$output](bg:subtext0 fg:crust)[](subtext0)'
+when = """ test "$(hostname)" "==" "cyclope" """
 
 [custom.docker]
 command = 'echo 🐳'
